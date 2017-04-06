@@ -5,23 +5,22 @@ $(function() {
     // ------------------------------
 
     // Constructs the suggestion engine
-    var countries = new Bloodhound({
+    var courses = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         limit: 10,
         prefetch: {
 
-            // url points to a json file that contains an array of country names, see
-            // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
-            url: 'assets/demo_data/typeahead/countries.json',
+
+            url: 'assets/data/summer2017.json',
 
             // the json file contains an array of strings, but the Bloodhound
             // suggestion engine expects JavaScript objects so this converts all of
             // those strings
             filter: function(list) {
-                return $.map(list, function(country) {
+                return $.map(list, function(course) {
                     return {
-                        name: country
+                        name: course
                     };
                 });
             }
@@ -29,21 +28,21 @@ $(function() {
     });
 
     // Initialize engine
-    countries.initialize();
+    courses.initialize();
 
     // Passing in `null` for the `options` arguments will result in the default options being used
-    $('.typeahead-prefetched').typeahead({
+    $('#scrollable-dropdown-menu .typeahead-prefetched').typeahead({
         hint: true,
         highlight: true,
         minLength: 1,
     }, {
-        name: 'countries',
+        name: 'courses',
         displayKey: 'name',
-        limit: 6,
+        limit: 1000,
 
         // `ttAdapter` wraps the suggestion engine in an adapter that
         // is compatible with the typeahead jQuery plugin
-        source: countries.ttAdapter()
+        source: courses.ttAdapter()
     });
 
 });

@@ -5,3 +5,8 @@
 .tt-suggestion {
     color: #1e282d;
 }
+
+#scrollable-dropdown-menu .tt-dropdown-menu {
+           max-height: 150px;
+           overflow-y: auto;
+}
