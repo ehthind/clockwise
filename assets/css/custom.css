@@ -1,0 +1,12 @@
+.nav-tabs:before {
+    color: black;
+}
+
+.tt-suggestion {
+    color: #1e282d;
+}
+
+#scrollable-dropdown-menu .tt-menu {
+           max-height: 225px;
+           overflow-y: auto;
+}
