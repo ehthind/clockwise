@@ -3,9 +3,8 @@ angular
   .controller('sidebarController', sidebarController);
 
 function sidebarController($scope, $http) {
-  $scope.selectedCourse = [];
+  $scope.selectedCourse = '';
   $scope.arr = [];
-
   $scope.courses = [];
 
   $http.get('assets/data/summer2017.json')
@@ -25,5 +24,15 @@ function sidebarController($scope, $http) {
     });
     console.log($scope.arr);
   }
+
+  $scope.removeCourse = function(course) {
+    console.log(course);
+    var i;
+    for (var i = 0; i < $scope.arr.length; i++) {
+      if ($scope.arr[i].name === course) {
+        $scope.arr.splice(i, 1);
+      }
+    }
+  };
 
 }

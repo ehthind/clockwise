@@ -1,4 +1,5 @@
 var express = require('express');
+var mysql = require('mysql');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -8,6 +9,20 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 
 var app = express();
+var connection = mysql.createConnection({ 
+	host: 'localhost',
+	user: 'root',
+	password: 'root',
+	database: 'sampleDB'
+})
+
+connection.connect(function(error) {
+	if(!!error) {
+		console.log('Error');
+	} else {
+		console.log('Connected');
+	}
+});
 
 // view engine setup
 app.set('view engine', 'jade');
