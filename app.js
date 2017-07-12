@@ -1,28 +1,15 @@
 var express = require('express');
-var mysql = require('mysql');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var databaseAPI = require('./databaseAPI');
+
+
 var index = require('./routes/index');
-
 var app = express();
-var connection = mysql.createConnection({ 
-	host: 'localhost',
-	user: 'root',
-	password: 'root',
-	database: 'sampleDB'
-})
-
-connection.connect(function(error) {
-	if(!!error) {
-		console.log('Error');
-	} else {
-		console.log('Connected');
-	}
-});
 
 // view engine setup
 app.set('view engine', 'jade');
@@ -44,17 +31,20 @@ app.use('/app', express.static(path.join(__dirname, 'app')));
 
 app.use('/', index);
 
+app.use('/api/databaseAPI', databaseAPI);
+
+
 
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};

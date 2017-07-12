@@ -2,17 +2,25 @@ angular
   .module('app.sidebar')
   .controller('sidebarController', sidebarController);
 
-function sidebarController($scope, $http) {
+function sidebarController($scope, $http, $sce) {
   $scope.selectedCourse = '';
   $scope.arr = [];
   $scope.courses = [];
 
   $http.get('assets/data/summer2017.json')
-    .then(function(response) {
+    .then(function (response) {
       $scope.courses = response.data
     });
 
-  $scope.addCourse = function(data) {
+  var url = "/api/databaseAPI"
+  var trustedUrl = $sce.trustAsResourceUrl(url);
+
+  $http.get(url)
+    .then(function (data) {
+      console.log(data.data);
+    });
+
+  $scope.addCourse = function (data) {
     var i;
     for (var i = 0; i < $scope.arr.length; i++) {
       if ($scope.arr[i].name === data) {
@@ -25,7 +33,7 @@ function sidebarController($scope, $http) {
     console.log($scope.arr);
   }
 
-  $scope.removeCourse = function(course) {
+  $scope.removeCourse = function (course) {
     console.log(course);
     var i;
     for (var i = 0; i < $scope.arr.length; i++) {
