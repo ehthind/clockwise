@@ -43,7 +43,8 @@
           <div class="category-content">
             <form action="#">
               <div class="has-feedback has-feedback-left" id="scrollable-dropdown-menu">
-                <input type="text" ng-model="selectedCourse" placeholder="Search courses" uib-typeahead="course for course in courses | filter:$viewValue | limitTo:8" class="typeahead form-control" typeahead-on-select="addCourse($item); selectedCourse='';">
+                <input type="text" ng-model="selectedCourse" placeholder="Search courses" uib-typeahead="course as course.subject for course in courses | filter:$viewValue | limitTo:8"
+                  class="typeahead form-control" typeahead-on-select="addCourse($item); selectedCourse='';">
                 <div class="form-control-feedback">
                   <i class="icon-search4 text-size-base text-muted"></i>
                 </div>
@@ -100,7 +101,7 @@
     <div class="category-content">
       <ul class="media-list">
 
-        <li class="media" ng-repeat="course in arr">
+        <li class="media" ng-repeat="course in activeCourses">
           <div class="media-left">
             <a href="#">
                       <img src="assets/images/brands/youtube.png" class="img-xs img-circle" alt="">
@@ -108,7 +109,7 @@
           </div>
 
           <div class="media-body media-middle">
-            {{course.name}}
+            {{course.data.subject}} {{course.data.number}}
           </div>
 
           <div class="media-right media-middle">
@@ -119,7 +120,7 @@
                   <li><a href="#"> Course Description</a></li>
                   <li><a href="#"> Change Color</a></li>
                   <li class="divider"></li>
-                  <li ng-click="removeCourse(course.name)"><a href="#" class="text-danger"> Remove</a></li>
+                  <li ng-click="removeCourse(course.data.courseID)"><a href="#" class="text-danger"> Remove</a></li>
                 </ul>
               </li>
             </ul>

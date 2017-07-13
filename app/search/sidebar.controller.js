@@ -4,41 +4,58 @@ angular
 
 function sidebarController($scope, $http, $sce) {
   $scope.selectedCourse = '';
-  $scope.arr = [];
-  $scope.courses = [];
+  $scope.activeCourses = [];
+  
+  $scope.courses = [{
+    "courseID": 1,
+    "subject": "MATH",
+    "number": "100",
+    "title": "Calculus I"
+  }];
 
-  $http.get('assets/data/summer2017.json')
-    .then(function (response) {
-      $scope.courses = response.data
-    });
+  $scope.sections = [];
+
+  // $http.get('assets/data/summer2017.json')
+  //   .then(function (response) {
+  //     $scope.courses = response.data
+  //   });
 
   var url = "/api/databaseAPI"
   var trustedUrl = $sce.trustAsResourceUrl(url);
 
-  $http.get(url)
+  var temp = {
+    'temp': 'stuff'
+  };
+
+  $http.get(url, {
+      params: {
+        "param1": 'val1',
+        "param2": 'val2'
+      }
+    })
     .then(function (data) {
-      console.log(data.data);
+      console.log(data.data[0]);
     });
 
+  
   $scope.addCourse = function (data) {
     var i;
-    for (var i = 0; i < $scope.arr.length; i++) {
-      if ($scope.arr[i].name === data) {
+    for (var i = 0; i < $scope.activeCourses.length; i++) {
+      if ($scope.activeCourses[i].data.courseID === data.courseID) {
         return;
       }
     }
-    $scope.arr.push({
-      'name': data
+    $scope.activeCourses.push({
+      data
     });
-    console.log($scope.arr);
+    console.log($scope.activeCourses);
   }
 
-  $scope.removeCourse = function (course) {
-    console.log(course);
+  $scope.removeCourse = function (courseID) {
     var i;
-    for (var i = 0; i < $scope.arr.length; i++) {
-      if ($scope.arr[i].name === course) {
-        $scope.arr.splice(i, 1);
+    for (var i = 0; i < $scope.activeCourses.length; i++) {
+      if ($scope.activeCourses[i].data.courseID === courseID) {
+        $scope.activeCourses.splice(i, 1);
       }
     }
   };

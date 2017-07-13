@@ -16,6 +16,8 @@ router.route('/').get(function (req, res, next) {
 			console.log('Error');
 		} else {
 			connection.query("SELECT * FROM course", function (error, result, fields) {
+				console.log(req.query);
+
 				return res.json(result);
 			});
 		}
