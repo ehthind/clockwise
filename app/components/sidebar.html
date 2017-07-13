@@ -43,7 +43,7 @@
           <div class="category-content">
             <form action="#">
               <div class="has-feedback has-feedback-left" id="scrollable-dropdown-menu">
-                <input type="text" ng-model="selectedCourse" placeholder="Search courses" uib-typeahead="course as course.subject for course in courses | filter:$viewValue | limitTo:8"
+                <input type="text" ng-model="selectedCourse" placeholder="Search courses" uib-typeahead="course as course.name for course in courses | filter:$viewValue | limitTo:8"
                   class="typeahead form-control" typeahead-on-select="addCourse($item); selectedCourse='';">
                 <div class="form-control-feedback">
                   <i class="icon-search4 text-size-base text-muted"></i>
@@ -109,7 +109,7 @@
           </div>
 
           <div class="media-body media-middle">
-            {{course.data.subject}} {{course.data.number}}
+            {{course.name}}
           </div>
 
           <div class="media-right media-middle">
@@ -120,7 +120,7 @@
                   <li><a href="#"> Course Description</a></li>
                   <li><a href="#"> Change Color</a></li>
                   <li class="divider"></li>
-                  <li ng-click="removeCourse(course.data.courseID)"><a href="#" class="text-danger"> Remove</a></li>
+                  <li ng-click="removeCourse(course.courseID)"><a href="#" class="text-danger"> Remove</a></li>
                 </ul>
               </li>
             </ul>

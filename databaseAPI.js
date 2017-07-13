@@ -11,13 +11,17 @@ router.route('/').get(function (req, res, next) {
 		database: 'clockwise'
 	});
 
+	var courseID = req.query.courseID;
+	var section = "section.courseID, section.crn, section.section, section.units, section.status,";
+	var capacity = "capacity.days, capacity.start_time, capacity.end_time, capacity.capacity, capacity.actual, capacity.remaining, capacity.instructor, capacity.location";
+	var sqlQuery = "SELECT " + section + capacity + " FROM section INNER JOIN capacity ON capacity.crn = section.crn where section.courseID=" + courseID;
+
+
 	connection.connect(function (error) {
 		if (error) {
 			console.log('Error');
 		} else {
-			connection.query("SELECT * FROM course", function (error, result, fields) {
-				console.log(req.query);
-
+			connection.query(sqlQuery, function (error, result, fields) {
 				return res.json(result);
 			});
 		}
