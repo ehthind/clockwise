@@ -5,7 +5,7 @@
       <ul class="nav nav-lg nav-tabs nav-justified">
         <li class="active">
           <a href="#components-tab" data-toggle="tab">
-          <i class="icon-grid-alt"></i>
+          <i class="icon-search4"></i>
           <span class="visible-xs-inline-block position-right">Components</span>
         </a>
         </li>
@@ -43,7 +43,7 @@
           <div class="category-content">
             <form action="#">
               <div class="has-feedback has-feedback-left" id="scrollable-dropdown-menu">
-                <input type="text" ng-model="selectedCourse" placeholder="Search courses" uib-typeahead="course as course.name for course in courses | filter:$viewValue | limitTo:8"
+                <input type="text" ng-model="selectedCourse" placeholder="e.g. ENGL 135" uib-typeahead="course as course.name for course in courses | filter:$viewValue | limitTo:8"
                   class="typeahead form-control" typeahead-on-select="addCourse($item); selectedCourse='';">
                 <div class="form-control-feedback">
                   <i class="icon-search4 text-size-base text-muted"></i>

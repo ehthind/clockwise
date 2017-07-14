@@ -20,9 +20,9 @@ function sidebarController($scope, $http, $sce, databaseService) {
   };
 
   $scope.removeCourse = function (courseID) {
-    console.log('provided courseID: ' + courseID);
     databaseService.removeCourse(courseID);
-    console.log($scope.courseList);
+    console.log('Removed course with id: ' + courseID);
+    console.log('Updated course list: ' + $scope.courseList);
   };
 
 }
