@@ -86,3 +86,5 @@ htmlcov/
 .coverage
 .coverage.*
 .cache/
+
+.vscode/settings.json

@@ -1,1 +1,1 @@
-angular.module('app', ['app.sidebar']);
+angular.module('app', ['app.sidebar', 'app.datatable']);

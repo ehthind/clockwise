@@ -16,36 +16,67 @@
 	<link href="assets/css/colors.css" rel="stylesheet" type="text/css">
 	<link href="assets/css/custom.css" rel="stylesheet" type="text/css">
 
+	<!-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.6.2/css/angular-datatables.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.6.2/plugins/bootstrap/datatables.bootstrap.min.css"/> -->
 	<!-- /global stylesheets -->
 
 	<!-- Core JS files -->
 	<script type="text/javascript" src="assets/js/plugins/loaders/pace.min.js"></script>
 	<script type="text/javascript" src="assets/js/core/libraries/jquery.min.js"></script>
 	<script type="text/javascript" src="assets/js/core/libraries/bootstrap.min.js"></script>
+	<script type="text/javascript" src="assets/js/core/app.js"></script>
+
+	<!-- /core JS files -->
+
+	<!--Theme plugin JS Files  -->
+	<script type="text/javascript" src="assets/js/plugins/loaders/pace.min.js"></script>
 	<script type="text/javascript" src="assets/js/plugins/loaders/blockui.min.js"></script>
 	<script type="text/javascript" src="assets/js/plugins/ui/nicescroll.min.js"></script>
 	<script type="text/javascript" src="assets/js/plugins/ui/drilldown.js"></script>
 	<script type="text/javascript" src="assets/js/plugins/ui/fab.min.js"></script>
-
-	<!-- /core JS files -->
-
-	<!-- Theme JS files -->
-	<script type="text/javascript" src="assets/js/core/app.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/forms/selects/select2.min.js"></script>
 	<script type="text/javascript" src="assets/js/pages/layout_sidebar_sticky_custom.js"></script>
 	<script type="text/javascript" src="assets/js/plugins/pickers/color/spectrum.js"></script>
 	<script type="text/javascript" src="assets/js/pages/picker_color.js"></script>
-
-
 	<script type="text/javascript" src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
 
+	<!-- AngularJS files -->
 	<script type="text/javascript" src="assets/libs/angular.min.js"></script>
-	<script type="text/javascript" src="assets/libs/angular-typeahead.min.js"></script>
+	<script src="node_modules/angular-resource/angular-resource.min.js"></script>
 
 	<script type="text/javascript" src="app/app.module.js"></script>
 	<script type="text/javascript" src="app/sidebar.module.js"></script>
 	<script type="text/javascript" src="app/components/sidebar.directive.js"></script>
 	<script type="text/javascript" src="app/search/sidebar.controller.js"></script>
 	<script type="text/javascript" src="app/services/database.service.js"></script>
+	<script type="text/javascript" src="app/tables/myDatatable.module.js"></script>
+	<script type="text/javascript" src="app/tables/myDatatable.controller.js"></script>
+
+	<!-- Angular Datatable files  -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.6.2/angular-datatables.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.6.2/plugins/bootstrap/angular-datatables.bootstrap.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.6.2/plugins/buttons/angular-datatables.buttons.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.6.2/plugins/colvis/angular-datatables.colvis.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.6.2/plugins/scroller/angular-datatables.scroller.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.6.2/plugins/select/angular-datatables.select.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.6.2/plugins/tabletools/angular-datatables.tabletools.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.6.2/plugins/colreorder/angular-datatables.colreorder.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.6.2/plugins/columnfilter/angular-datatables.columnfilter.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.6.2/plugins/fixedcolumns/angular-datatables.fixedcolumns.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.6.2/plugins/fixedheader/angular-datatables.fixedheader.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.6.2/plugins/light-columnfilter/angular-datatables.light-columnfilter.min.js"></script>
+
+	<!-- AngularJS Typeahead files  -->
+	<script type="text/javascript" src="assets/libs/angular-typeahead.min.js"></script>
+
+	<!-- /AngularJS files -->
+
+	<!-- Datatable files  -->
+	<script type="text/javascript" src="assets/js/plugins/tables/datatables/datatables.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/tables/datatables/extensions/scroller.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/tables/datatables/extensions/responsive.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/tables/datatables/extensions/select.min.js"></script>
+
 	<script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
 
 	<!-- /theme JS files -->
@@ -267,8 +298,23 @@
 
 
 			<!-- Main content -->
-			<div class="content-wrapper">
-
+			<div ng-controller="datatableController as tableCtrl" class="content-wrapper">
+				<table datatable="ng" dt-options="tableCtrl.dtOptions" dt-column-defs="tableCtrl.dtColumnDefs" class="table" width="100%">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>FirstName</th>
+							<th>LastName</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="person in tableCtrl.persons">
+							<td>{{ person.id }}</td>
+							<td>{{ person.firstName }}</td>
+							<td>{{ person.lastName }}</td>
+						</tr>
+					</tbody>
+				</table>
 
 			</div>
 			<!-- /main content -->
