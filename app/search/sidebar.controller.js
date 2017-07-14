@@ -2,9 +2,9 @@ angular
   .module('app.sidebar')
   .controller('sidebarController', sidebarController);
 
-function sidebarController($scope, $http, $sce) {
+function sidebarController($scope, $http, $sce, databaseService) {
   $scope.selectedCourse = '';
-  $scope.activeCourses = [];
+  $scope.courseList = databaseService.getCourses();
 
   $scope.courses = [{
     "courseID": 1,
@@ -12,50 +12,17 @@ function sidebarController($scope, $http, $sce) {
     "title": "Calculus I"
   }];
 
-  $scope.activeSections = [];
-
-  var url = "/api/databaseAPI"
-
   $scope.addCourse = function (data) {
-    var i;
-    for (var i = 0; i < $scope.activeCourses.length; i++) {
-      if ($scope.activeCourses[i].data.courseID === data.courseID) {
-        return;
-      }
-    }
-    $scope.activeCourses.push(
-      data
-    );
-    getSectionData(data.courseID);
-    console.log("activeCourses[]: ");
-    console.log($scope.activeCourses);
-  }
+    databaseService.addCourse(data);
 
-  function getSectionData(courseID) {
-    var data = {
-      params: {
-        'courseID': courseID
-      }
-    };
-
-    $http.get(url, data).then(function (response) {
-      $scope.activeSections.push({
-        'courseID': response.data[0].courseID,
-        'sections': response.data
-      });
-
-    });
-    console.log("activeSections[]: ");
-    console.log($scope.activeSections);
-  }
+    console.log("courses[]: ");
+    console.log($scope.courseList);
+  };
 
   $scope.removeCourse = function (courseID) {
-    var i;
-    for (var i = 0; i < $scope.activeCourses.length; i++) {
-      if ($scope.activeCourses[i].courseID === courseID) {
-        $scope.activeCourses.splice(i, 1);
-      }
-    }
+    console.log('provided courseID: ' + courseID);
+    databaseService.removeCourse(courseID);
+    console.log($scope.courseList);
   };
 
 }
