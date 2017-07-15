@@ -299,19 +299,34 @@
 
 			<!-- Main content -->
 			<div ng-controller="datatableController as tableCtrl" class="content-wrapper">
-				<table datatable="ng" dt-options="tableCtrl.dtOptions" dt-column-defs="tableCtrl.dtColumnDefs" class="table" width="100%">
+				<table datatable="ng" dt-options="tableCtrl.dtOptions" dt-column-defs="tableCtrl.dtColumnDefs" class="row-border table">
 					<thead>
 						<tr>
-							<th>ID</th>
-							<th>FirstName</th>
-							<th>LastName</th>
+							<th>CRN</th>
+							<th>Section</th>
+							<th>Units</th>
+							<th>Days</th>
+							<th>Time</th>
+							<th>Capacity</th>
+							<th>Actual</th>
+							<th>Remaining</th>
+							<th>Instructor</th>
+							<th>Location</th>
 						</tr>
 					</thead>
-					<tbody>
-						<tr ng-repeat="person in tableCtrl.persons">
-							<td>{{ person.id }}</td>
-							<td>{{ person.firstName }}</td>
-							<td>{{ person.lastName }}</td>
+					<tbody ng-repeat="course in tableCtrl.sectionList">
+
+						<tr ng-repeat="section in course">
+							<td>{{ section.crn }}</td>
+							<td>{{ section.section }}</td>
+							<td>{{ section.units }}</td>
+							<td>{{ section.days }}</td>
+							<td>{{ section.start_time }} - {{section.end_time}}</td>
+							<td>{{ section.capacity }}</td>
+							<td>{{ section.actual }}</td>
+							<td>{{ section.remaining }}</td>
+							<td>{{ section.instructor }}</td>
+							<td>{{ section.location}}</td>
 						</tr>
 					</tbody>
 				</table>

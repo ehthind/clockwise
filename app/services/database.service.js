@@ -9,9 +9,11 @@
         this.addCourse = addCourse;
         this.removeCourse = removeCourse;
         this.getCourses = getCourses;
+        this.getSections = getSections;
 
         var url = "/api/databaseAPI";
         var courses = [];
+        var sections = [];
         ////////////////
 
         function fetchSections(courseID) {
@@ -41,6 +43,9 @@
             };
 
             fetchSections(data.courseID).then(function (section) {
+                    sections.push(
+                        section
+                    );
                 courses.push({
                     'courseID': data.courseID,
                     'name': data.name,
@@ -53,7 +58,7 @@
         function removeCourse(courseID) {
             for (var i = 0; i < courses.length; i++) {
                 if (courses[i].courseID === courseID) {
-                    courses.splice(i,1);
+                    courses.splice(i, 1);
                     return;
                 }
             }
@@ -61,6 +66,10 @@
 
         function getCourses() {
             return courses;
+        }
+
+        function getSections(params) {
+            return sections;
         }
     }
 })();
