@@ -2,37 +2,53 @@ angular
   .module('app.sidebar')
   .controller('sidebarController', sidebarController);
 
-function sidebarController($scope, $http) {
+function sidebarController($scope, $http, $sce, databaseService) {
   $scope.selectedCourse = '';
-  $scope.arr = [];
-  $scope.courses = [];
+  $scope.courseList = databaseService.getCourses();
 
-  $http.get('assets/data/summer2017.json')
-    .then(function(response) {
-      $scope.courses = response.data
-    });
+  $scope.courses = [{
+      "courseID": 1,
+      "name": "MATH 100",
+      "title": "Calculus I"
+    },
+    {
+      "courseID": 2,
+      "name": "MATH 200",
+      "title": "Calculus II"
+    },
+    {
+      "courseID": 3,
+      "name": "MATH 300",
+      "title": "Calculus III"
+    },
+    {
+      "courseID": 4,
+      "name": "ENGL 135",
+      "title": "Intro To English"
+    },
+    {
+      "courseID": 5,
+      "name": "BIOL 345",
+      "title": "Into To Biol"
+    },
 
-  $scope.addCourse = function(data) {
-    var i;
-    for (var i = 0; i < $scope.arr.length; i++) {
-      if ($scope.arr[i].name === data) {
-        return;
-      }
-    }
-    $scope.arr.push({
-      'name': data
-    });
-    console.log($scope.arr);
-  }
+  ];
 
-  $scope.removeCourse = function(course) {
-    console.log(course);
-    var i;
-    for (var i = 0; i < $scope.arr.length; i++) {
-      if ($scope.arr[i].name === course) {
-        $scope.arr.splice(i, 1);
-      }
-    }
+  $scope.updateActive = function(courseID) {
+    databaseService.updateActiveCourse(courseID);
+  };
+
+  $scope.addCourse = function (data) {
+    databaseService.addCourse(data);
+
+    console.log("courses[]: ");
+    console.log($scope.courseList);
+  };
+
+  $scope.removeCourse = function (courseID) {
+    databaseService.removeCourse(courseID);
+    console.log('Removed course with id: ' + courseID);
+    console.log('Updated course list: ' + $scope.courseList);
   };
 
 }
