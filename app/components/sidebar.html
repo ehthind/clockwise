@@ -51,6 +51,41 @@
               </div>
             </form>
           </div>
+          <div class="category-title h6">
+            <span>Selected Courses</span>
+          </div>
+
+          <div class="category-content">
+            <ul class="media-list">
+
+              <li class="media" ng-repeat="course in courseList" ng-click="updateActive(course.courseID)">
+                <div class="media-left">
+                  <a href="#">
+                      <img src="assets/images/brands/youtube.png" class="img-xs img-circle" alt="">
+                    </a>
+                </div>
+
+                <div class="media-body media-middle">
+                  {{course.name}}
+                </div>
+
+                <div class="media-right media-middle">
+                  <ul class="icons-list text-nowrap">
+                    <li>
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-more2"></i></a>
+                      <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a href="#"> Course Description</a></li>
+                        <li><a href="#"> Change Color</a></li>
+                        <li class="divider"></li>
+                        <li ng-click="removeCourse(course.courseID)"><a href="#" class="text-danger"> Remove</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+
+            </ul>
+          </div>
         </div>
         <!-- /1st tab -->
 
@@ -93,41 +128,4 @@
     <!-- /sidebar tabs -->
   </div>
 
-  <div class="sidebar-category">
-    <div class="category-title h6">
-      <span>Selected Courses</span>
-    </div>
-
-    <div class="category-content">
-      <ul class="media-list">
-
-        <li class="media" ng-repeat="course in courseList">
-          <div class="media-left">
-            <a href="#">
-                      <img src="assets/images/brands/youtube.png" class="img-xs img-circle" alt="">
-                    </a>
-          </div>
-
-          <div class="media-body media-middle">
-            {{course.name}}
-          </div>
-
-          <div class="media-right media-middle">
-            <ul class="icons-list text-nowrap">
-              <li>
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-more2"></i></a>
-                <ul class="dropdown-menu dropdown-menu-right">
-                  <li><a href="#"> Course Description</a></li>
-                  <li><a href="#"> Change Color</a></li>
-                  <li class="divider"></li>
-                  <li ng-click="removeCourse(course.courseID)"><a href="#" class="text-danger"> Remove</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </li>
-
-      </ul>
-    </div>
-  </div>
 </div>

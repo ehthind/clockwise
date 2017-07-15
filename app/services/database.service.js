@@ -10,11 +10,30 @@
         this.removeCourse = removeCourse;
         this.getCourses = getCourses;
         this.getSections = getSections;
+        this.getActiveCourse = getActiveCourse;
+        this.getActiveSections = getActiveSections;
+        this.updateActiveCourse = updateActiveCourse;
+
+
 
         var url = "/api/databaseAPI";
         var courses = [];
         var sections = [];
+        var activeCourse = [];
+        var activeSections = [];
         ////////////////
+
+
+        function updateActiveCourse(courseID) {
+            for (var i = 0; i < courses.length; i++) {
+                if (courses[i].courseID === courseID) {
+                    activeCourse.length = 0;
+                    activeCourse.push(courses[i]);
+                    activeSections.length = 0;
+                    activeSections.push(courses[i].section);
+                }
+            }
+        }
 
         function fetchSections(courseID) {
             var data = {
@@ -43,9 +62,9 @@
             };
 
             fetchSections(data.courseID).then(function (section) {
-                    sections.push(
-                        section
-                    );
+                sections.push(
+                    section
+                );
                 courses.push({
                     'courseID': data.courseID,
                     'name': data.name,
@@ -59,9 +78,21 @@
             for (var i = 0; i < courses.length; i++) {
                 if (courses[i].courseID === courseID) {
                     courses.splice(i, 1);
+                    if (activeCourse[0].courseID === courseID) {
+                        activeCourse.length = 0;
+                        activeSections.length = 0;
+                    }
                     return;
                 }
             }
+        }
+
+        function getActiveSections() {
+            return activeSections;
+        }
+
+        function getActiveCourse() {
+            return activeCourse;
         }
 
         function getCourses() {

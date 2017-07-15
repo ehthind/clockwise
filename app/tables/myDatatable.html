@@ -1,0 +1,31 @@
+<table datatable="ng" dt-options="ctrl.dtOptions" dt-column-defs="ctrl.dtColumnDefs" class="row-border table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>CRN</th>
+            <th>Section</th>
+            <th>Units</th>
+            <th>Days</th>
+            <th>Time</th>
+            <th>Capacity</th>
+            <th>Actual</th>
+            <th>Remaining</th>
+            <th>Instructor</th>
+            <th>Location</th>
+        </tr>
+    </thead>
+    <tbody ng-repeat="listOfSections in ctrl.sectionList">
+
+        <tr ng-repeat="section in listOfSections">
+            <td>{{ section.crn }}</td>
+            <td>{{ section.section }}</td>
+            <td>{{ section.units }}</td>
+            <td>{{ section.days }}</td>
+            <td>{{ section.start_time }} - {{section.end_time}}</td>
+            <td>{{ section.capacity }}</td>
+            <td>{{ section.actual }}</td>
+            <td>{{ section.remaining }}</td>
+            <td>{{ section.instructor }}</td>
+            <td>{{ section.location}}</td>
+        </tr>
+    </tbody>
+</table>
