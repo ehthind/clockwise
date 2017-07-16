@@ -10,3 +10,7 @@
            max-height: 225px;
            overflow-y: auto;
 }
+
+.pointer-hover :hover {
+    cursor: pointer;
+}
