@@ -14,9 +14,6 @@
 
 
         ////////////////
-        function getEvents() {
-            return eventList;
-        }
 
         function addEvent(sectionData, courseData) {
             console.log('in eventService \n event to add: ' + sectionData.section + ' ' + courseData.name);
@@ -26,18 +23,64 @@
                 console.log('ERROR courseID did not match \n Section courseID: ' + sectionData.courseID + '\nCourse courseID: ' + courseData.courseID);
             }
             var days_parsed = parseSectionDays(sectionData.days);
-            console.log(days_parsed);
-            
-            days_parsed.forEach(function(day) {
+
+            if (checkDuplicate(courseData.courseID, sectionData.type)) {
+                console.log('Found duplicate');
+                removeEvent(courseData.courseID, sectionData.type);
+            }
+
+            days_parsed.forEach(function (day) {
                 var newEvent = {
                     title: courseData.name,
                     start: day + sectionData.start_time_24h,
-                    end: day + sectionData.end_time_24h
+                    end: day + sectionData.end_time_24h,
+                    'courseID': courseData.courseID,
+                    'type': sectionData.type
                 };
 
-                 eventList.push(newEvent);
-
+                eventList.push(newEvent);
             }, this);
+            console.log(eventList);
+
+        }
+
+        function removeEvent(courseID, type) {
+            for (var i of reverseKeys(eventList)) {
+                if (eventList[i].courseID === courseID && eventList[i].type === type) {
+                    eventList.splice(i, 1);
+                }
+            }
+        }
+
+        function* reverseKeys(arr) {
+            var key = arr.length - 1;
+
+            while (key >= 0) {
+                yield key;
+                key -= 1;
+            }
+        }
+
+        // Getters //
+
+        function getEvents() {
+            return eventList;
+        }
+
+
+        // Helper Functions //
+
+        function checkDuplicate(courseID, type) {
+            if (eventList.some(function (event) {
+                    if (event.courseID === courseID && event.type === type) {
+                        return true;
+                    }
+                })) {
+                return true;
+            } else {
+                return false;
+            }
+
         }
 
         function parseSectionDays(days) {
@@ -75,8 +118,6 @@
 
             return response;
         }
-
-        function removeEvent(eventID) {}
 
     }
 })();
