@@ -26,10 +26,13 @@
                 console.log('ERROR courseID did not match \n Section courseID: ' + sectionData.courseID + '\nCourse courseID: ' + courseData.courseID);
             }
 
-            eventList = {
-                
+            var newEvent = {
+                title: courseData.name,
+                start: '2017-07-19T' + sectionData.start_time,
+                end: '2017-07-19T' + sectionData.end_time
             };
-
+            
+            eventList.push(newEvent);
         }
 
         function removeEvent(eventID) {}

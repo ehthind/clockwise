@@ -8,30 +8,10 @@
 
     function myCalendarController($scope, eventService) {
 
+        $scope.events = eventService.getEvents();
         $scope.eventSources = [{
-            events: function (start, end, timezone, callback) {
-                var events;
-                events = $scope.events;
-                callback(events);
-            }
+            events: $scope.events
         }];
-
-        $scope.events = [{
-                title: 'Math 101',
-                start: '2017-07-19T09:00:00',
-                end: '2017-07-19T09:50:00'
-            },
-            {
-                title: 'Math 101',
-                start: '2017-07-18T09:00:00',
-                end: '2017-07-18T09:50:00'
-            },
-            {
-                title: 'Math 101',
-                start: '2017-07-21T09:00:00',
-                end: '2017-07-21T09:50:00'
-            }
-        ];
 
         $scope.uiConfig = {
             calendar: {
