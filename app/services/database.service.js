@@ -50,6 +50,10 @@
                     'title': data.title,
                     section
                 });
+
+                if(courses.length === 1) {
+                    updateActiveCourse(data.courseID);
+                }
             });
         }
 
