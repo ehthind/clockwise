@@ -34,12 +34,12 @@
 
             var momentStartTime = moment(sectionData.start_time, ["h:mm A"]);
             var momentEndTime = moment(sectionData.end_time, ["h:mm A"]);
-            sectionData.start_time = momentStartTime.format("HH:mm");
-            sectionData.end_time = momentEndTime.format("HH:mm");
-            
+            sectionData.start_time_24h = momentStartTime.format("HH:mm");
+            sectionData.end_time_24h = momentEndTime.format("HH:mm");
+
             eventService.addEvent(sectionData, vm.activeCourse[0]);
-        }       
-         // $resource('assets/data/data.json').query().$promise.then(function (persons) {
+        }
+        // $resource('assets/data/data.json').query().$promise.then(function (persons) {
         //     vm.persons = persons;
         // });
     }
