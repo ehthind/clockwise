@@ -5,6 +5,6 @@ angular
   function sidebar() {
     return {
       restrict: 'E',
-      templateUrl: 'app/components/sidebar.html'
+      templateUrl: 'app/sidebar/sidebar.html'
     };
   }

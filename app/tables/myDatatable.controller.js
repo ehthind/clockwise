@@ -5,11 +5,13 @@
         .module('app.datatable')
         .controller('datatableController', datatableController);
 
-    function datatableController(DTOptionsBuilder, DTColumnDefBuilder, $resource, databaseService) {
+    function datatableController(DTOptionsBuilder, DTColumnDefBuilder, $resource, databaseService, eventService) {
         // vm.courseList = databaseService.getCourses();
 
         var vm = this;
         vm.sectionList = databaseService.getActiveSections();
+        vm.activeCourse = databaseService.getActiveCourse();
+
         vm.dtOptions = DTOptionsBuilder.newOptions()
             .withScroller()
             .withOption('deferRender', true)
@@ -26,9 +28,12 @@
             DTColumnDefBuilder.newColumnDef(6),
             DTColumnDefBuilder.newColumnDef(7),
             DTColumnDefBuilder.newColumnDef(8),
-            DTColumnDefBuilder.newColumnDef(9)
         ];
-        // $resource('assets/data/data.json').query().$promise.then(function (persons) {
+
+        vm.newEvent = function (sectionData) {
+            eventService.addEvent(sectionData, vm.activeCourse[0]);
+        }       
+         // $resource('assets/data/data.json').query().$promise.then(function (persons) {
         //     vm.persons = persons;
         // });
     }
