@@ -26,6 +26,9 @@
                 console.log('ERROR courseID did not match \n Section courseID: ' + sectionData.courseID + '\nCourse courseID: ' + courseData.courseID);
             }
 
+            eventList = {
+                
+            };
 
         }
 

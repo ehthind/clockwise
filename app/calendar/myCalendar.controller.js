@@ -11,7 +11,7 @@
         $scope.eventSources = [{
             events: function (start, end, timezone, callback) {
                 var events;
-                events = eventService.getEvents();
+                events = $scope.events;
                 callback(events);
             }
         }];
