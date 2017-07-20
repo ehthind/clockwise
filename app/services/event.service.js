@@ -25,7 +25,6 @@
             var days_parsed = parseSectionDays(sectionData.days);
 
             if (checkDuplicate(courseData.courseID, sectionData.type)) {
-                console.log('Found duplicate');
                 removeEvent(courseData.courseID, sectionData.type);
             }
 
@@ -40,7 +39,6 @@
 
                 eventList.push(newEvent);
             }, this);
-            console.log(eventList);
 
         }
 
@@ -52,15 +50,6 @@
             }
         }
 
-        function* reverseKeys(arr) {
-            var key = arr.length - 1;
-
-            while (key >= 0) {
-                yield key;
-                key -= 1;
-            }
-        }
-
         // Getters //
 
         function getEvents() {
@@ -69,6 +58,14 @@
 
 
         // Helper Functions //
+
+        function* reverseKeys(arr) {
+            var key = arr.length - 1;
+            while (key >= 0) {
+                yield key;
+                key -= 1;
+            }
+        }
 
         function checkDuplicate(courseID, type) {
             if (eventList.some(function (event) {
