@@ -1,1 +1,1 @@
-angular.module('app.calendar', ['ui.calendar']);
+angular.module('app.myCalendar', ['ui.calendar']);

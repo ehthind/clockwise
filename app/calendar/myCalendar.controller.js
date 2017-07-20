@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app.calendar')
+        .module('app.myCalendar')
         .controller('myCalendarController', myCalendarController);
 
 

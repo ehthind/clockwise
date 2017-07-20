@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app.datatable')
+        .module('app.myDatatable')
         .controller('datatableController', datatableController);
 
     function datatableController(DTOptionsBuilder, DTColumnDefBuilder, $resource, $moment, databaseService, eventService) {

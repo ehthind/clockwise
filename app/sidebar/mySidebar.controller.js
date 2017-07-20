@@ -1,5 +1,5 @@
 angular
-  .module('app.sidebar')
+  .module('app.mySidebar')
   .controller('sidebarController', sidebarController);
 
 function sidebarController($scope, $http, $sce, databaseService) {
