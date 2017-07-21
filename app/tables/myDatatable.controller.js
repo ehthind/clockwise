@@ -34,13 +34,15 @@
         vm.isSelected = function(crn) {
             for (var i = 0; i < vm.events.length; i++) {
                 if(vm.events[i].crn === crn) {
-                    return vm.events[i].alphaColor;
+                    return true;
                 }  
             }
             return false;
         }
 
         vm.newEvent = function (sectionData) {
+
+            console.log(vm.activeCourse[0]);
 
             var momentStartTime = moment(sectionData.start_time, ["h:mm A"]);
             var momentEndTime = moment(sectionData.end_time, ["h:mm A"]);

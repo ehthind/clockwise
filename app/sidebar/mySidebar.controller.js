@@ -6,7 +6,7 @@ function sidebarController($scope, $http, $sce, databaseService, eventService) {
   $scope.selectedCourse = '';
   $scope.courseList = databaseService.getCourses();
 
-  var alphaColorList = ['alpha-teal', 'alpha-indigo', 'alpha-primary', 'alpha-danger', 'alpha-slate', 'alpha-success', 'alpha-warning', 'alpha-grey'];                    
+  var alphaColorList = ['border-left-lg border-left-teal', 'border-left-lg border-left-indigo', 'border-left-lg border-left-primary', 'border-left-lg border-left-danger', 'border-left-lg border-left-slate', 'border-left-lg border-left-success', 'border-left-lg border-left-warning', 'border-left-lg border-left-grey'];                    
   var colorList = ['#26A69A', '#5C6BC0', '#42A5F5', '#EF5350', '#78909C', '#66BB6A', '#FF7043', '#888888'];
   var altColorList = ['#4DB6AC', '#7986CB', '#64B5F6', '#E57373', '#90A4AE', '#81C784', '#FF8A65', '#999999'];
   var colorIndex = 0;

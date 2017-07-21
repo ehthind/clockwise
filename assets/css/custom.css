@@ -14,3 +14,7 @@
 .pointer-hover :hover {
     cursor: pointer;
 }
+
+.table-row-selected {
+    background-color: #f5f5f5; 
+}
