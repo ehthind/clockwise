@@ -9,6 +9,7 @@
         this.getEvents = getEvents;
         this.addEvent = addEvent;
         this.removeEvent = removeEvent;
+        this.removeAllCourseEvents = removeAllCourseEvents;
 
         var eventList = [];
 
@@ -28,13 +29,25 @@
                 removeEvent(courseData.courseID, sectionData.type);
             }
 
+            if (sectionData.type === 'Lecture') {
+                var sectionColor = courseData.color;
+            } else {
+                var sectionColor = courseData.altColor;
+            }
+            console.log(courseData.color);
+            console.log(sectionColor);
+
             days_parsed.forEach(function (day) {
                 var newEvent = {
+                    id: sectionData.crn,
                     title: courseData.name,
                     start: day + sectionData.start_time_24h,
                     end: day + sectionData.end_time_24h,
+                    color: sectionColor,
+                    'alphaColor': courseData.alphaColor,
                     'courseID': courseData.courseID,
-                    'type': sectionData.type
+                    'type': sectionData.type,
+                    'crn': sectionData.crn
                 };
 
                 eventList.push(newEvent);
@@ -45,6 +58,14 @@
         function removeEvent(courseID, type) {
             for (var i of reverseKeys(eventList)) {
                 if (eventList[i].courseID === courseID && eventList[i].type === type) {
+                    eventList.splice(i, 1);
+                }
+            }
+        }
+
+        function removeAllCourseEvents(courseID) {
+            for (var i of reverseKeys(eventList)) {
+                if (eventList[i].courseID === courseID) {
                     eventList.splice(i, 1);
                 }
             }

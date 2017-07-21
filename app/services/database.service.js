@@ -48,6 +48,9 @@
                     'courseID': data.courseID,
                     'name': data.name,
                     'title': data.title,
+                    'color': data.color,
+                    'altColor': data.altColor,
+                    'alphaColor': data.alphaColor,
                     section
                 });
 
@@ -81,7 +84,10 @@
                 var newActiveCourse = {
                     'courseID': response.course.courseID,
                     'name': response.course.name,
-                    'title': response.course.title
+                    'title': response.course.title,
+                    'color': response.course.color,
+                    'altColor': response.course.altColor,
+                    'alphaColor': response.course.alphaColor
                 };
                 activeCourse.push(newActiveCourse);
                 activeSections.length = 0;
