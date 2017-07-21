@@ -15,6 +15,10 @@
 
 
         ////////////////
+        function getEvents() {
+            console.log('in getEvents');
+            return eventList;
+        }
 
         function addEvent(sectionData, courseData) {
             console.log('in eventService \n event to add: ' + sectionData.section + ' ' + courseData.name);
@@ -34,8 +38,6 @@
             } else {
                 var sectionColor = courseData.altColor;
             }
-            console.log(courseData.color);
-            console.log(sectionColor);
 
             days_parsed.forEach(function (day) {
                 var newEvent = {

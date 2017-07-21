@@ -32,8 +32,6 @@
         ];
 
         vm.isSelected = function(crn) {
-            console.log('in isSelected');
-            console.log(vm.events);
             for (var i = 0; i < vm.events.length; i++) {
                 if(vm.events[i].crn === crn) {
                     return vm.events[i].alphaColor;
