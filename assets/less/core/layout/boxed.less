@@ -12,50 +12,26 @@
 
 // Boxed layout base
 .layout-boxed {
+    background: url(../images/backgrounds/boxed_bg.png) repeat; // mainly for demo, use whatever you want
 
     // Center main navbar
-    .navbar .navbar-boxed,
-    .page-header-content,
-    .page-header .breadcrumb-boxed,
-    .page-container,
-    .footer-boxed {
+    > .navbar {
         margin-left: auto;
         margin-right: auto;
     }
 
-    // Boxed navbar
-    .navbar:not(.navbar-component) {
-        @media (min-width: @grid-float-breakpoint) {
-            padding-left: 0;
-            padding-right: 0;
-
-            .navbar-boxed {
-                position: relative;
-                padding-left: @navbar-padding-horizontal;
-                padding-right: @navbar-padding-horizontal;
-
-                .navbar-header {
-                    margin-left: 0;
-                }
-
-                .navbar-brand {
-                    padding-left: 0;
-                }
-
-                .mega-menu-wide .dropdown-content {
-                    left: @navbar-padding-horizontal;
-                    right: @navbar-padding-horizontal;
-                }
-            }
-        }
+    // Center page container
+    .page-container {
+        background-color: @body-bg;
+        margin-left: auto;
+        margin-right: auto;
+        min-width: 0;
     }
+
 
     // Set widths on different screens
     .page-container,
-    .navbar .navbar-boxed,
-    .page-header .breadcrumb-boxed,
-    .page-header-content,
-    .footer-boxed {
+    > .navbar {
         @media (min-width: @screen-sm-min) {
             width: @container-sm;
         }
@@ -65,5 +41,11 @@
         @media (min-width: @screen-lg-min) {
             width: @container-lg;
         }
+    }
+
+
+    // Change background image on retina display
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) { 
+        background: url(../images/backgrounds/boxed_bg_retina.png) repeat;
     }
 }

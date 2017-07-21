@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Limitless</title>
+	<title>Clockwise - By Amrit Thind</title>
 
 	<!-- Global stylesheets -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
@@ -14,24 +14,24 @@
 	<link href="assets/css/core.css" rel="stylesheet" type="text/css">
 	<link href="assets/css/components.css" rel="stylesheet" type="text/css">
 	<link href="assets/css/colors.css" rel="stylesheet" type="text/css">
-	<link href="assets/css/custom.css" rel="stylesheet" type="text/css">
-
-	<!-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.6.2/css/angular-datatables.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.6.2/plugins/bootstrap/datatables.bootstrap.min.css"/> -->
 	<!-- /global stylesheets -->
 
 	<!-- Core JS files -->
-	<script type="text/javascript" src="assets/js/plugins/loaders/pace.min.js"></script>
 	<script type="text/javascript" src="assets/js/core/libraries/jquery.min.js"></script>
 	<script type="text/javascript" src="assets/js/core/libraries/bootstrap.min.js"></script>
-	<script type="text/javascript" src="assets/js/core/app.js"></script>
-
 	<!-- /core JS files -->
 
-	<!--Theme plugin JS Files  -->
+	<!-- Theme JS files -->
+	<script type="text/javascript" src="assets/js/plugins/ui/nicescroll.min.js"></script>
+
+	<script type="text/javascript" src="assets/js/core/app.js"></script>
+	<script type="text/javascript" src="assets/js/pages/layout_fixed_custom.js"></script>
+	<!-- /theme JS files -->
+
+	<!--Adding from index  -->
+	<!-- Theme plugin JS files -->
 	<script type="text/javascript" src="assets/js/plugins/loaders/pace.min.js"></script>
 	<script type="text/javascript" src="assets/js/plugins/loaders/blockui.min.js"></script>
-	<script type="text/javascript" src="assets/js/plugins/ui/nicescroll.min.js"></script>
 	<script type="text/javascript" src="assets/js/plugins/ui/drilldown.js"></script>
 	<script type="text/javascript" src="assets/js/plugins/ui/fab.min.js"></script>
 	<script type="text/javascript" src="assets/js/plugins/forms/selects/select2.min.js"></script>
@@ -40,6 +40,9 @@
 	<script type="text/javascript" src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
 	<script type="text/javascript" src="assets/js/plugins/ui/moment/moment.min.js"></script>
 	<script type="text/javascript" src="assets/js/plugins/ui/fullcalendar/fullcalendar.min.js"></script>
+
+	<!--style sheet  -->
+	<link href="assets/css/custom.css" rel="stylesheet" type="text/css">
 
 	<!-- AngularJS files -->
 	<script type="text/javascript" src="assets/libs/angular.min.js"></script>
@@ -98,78 +101,97 @@
 	<!-- Full Callendar files  -->
 	<script type="text/javascript" src="assets/js/plugins/angularjs-calendar.js"></script>
 
-	<!-- /theme JS files -->
 
 </head>
 
-<body class="">
+<body class="navbar-top">
 
 	<!-- Main navbar -->
-	<div class="navbar navbar-inverse">
-		<div class="navbar-boxed">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="index.html"><img src="assets/images/logo_light.png" alt=""></a>
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="index.html"><img src="assets/images/logo_light.png" alt=""></a>
 
-				<ul class="nav navbar-nav pull-right visible-xs-block">
-					<li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
-					<li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
-				</ul>
-			</div>
+			<ul class="nav navbar-nav pull-right visible-xs-block">
+				<li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
+				<li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
+			</ul>
+		</div>
 
-			<div class="navbar-collapse collapse" id="navbar-mobile">
-				<ul class="nav navbar-nav">
+		<div class="navbar-collapse collapse" id="navbar-mobile">
+			<ul class="nav navbar-nav">
+				<li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a></li>
+			</ul>
 
-				</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="#">Text link</a></li>
 
-				<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href="#">
+						<i class="icon-cog3"></i>
+						<span class="visible-xs-inline-block position-right">Icon link</span>
+					</a>
+				</li>
 
-					<li class="dropdown dropdown-user">
-						<a class="dropdown-toggle" data-toggle="dropdown">
-							<img src="assets/images/image.png" alt="">
-							<span>Victoria</span>
-							<i class="caret"></i>
-						</a>
+				<li class="dropdown dropdown-user">
+					<a class="dropdown-toggle" data-toggle="dropdown">
+						<img src="" alt="">
+						<span>Victoria</span>
+						<i class="caret"></i>
+					</a>
 
-						<ul class="dropdown-menu dropdown-menu-right">
-							<li><a href="#"><i class="icon-user-plus"></i> My profile</a></li>
-							<li><a href="#"><i class="icon-coins"></i> My balance</a></li>
-							<li><a href="#"><span class="badge badge-warning pull-right">58</span> <i class="icon-comment-discussion"></i> Messages</a></li>
-							<li class="divider"></li>
-							<li><a href="#"><i class="icon-cog5"></i> Account settings</a></li>
-							<li><a href="#"><i class="icon-switch2"></i> Logout</a></li>
-						</ul>
-					</li>
-				</ul>
-			</div>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li><a href="#"><i class="icon-user-plus"></i> My profile</a></li>
+						<li><a href="#"><i class="icon-coins"></i> My balance</a></li>
+						<li><a href="#"><span class="badge badge-warning pull-right">58</span> <i class="icon-comment-discussion"></i> Messages</a></li>
+						<li class="divider"></li>
+						<li><a href="#"><i class="icon-cog5"></i> Account settings</a></li>
+						<li><a href="#"><i class="icon-switch2"></i> Logout</a></li>
+					</ul>
+				</li>
+			</ul>
 		</div>
 	</div>
 	<!-- /main navbar -->
+
 
 	<!-- Page container -->
 	<div class="page-container">
 
 		<!-- Page content -->
 		<div class="page-content">
+
 			<!-- Main sidebar -->
-			<div class="sidebar sidebar-main">
-				<div class="sidebar-fixed .col-sm-8">
-					<my-sidebar> </my-sidebar>
-				</div>
+			<div class="sidebar sidebar-main sidebar-fixed sidebar-default">
+
+				<my-sidebar> </my-sidebar>
+
 			</div>
 			<!-- /main sidebar -->
 
 
 			<!-- Main content -->
 			<div class="content-wrapper">
-				<div class="panel panel-flat">
-					<my-calendar> </my-calendar>
-				</div>
 
-				<div class="panel panel-flat">
-					<my-datatable> </my-datatable>
+				<!-- Content area -->
+				<div class="content">
+					<div class="panel panel-flat">
+						<my-calendar> </my-calendar>
+					</div>
+
+					<div class="panel panel-flat">
+						<my-datatable> </my-datatable>
+					</div>
+
+					<!-- Footer -->
+					<div class="footer text-muted">
+						&copy; 2015. <a href="#">Clockwise</a> by <a href="" target="_blank">Amrit Thind</a>
+					</div>
+					<!-- /footer -->
+
 				</div>
+				<!-- /content area -->
+
 			</div>
-
 			<!-- /main content -->
 
 		</div>
@@ -177,6 +199,7 @@
 
 	</div>
 	<!-- /page container -->
+
 </body>
 
 </html>

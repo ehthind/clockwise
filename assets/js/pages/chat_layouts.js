@@ -2,7 +2,7 @@
 *
 *  # Chat layouts
 *
-*  Specific JS code additions for support_conversation_layouts.html page
+*  Specific JS code additions for chat_layouts.html page
 *
 *  Version: 1.0
 *  Latest update: Aug 1, 2015

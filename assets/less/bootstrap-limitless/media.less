@@ -101,12 +101,6 @@
             width: auto;
             padding-left: 0;
             padding-right: 0;
-
-            img {
-                width: 100%;
-                height: auto;
-                max-height: none;
-            }
         }
 
         // Add to top spacing to elements
@@ -125,17 +119,6 @@
 
 // Media elements
 // -------------------------
-
-// Image size
-.media-left,
-.media-right,
-.thumbnail .media {
-    img:not(.media-preview) {
-        width: 40px;
-        height: 40px;
-        max-width: none;
-    }
-}
 
 // Badge
 .media-badge {
@@ -177,7 +160,7 @@
 
     // Add bullet to the annotation
     &.dotted:not(.pull-right):before {
-        content: '•';
+        content: '\2022';
         margin-right: (@element-horizontal-spacing + 3);
     }
 }

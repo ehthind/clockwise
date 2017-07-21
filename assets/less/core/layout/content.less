@@ -13,21 +13,6 @@
 // Main wrapper
 .page-container {
     position: relative;
-    padding: @line-height-computed @grid-gutter-width;
-    padding-bottom: (@line-height-computed * 3);
-
-    // Change bottom spacing if footer is navbar
-    .navbar-bottom &,
-    .navbar-bottom-lg &,
-    .navbar-bottom-sm &,
-    .navbar-bottom-xs & {
-        padding-bottom: @line-height-computed;
-    }
-
-    // Add top spacing to content area
-    .page-header + & {
-        padding-top: 0;
-    }
 
     // Desktop view
     @media (min-width: @grid-float-breakpoint) {
@@ -56,5 +41,27 @@
     @media (min-width: @grid-float-breakpoint) {
         display: table-cell;
         vertical-align: top;
+    }
+}
+
+// Main content container
+.content {
+    padding: 0 @grid-gutter-width (@line-height-computed * 3) @grid-gutter-width;
+
+    // Clear floats
+    &:after {
+        content: '';
+        display: table;
+        clear: both;
+    }
+    
+    // Add top padding if no header
+    &:first-child {
+        padding-top: @line-height-computed;
+    }
+
+    // Change bottom spacing if footer is navbar
+    body[class*=navbar-bottom] & {
+        padding-bottom: @line-height-computed;
     }
 }

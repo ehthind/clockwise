@@ -53,7 +53,12 @@
  // Top left position
 .fab-menu-top-left,
 .fab-menu-top-right, {
-    top: @line-height-computed;
+    margin-top: -(@fab-main-btn-size / 2);
+    
+    &.affix {
+       top: @line-height-computed; 
+       margin-top: 0;
+    }
 
     .content-wrapper > & {
         top: -(@fab-main-btn-size / 2);
@@ -108,7 +113,7 @@
 // Left position
 .fab-menu-top-left,
 .fab-menu-bottom-left {
-    left: @grid-gutter-width;
+    //left: @grid-gutter-width;
 }
 
 // Top right position

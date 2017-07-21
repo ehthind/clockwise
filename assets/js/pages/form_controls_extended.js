@@ -1,13 +1,13 @@
 /* ------------------------------------------------------------------------------
- *
- *  # Extended form controls
- *
- *  Specific JS code additions for form_controls_extended.html page
- *
- *  Version: 1.2
- *  Latest update: Jul 4, 2016
- *
- * ---------------------------------------------------------------------------- */
+*
+*  # Extended form controls
+*
+*  Specific JS code additions for form_controls_extended.html page
+*
+*  Version: 1.2
+*  Latest update: Jul 4, 2016
+*
+* ---------------------------------------------------------------------------- */
 
 $(function() {
 
@@ -124,26 +124,11 @@ $(function() {
 
 
     // Strength meter
-    var feedback = [{
-            color: '#D55757',
-            text: 'Weak',
-            textColor: '#fff'
-        },
-        {
-            color: '#EB7F5E',
-            text: 'Normal',
-            textColor: '#fff'
-        },
-        {
-            color: '#3BA4CE',
-            text: 'Good',
-            textColor: '#fff'
-        },
-        {
-            color: '#40B381',
-            text: 'Strong',
-            textColor: '#fff'
-        }
+    var feedback = [
+        {color: '#D55757', text: 'Weak', textColor: '#fff'},
+        {color: '#EB7F5E', text: 'Normal', textColor: '#fff'},
+        {color: '#3BA4CE', text: 'Good', textColor: '#fff'},
+        {color: '#40B381', text: 'Strong', textColor: '#fff'}
     ];
 
 
@@ -176,17 +161,17 @@ $(function() {
 
     // Label
     $('.generate-label').click(function() {
-        $inputLabel.passy('generate', 12);
+        $inputLabel.passy( 'generate', 12 );
     });
 
     // Absolute label
     $('.generate-label-absolute').click(function() {
-        $inputLabelAbsolute.passy('generate', 10);
+        $inputLabelAbsolute.passy( 'generate', 10 );
     });
 
     // Group label
     $('.generate-group').click(function() {
-        $inputGroup.passy('generate', 8);
+        $inputGroup.passy( 'generate', 8 );
     });
 
 
@@ -263,9 +248,7 @@ $(function() {
 
                     // the typeahead jQuery plugin expects suggestions to a
                     // JavaScript object, refer to typeahead docs for more info
-                    matches.push({
-                        value: str
-                    });
+                    matches.push({ value: str });
                 }
             });
 
@@ -286,15 +269,18 @@ $(function() {
     ];
 
     // Initialize
-    $('.typeahead-basic').typeahead({
-        hint: true,
-        highlight: true,
-        minLength: 1
-    }, {
-        name: 'states',
-        displayKey: 'value',
-        source: substringMatcher(states)
-    });
+    $('.typeahead-basic').typeahead(
+        {
+            hint: true,
+            highlight: true,
+            minLength: 1
+        },
+        {
+            name: 'states',
+            displayKey: 'value',
+            source: substringMatcher(states)
+        }
+    );
 
 
 
@@ -307,29 +293,28 @@ $(function() {
         queryTokenizer: Bloodhound.tokenizers.whitespace,
 
         // `states` is an array of state names defined in "The Basics"
-        local: $.map(states, function(state) {
-            return {
-                value: state
-            };
-        })
+        local: $.map(states, function(state) { return { value: state }; })
     });
 
     // Initialize engine
     states.initialize();
 
     // Initialize
-    $('.typeahead-bloodhound').typeahead({
-        hint: true,
-        highlight: true,
-        minLength: 1
-    }, {
-        name: 'states',
-        displayKey: 'value',
+    $('.typeahead-bloodhound').typeahead(
+        {
+            hint: true,
+            highlight: true,
+            minLength: 1
+        },
+        {
+            name: 'states',
+            displayKey: 'value',
 
-        // `ttAdapter` wraps the suggestion engine in an adapter that
-        // is compatible with the typeahead jQuery plugin
-        source: states.ttAdapter()
-    });
+            // `ttAdapter` wraps the suggestion engine in an adapter that
+            // is compatible with the typeahead jQuery plugin
+            source: states.ttAdapter()
+        }
+    );
 
 
 
@@ -351,11 +336,7 @@ $(function() {
             // suggestion engine expects JavaScript objects so this converts all of
             // those strings
             filter: function(list) {
-                return $.map(list, function(country) {
-                    return {
-                        name: country
-                    };
-                });
+                return $.map(list, function(country) { return { name: country }; });
             }
         }
     });
@@ -364,20 +345,14 @@ $(function() {
     countries.initialize();
 
     // Passing in `null` for the `options` arguments will result in the default options being used
-    $('.typeahead-prefetched').typeahead({
-            hint: true,
-            highlight: true,
-            minLength: 1
-        },
+    $('.typeahead-prefetched').typeahead(null, {
+        name: 'countries',
+        displayKey: 'name',
 
-        {
-            name: 'countries',
-            displayKey: 'name',
-
-            // `ttAdapter` wraps the suggestion engine in an adapter that
-            // is compatible with the typeahead jQuery plugin
-            source: countries.ttAdapter()
-        });
+        // `ttAdapter` wraps the suggestion engine in an adapter that
+        // is compatible with the typeahead jQuery plugin
+        source: countries.ttAdapter()
+    });
 
 
 
@@ -446,23 +421,27 @@ $(function() {
     nhlTeams.initialize();
 
     // Initialize 1st dataset
-    $('.typeahead-multiple-datasets').typeahead({
-        highlight: true
-    }, {
-        name: 'group',
-        displayKey: 'team',
-        source: nbaTeams.ttAdapter(),
-        templates: {
-            header: '<span class="tt-heading">NBA Teams</span>'
+    $('.typeahead-multiple-datasets').typeahead(
+        {
+            highlight: true
+        },
+        {
+            name: 'group',
+            displayKey: 'team',
+            source: nbaTeams.ttAdapter(),
+            templates: {
+                header: '<span class="tt-heading">NBA Teams</span>'
+            }
+        },
+        {
+            name: 'group',
+            displayKey: 'team',
+            source: nhlTeams.ttAdapter(),
+            templates: {
+                header: '<span class="tt-heading">NHL Teams</span>'
+            }
         }
-    }, {
-        name: 'group',
-        displayKey: 'team',
-        source: nhlTeams.ttAdapter(),
-        templates: {
-            header: '<span class="tt-heading">NHL Teams</span>'
-        }
-    });
+    );
 
 
 
@@ -485,21 +464,12 @@ $(function() {
     var arabicPhrases = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('word'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
-        local: [{
-                word: "الإنجليزية"
-            },
-            {
-                word: "نعم"
-            },
-            {
-                word: "لا"
-            },
-            {
-                word: "مرحبا"
-            },
-            {
-                word: "أهلا"
-            }
+        local: [
+            { word: "الإنجليزية" },
+            { word: "نعم" },
+            { word: "لا" },
+            { word: "مرحبا" },
+            { word: "أهلا" }
         ]
     });
 
@@ -507,12 +477,15 @@ $(function() {
     arabicPhrases.initialize();
 
     // Initialize
-    $('.typeahead-rtl-support').typeahead({
-        hint: false
-    }, {
-        name: 'arabic-phrases',
-        displayKey: 'word',
-        source: arabicPhrases.ttAdapter()
-    });
+    $('.typeahead-rtl-support').typeahead(
+        {
+            hint: false
+        },
+        {
+            name: 'arabic-phrases',
+            displayKey: 'word',
+            source: arabicPhrases.ttAdapter()
+        }
+    );
 
 });

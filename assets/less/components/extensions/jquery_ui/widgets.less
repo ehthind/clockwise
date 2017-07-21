@@ -329,7 +329,7 @@
 	display: none;
 	border: 1px solid @dropdown-border;
 	border-radius: @border-radius-base;
-	z-index: 190;
+	z-index: (@zindex-navbar - 1)!important;
     .box-shadow(0 1px 3px fade(#000, 10%));
 
 	// Make it flexible in sidebar

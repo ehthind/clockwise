@@ -77,7 +77,7 @@
 // -------------------------
 
 .navbar-header {
-    min-width: 200px;
+    min-width: @sidebar-base-width;
 
     // Inside nav collapse
     .navbar-collapse > & {
@@ -142,7 +142,6 @@
         margin-left: -(@navbar-padding-horizontal);
     }
 }
-
 
 
 // Fixed navbar setup
@@ -728,7 +727,7 @@
 
     // Add class for darken default navbar
     &.navbar-default-secondary {
-        background-color: darken(@navbar-default-bg, 1.5%);
+        background-color: darken(@navbar-default-bg, 1%);
     }
 
     // After page header content

@@ -168,7 +168,7 @@ $(function() {
     // ------------------------------
 
 	// Hide elements first
-	$(".sidebar, .navbar, .navbar-brand, .navbar-text, .navbar-nav, .page-header, .page-title, .page-header .heading-elements, .breadcrumb, .breadcrumb-elements > li, .content-wrapper > .panel, .content-wrapper .row > [class*=col-], .footer")
+	$(".sidebar, .navbar, .navbar-brand, .navbar-text, .navbar-nav > li, .page-header, .page-title, .page-header .heading-elements, .breadcrumb, .breadcrumb-elements > li, .content > .panel, .content .row > [class*=col-], .footer")
 		.css('opacity', 0);
 
 
@@ -176,7 +176,7 @@ $(function() {
     Pace.on('done', function () {
 
 		// Layout parts
-		$(".navbar, .navbar-brand, .navbar-text, .navbar-nav, .page-header, .page-title, .page-header .heading-elements, .breadcrumb, .breadcrumb-elements > li, .content-wrapper > .panel, .content-wrapper .row > [class*=col-], .footer")
+		$(".navbar, .navbar-brand, .navbar-text, .navbar-nav > li, .page-header, .page-title, .page-header .heading-elements, .breadcrumb, .breadcrumb-elements > li, .content > .panel, .content .row > [class*=col-], .footer")
 			.css('opacity', 1)
 			.velocity("transition.slideDownIn", {
 				stagger: 200,
@@ -186,6 +186,53 @@ $(function() {
 				}
 		});
 
+
+		// Sidebar
+		$(".sidebar")
+			.css({opacity: 0, borderColor: 'transparent'})
+			.velocity("transition.slideUpIn", {
+				delay: 100,
+				duration: 500,
+				display: 'table-cell',
+				complete: function(elements) {
+					$(this).removeAttr('style');
+				}
+		});
+
+
+		// Navigation list on load
+		$(".navigation > li")
+			.css('opacity', 0)
+			.velocity("transition.slideLeftIn", {
+				delay: 500,
+				stagger: 75,
+				duration: 200,
+				complete: function(elements) {
+					$(this).removeAttr('style')
+				}
+		});
+
+
+		// Navigation list on click
+		$(".navigation .has-ul").on('click', function() {
+			if ($(this).parent('li').hasClass('active')) {
+				$(this).next('ul').children('li').css('opacity', 0).velocity("transition.fadeIn", {
+					delay: 150,
+					stagger: 30,
+					duration: 200,
+					complete: function(elements) {
+						$(this).removeAttr('style')
+					}
+				});
+			} else {
+				$(this).next('ul').children('li').css('opacity', 0).velocity("transition.slideLeftOut", {
+					duration: 200,
+					complete: function(elements) {
+						$(this).removeAttr('style')
+					}
+				});
+			}
+		});
     });
 
 });

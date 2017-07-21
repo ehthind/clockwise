@@ -36,7 +36,7 @@ $(function() {
             togglePositionInit.disable();
 
             // Toggle necessary body and navbar classes
-            $('body').find('#navbar-main').addClass('navbar-fixed-top');
+            $('body').children('.navbar').addClass('navbar-fixed-top');
             $('body').addClass('navbar-top');
         }
         else {
@@ -46,7 +46,7 @@ $(function() {
 
 
             // Toggle necessary body and navbar classes
-            $('body').find('#navbar-main').removeClass('navbar-fixed-top');
+            $('body').children('.navbar').removeClass('navbar-fixed-top');
             $('body').removeClass('navbar-top');
         }
     };
@@ -59,7 +59,7 @@ $(function() {
             toggleTypeInit.disable();
 
             // Toggle necessary body and navbar classes
-            $('body').find('#navbar-main').addClass('navbar-fixed-bottom');
+            $('body').children('.navbar').addClass('navbar-fixed-bottom');
             $('body').addClass('navbar-bottom');
         }
         else {
@@ -68,7 +68,7 @@ $(function() {
             toggleTypeInit.enable();
 
             // Toggle necessary body and navbar classes
-            $('body').find('#navbar-main').removeClass('navbar-fixed-bottom');
+            $('body').children('.navbar').removeClass('navbar-fixed-bottom');
             $('body').removeClass('navbar-bottom');
         }
     };

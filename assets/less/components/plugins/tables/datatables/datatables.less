@@ -125,6 +125,11 @@
 	&.table-bordered {
 		border-collapse: collapse;
 	}
+
+	// If table has .media container, remove width from .media-body
+	.media-body {
+		width: auto;
+	}
 }
 
 // Wrapper
@@ -198,6 +203,11 @@
 		padding-left: 0;
 		padding-right: 0;
 	}
+
+	// Highlight header of footer with .*-accent class
+	&-accent {
+		background-color: @table-bg-accent;
+	}
 }
 
 // Header
@@ -230,6 +240,18 @@
 			margin: (@padding-base-vertical + 1) @content-padding-base;
 			margin-left: 0;
 		}
+	}
+
+	// Apply default .form-control styles to select
+	select {
+	    height: @input-height-base;
+	    padding: @padding-base-vertical @padding-base-horizontal;
+	    font-size: @font-size-base;
+	    line-height: @line-height-base;
+	    color: @text-color;
+	    background-color: @input-bg;
+	    border: 1px solid @input-border;
+	    outline: 0;
 	}
 
 	// Left display option

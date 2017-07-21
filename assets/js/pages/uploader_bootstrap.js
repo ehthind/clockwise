@@ -4,8 +4,8 @@
 *
 *  Specific JS code additions for uploader_bootstrap.html page
 *
-*  Version: 1.2
-*  Latest update: Aug 10, 2016
+*  Version: 1.3
+*  Latest update: Mar 20, 2017
 *
 * ---------------------------------------------------------------------------- */
 
@@ -184,8 +184,8 @@ $(function() {
             "assets/images/placeholder.jpg",
         ],
         initialPreviewConfig: [
-            {caption: "Jane.jpg", size: 930321, key: 1, showDrag: false},
-            {caption: "Anna.jpg", size: 1218822, key: 2, showDrag: false}
+            {caption: "Jane.jpg", size: 930321, key: 1, url: '{$url}', showDrag: false},
+            {caption: "Anna.jpg", size: 1218822, key: 2, url: '{$url}', showDrag: false}
         ],
         initialPreviewAsData: true,
         overwriteInitial: false,
@@ -214,8 +214,8 @@ $(function() {
             "assets/images/placeholder.jpg"
         ],
         initialPreviewConfig: [
-            {caption: "Jane.jpg", size: 930321, key: 1, showDrag: false},
-            {caption: "Anna.jpg", size: 1218822, key: 2, showDrag: false}
+            {caption: "Jane.jpg", size: 930321, key: 1, url: '{$url}'},
+            {caption: "Anna.jpg", size: 1218822, key: 2, url: '{$url}'}
         ],
         initialPreviewAsData: true,
         overwriteInitial: true,
@@ -239,6 +239,8 @@ $(function() {
             removeClass: 'btn btn-link btn-xs btn-icon',
             uploadIcon: '<i class="icon-upload"></i>',
             uploadClass: 'btn btn-link btn-xs btn-icon',
+            zoomIcon: '<i class="icon-zoomin3"></i>',
+            zoomClass: 'btn btn-link btn-xs btn-icon',
             indicatorNew: '<i class="icon-file-plus text-slate"></i>',
             indicatorSuccess: '<i class="icon-checkmark3 file-icon-large text-success"></i>',
             indicatorError: '<i class="icon-cross2 text-danger"></i>',

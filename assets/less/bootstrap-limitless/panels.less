@@ -23,6 +23,11 @@
         max-width: 100%;
         overflow-x: auto;
     }
+
+    // Panel with background pattern
+    &.has-bg-image {
+        background-image: url(../images/backgrounds/panel_bg.png);
+    }
 }
 
 
@@ -59,11 +64,6 @@
     // Panel heading in flat panel
     &.panel-flat > .panel-heading {
         border-bottom-color: transparent;
-    }
-
-    // Panel body inherits bg color
-    > .panel-body {
-        background-color: inherit;
     }
 
     // Apply white color to panel title
@@ -132,6 +132,16 @@
     + .table-responsive,
     &.has-top-border {
         border-top: 1px solid @panel-inner-border;
+    }
+
+    // ... and change top border in coloured panel
+    .panel[class*=bg-] & {
+        + .panel-body,
+        + .table,
+        + .table-responsive,
+        &.has-top-border {
+            border-top-color: fade(#fff, 50%);
+        }
     }
 
     // Slightly darker body

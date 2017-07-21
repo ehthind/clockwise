@@ -84,6 +84,14 @@ mark,
 }
 
 
+// Contextual colors
+.text-muted {
+    a&:hover {
+        color: @text-color;
+    }
+}
+
+
 // SVG sizing
 svg {
     display: block;
@@ -134,10 +142,15 @@ svg {
             top: 50%;
             left: 0;
             height: 1px;
-            background-color: #ddd;
+            background-color: @panel-inner-border;
             width: 100%;
             z-index: -1;
         }
+    }
+
+    // Muted line
+    &-muted > span:before {
+        background-color: #e5e5e5;
     }
 }
 

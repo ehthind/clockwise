@@ -97,9 +97,20 @@
 // Highlight item colors
 // ------------------------------
 
+// Empty buttons in the table
+.AnyTime-dom-btn-empty,
+.AnyTime-min-ten-btn-empty,
+.AnyTime-min-one-btn-empty,
+.AnyTime-sec-ten-btn-empty,
+.AnyTime-sec-one-btn-empty {
+    background-color: #fafafa;
+    border: 1px solid #fff;
+    border-radius: @border-radius-base;
+}
+
 // Years
 .AnyTime-yrs {
-    .ui-state-highlight {
+    .AnyTime-cur-btn {
         &,
         &:hover {
             background-color: @brand-danger;
@@ -110,7 +121,7 @@
 
 // Months
 .AnyTime-mons {
-    .ui-state-highlight {
+    .AnyTime-cur-btn {
         &,
         &:hover {
             background-color: @color-teal-400;
@@ -121,7 +132,7 @@
 
 // Time
 .AnyTime-time {
-    .ui-state-highlight {
+    .AnyTime-cur-btn {
         &,
         &:hover {
             background-color: @color-slate-500;
@@ -133,7 +144,7 @@
 // Calendar
 .AnyTime-dom-table,
 .AnyTime-body-yr-selector {
-    .ui-state-highlight {
+    .AnyTime-cur-btn {
         &,
         &:hover {
             background-color: @brand-primary;

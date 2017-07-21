@@ -67,7 +67,8 @@ $(function() {
 
         // Toggle classes
         $('body').children('.navbar').first().removeClass('navbar-fixed-top').addClass('navbar-fixed-bottom');
-        $('body').removeClass('navbar-top').addClass('navbar-bottom');
+        $('body').removeClass('navbar-top');
+        $('.footer').hide();
 
         // Initialize bottom navbar
         headroomBottom();
@@ -80,7 +81,8 @@ $(function() {
 
         // Toggle classes
         $('body').children('.navbar').first().removeClass('navbar-fixed-bottom').addClass('navbar-fixed-top');
-        $('body').removeClass('navbar-bottom').addClass('navbar-top');
+        $('body').addClass('navbar-top');
+        $('.footer').show();
 
         // Initialize top navbar
         headroomTop();

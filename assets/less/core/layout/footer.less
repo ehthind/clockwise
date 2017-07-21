@@ -13,8 +13,6 @@
 // Stick footer to the bottom of the page
 .footer {
 	position: absolute;
-	left: @grid-gutter-width;
-	right: @grid-gutter-width;
 	bottom: (@line-height-computed * 1.5);
 
 	// Stick to bottom is footer is navbar
@@ -28,7 +26,7 @@
 			z-index: auto;
 		}
 	}
-
+	
     // Hide standard footer if navbar is used
     body[class*=navbar-bottom] &:not(.navbar) {
         display: none;
