@@ -47,7 +47,7 @@
             sectionData.start_time_24h = momentStartTime.format("HH:mm");
             sectionData.end_time_24h = momentEndTime.format("HH:mm");
 
-            eventService.addEvent(sectionData, vm.activeCourse[0], );
+            eventService.addEvent(sectionData, vm.activeCourse[0]);
         }
         // $resource('assets/data/data.json').query().$promise.then(function (persons) {
         //     vm.persons = persons;

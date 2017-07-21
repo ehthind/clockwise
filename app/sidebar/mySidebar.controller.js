@@ -36,6 +36,21 @@ function sidebarController($scope, $http, $sce, databaseService, eventService) {
       "name": "BIOL 345",
       "title": "Into To Biol"
     },
+    {
+      "courseID": 6,
+      "name": "ASTR 101",
+      "title": "Into To Biol"
+    },
+    {
+      "courseID": 7,
+      "name": "ASTR 201",
+      "title": "Into To Biol"
+    },
+    {
+      "courseID": 8,
+      "name": "ASTR 301",
+      "title": "Into To Biol"
+    },
 
   ];
 
