@@ -35,7 +35,6 @@
 	<script type="text/javascript" src="assets/js/plugins/ui/drilldown.js"></script>
 	<script type="text/javascript" src="assets/js/plugins/ui/fab.min.js"></script>
 	<script type="text/javascript" src="assets/js/plugins/forms/selects/select2.min.js"></script>
-	<script type="text/javascript" src="assets/js/pages/layout_sidebar_sticky_custom.js"></script>
 	<script type="text/javascript" src="assets/js/plugins/pickers/color/spectrum.js"></script>
 	<script type="text/javascript" src="assets/js/pages/picker_color.js"></script>
 	<script type="text/javascript" src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
@@ -48,23 +47,28 @@
 	<script src="node_modules/angular-resource/angular-resource.min.js"></script>
 	<script src="node_modules/angular-momentjs/angular-momentjs.js"></script>
 
-
+	<!-- root app  -->
 	<script type="text/javascript" src="app/app.module.js"></script>
 
-	<script type="text/javascript" src="app/sidebar/sidebar.module.js"></script>
-	<script type="text/javascript" src="app/sidebar/sidebar.directive.js"></script>
-	<script type="text/javascript" src="app/sidebar/sidebar.controller.js"></script>
-
+	<!-- services  -->
 	<script type="text/javascript" src="app/services/database.service.js"></script>
 	<script type="text/javascript" src="app/services/event.service.js"></script>
 
+	<!-- sidebar  -->
+	<script type="text/javascript" src="app/sidebar/mySidebar.module.js"></script>
+	<script type="text/javascript" src="app/sidebar/mySidebar.directive.js"></script>
+	<script type="text/javascript" src="app/sidebar/mySidebar.controller.js"></script>
 
+	<!--datatable  -->
 	<script type="text/javascript" src="app/tables/myDatatable.module.js"></script>
-	<script type="text/javascript" src="app/tables/myDatatable.controller.js"></script>
 	<script type="text/javascript" src="app/tables/myDatatable.directive.js"></script>
+	<script type="text/javascript" src="app/tables/myDatatable.controller.js"></script>
 
+	<!-- calendar  -->
 	<script type="text/javascript" src="app/calendar/myCalendar.module.js"></script>
+	<script type="text/javascript" src="app/calendar/myCalendar.directive.js"></script>
 	<script type="text/javascript" src="app/calendar/myCalendar.controller.js"></script>
+
 
 	<!-- Angular Datatable files  -->
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.6.2/angular-datatables.min.js"></script>
@@ -147,10 +151,9 @@
 		<!-- Page content -->
 		<div class="page-content">
 			<!-- Main sidebar -->
-			<div class="sidebar sidebar-main" ng-controller="sidebarController">
+			<div class="sidebar sidebar-main">
 				<div class="sidebar-fixed .col-sm-8">
-					<sidebar>
-					</sidebar>
+					<my-sidebar> </my-sidebar>
 				</div>
 			</div>
 			<!-- /main sidebar -->
@@ -159,16 +162,11 @@
 			<!-- Main content -->
 			<div class="content-wrapper">
 				<div class="panel panel-flat">
-
-					<div ng-controller="myCalendarController">
-						<div ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
-					</div>
+					<my-calendar> </my-calendar>
 				</div>
 
-				<div ng-controller="datatableController as ctrl">
-					<div class="panel panel-flat">
-						<mydatatable> </mydatatable>
-					</div>
+				<div class="panel panel-flat">
+					<my-datatable> </my-datatable>
 				</div>
 			</div>
 

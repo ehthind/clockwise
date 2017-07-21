@@ -2,10 +2,10 @@
     'use strict';
 
     angular
-        .module('app.datatable')
-        .directive('mydatatable', mydatatable);
+        .module('app.myDatatable')
+        .directive('myDatatable', myDatatable);
 
-    function mydatatable() {
+    function myDatatable() {
         // Usage:
         //
         // Creates:
