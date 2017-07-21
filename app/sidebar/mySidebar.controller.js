@@ -20,6 +20,13 @@ function sidebarController($scope, $http, $sce, databaseService, eventService) {
   var altColorList = ['#26A69A', '#5C6BC0', '#29B6F6', '#EF5350', '#78909C', '#66BB6A', '#FF7043', '#888888'];
   var colorIndex = 0;
 
+  var iconList = {
+    'MATH': 'icon-calculator3',
+    'ENGL': 'icon-typewriter',
+    'BIOL': 'icon-paw',
+    'ASTR': 'icon-satellite-dish2'
+  };
+
   $scope.courses = [{
       "courseID": 1,
       "name": "MATH 100",
@@ -62,6 +69,15 @@ function sidebarController($scope, $http, $sce, databaseService, eventService) {
     },
 
   ];
+
+  $scope.getIcon = function (courseName) {
+    console.log('in get icon');
+    var subjectAndLevel = courseName.split(" ");
+    var subject = subjectAndLevel[0];
+    var icon = iconList[subject];
+
+    return icon;
+  }
 
   $scope.updateActive = function (courseID) {
     databaseService.updateActiveCourse(courseID);

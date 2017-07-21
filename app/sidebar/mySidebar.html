@@ -64,13 +64,13 @@
                   <li class="media pointer-hover" ng-repeat="course in courseList" ng-click="updateActive(course.courseID)">
 
                     <div class="media-left">
-                      <a href="#" class="btn btn-rounded btn-icon btn-md" ng-style="{'color': course.color, 'border-color': course.color}">
-                        <i class="icon-lab"></i>
+                      <a href="#" class="btn btn-rounded btn-icon btn-sm" ng-style="{'color': course.color, 'border-color': course.color}">
+                        <i class="" ng-class="getIcon(course.name)"></i>
                         </a>
                     </div>
 
                     <div class="media-body">
-                      <span class="media-heading">{{course.name}}</span>
+                      <span class="">{{course.name}}</span>
                       <span class="text-size-mini text-muted display-block">{{course.title}}</span>
                     </div>
 
@@ -80,7 +80,6 @@
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-more2"></i></a>
                           <ul class="dropdown-menu dropdown-menu-right">
                             <li><a href="#"> Course Description</a></li>
-                            <li><a href="#"> Change Color</a></li>
                             <li class="divider"></li>
                             <li ng-click="removeCourse(course.courseID)"><a href="#" class="text-danger"> Remove</a></li>
                           </ul>
