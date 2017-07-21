@@ -13383,8 +13383,8 @@ a.fc-more:hover {
   z-index: 4;
 }
 .fc-view-container {
-  border-left: 1px solid #ddd;
-  border-right: 1px solid #ddd;
+  /* border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd; */
   overflow: auto;
   max-width: 100%;
 }

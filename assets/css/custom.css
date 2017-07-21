@@ -18,3 +18,7 @@
 .table-row-selected {
     background-color: #f5f5f5; 
 }
+
+.fc-head-container{
+    border: 0 !important;
+}
