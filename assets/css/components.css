@@ -13142,7 +13142,7 @@ a[data-goto] {
 .fc-event {
   position: relative;
   display: block;
-  border: 1px solid #039BE5;
+  /* border: 1px solid #039BE5; */
   font-weight: normal;
   border-radius: 2px;
 }

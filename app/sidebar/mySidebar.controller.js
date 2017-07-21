@@ -6,9 +6,18 @@ function sidebarController($scope, $http, $sce, databaseService, eventService) {
   $scope.selectedCourse = '';
   $scope.courseList = databaseService.getCourses();
 
-  var alphaColorList = ['border-left-lg border-left-teal', 'border-left-lg border-left-indigo', 'border-left-lg border-left-primary', 'border-left-lg border-left-danger', 'border-left-lg border-left-slate', 'border-left-lg border-left-success', 'border-left-lg border-left-warning', 'border-left-lg border-left-grey'];                    
-  var colorList = ['#26A69A', '#5C6BC0', '#42A5F5', '#EF5350', '#78909C', '#66BB6A', '#FF7043', '#888888'];
-  var altColorList = ['#4DB6AC', '#7986CB', '#64B5F6', '#E57373', '#90A4AE', '#81C784', '#FF8A65', '#999999'];
+  var alphaColorList = [
+    'border-left-lg border-left-teal',
+    'border-left-lg border-left-indigo',
+    'border-left-lg border-left-blue',
+    'border-left-lg border-left-danger',
+    'border-left-lg border-left-slate',
+    'border-left-lg border-left-success',
+    'border-left-lg border-left-warning',
+    'border-left-lg border-left-grey'
+  ];
+  var colorList = ['#009688', '#3F51B5', '#03A9F4', '#F44336', '#607D8B', '#4CAF50', '#FF5722', '#777777'];
+  var altColorList = ['#26A69A', '#5C6BC0', '#29B6F6', '#EF5350', '#78909C', '#66BB6A', '#FF7043', '#888888'];
   var colorIndex = 0;
 
   $scope.courses = [{
