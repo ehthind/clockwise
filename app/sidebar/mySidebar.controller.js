@@ -2,7 +2,7 @@ angular
   .module('app.mySidebar')
   .controller('sidebarController', sidebarController);
 
-function sidebarController($scope, $http, $sce, databaseService, eventService) {
+function sidebarController($scope, $http, $sce, databaseService, eventService, notificationService) {
   $scope.selectedCourse = '';
   $scope.courseList = databaseService.getCourses();
 
@@ -81,6 +81,13 @@ function sidebarController($scope, $http, $sce, databaseService, eventService) {
 
   $scope.updateActive = function (courseID) {
     databaseService.updateActiveCourse(courseID);
+    notificationService.notify({
+      title: 'Left icon',
+      text: 'Check me out! I\'m a notice.',
+      addclass: 'alert bg-primary alert-styled-left'
+      
+    });
+
   };
 
   $scope.addCourse = function (data) {
