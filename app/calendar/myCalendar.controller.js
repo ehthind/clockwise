@@ -12,12 +12,18 @@
         $scope.eventSources = [{
             events: $scope.events
         }];
+        
+        $scope.timeConflict = function (params) {
+            console.log('in timeConflict()');
+            return true;
+        };
 
         $scope.uiConfig = {
             calendar: {
                 height: 450,
                 editable: false,
                 header: false,
+                defaultDate: '2017-07-17',
                 firstDay: 1,
                 weekends: false,
                 defaultView: 'agendaWeek',
@@ -26,7 +32,7 @@
                 maxTime: '22:00:00',
                 views: {
                     agenda: {
-                        columnFormat: 'dddd'
+                        columnFormat: 'dddd',
                     }
                 }
             }

@@ -81,12 +81,12 @@ function sidebarController($scope, $http, $sce, databaseService, eventService, n
 
   $scope.updateActive = function (courseID) {
     databaseService.updateActiveCourse(courseID);
-    notificationService.notify({
-      title: 'Left icon',
-      text: 'Check me out! I\'m a notice.',
-      addclass: 'alert bg-primary alert-styled-left'
+    // notificationService.notify({
+    //   title: 'Time Conflict',
+    //   text: 'Between ENGL 135 & Math 200',
+    //   addclass: 'alert bg-danger alert-styled-right stack-bottom-right'
       
-    });
+    // });
 
   };
 
