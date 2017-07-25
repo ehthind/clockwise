@@ -1,0 +1,37 @@
+<div class="sidebar-category">
+    <div class="category-title">
+        <span>Selected Courses</span>
+        <ul class="icons-list">
+            <li><a href="#" data-action="collapse"></a></li>
+        </ul>
+    </div>
+
+    <div class="category-content no-padding">
+        <ul class="media-list media-list-linked">
+            <li class="media pointer-hover" ng-repeat="course in courseList" ng-click="updateActive(course.courseID)">
+                <a href="#" class="media-link">
+                    <div class="media-left">
+                        <i class="btn btn-rounded btn-icon btn-md icon-lab" ng-style="{'color': course.color, 'border-color': course.color}"></i>
+                    </div>
+                    <div class="media-body">
+                        <span class="media-heading">{{course.name}}</span>
+                        <span class="text-size-mini text-muted display-block">{{course.title}}</span>
+                    </div>
+                    <div class="media-right media-middle">
+                        <ul class="icons-list text-nowrap">
+                            <li>
+                                <span class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="icon-more2"></i></span>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li><a href="#"> Course Description</a></li>
+                                    <li><a href="#"> Change Color</a></li>
+                                    <li class="divider"></li>
+                                    <li ng-click="removeCourse(course.courseID)"><a href="#" class="text-danger"> Remove</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

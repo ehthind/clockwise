@@ -6,6 +6,9 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "angular-momentjs": "^0.2.2",
+    "angular-pnotify": "^0.1.2",
+    "angular-resource": "^1.6.5",
     "body-parser": "~1.16.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.0",
@@ -13,6 +16,17 @@
     "jade": "~1.11.0",
     "less-middleware": "~2.2.0",
     "morgan": "~1.7.0",
+    "mysql": "^2.13.0",
     "serve-favicon": "~2.3.2"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^3.7.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-jshint": "^2.0.4",
+    "gulp-less": "^3.3.2",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^3.0.0",
+    "jshint": "^2.9.5"
   }
 }
