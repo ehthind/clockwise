@@ -8,9 +8,11 @@
     function eventService() {
         this.getEvents = getEvents;
         this.addEvent = addEvent;
+        this.addShadowEvent = addShadowEvent;
         this.removeEvent = removeEvent;
         this.removeAllCourseEvents = removeAllCourseEvents;
-
+        this.removeShadowEvent = removeShadowEvent;
+        
         var eventList = [];
 
 
@@ -18,6 +20,36 @@
         function getEvents() {
             console.log('in getEvents');
             return eventList;
+        }
+
+        function addShadowEvent(sectionData, courseData) {
+            // Check if the event is selected and on the calendar
+            for (var i = 0; i < eventList.length; i++) {
+                if (eventList[i].crn === sectionData.crn && !eventList[i].shadow) {
+                    return;
+                }
+            }
+
+            var days_parsed = parseSectionDays(sectionData.days);
+
+            days_parsed.forEach(function (day) {
+                var newEvent = {
+                    id: sectionData.crn,
+                    start: day + sectionData.start_time_24h,
+                    end: day + sectionData.end_time_24h,
+                    color: 'rgba(0, 0, 0, 0.2)',
+                    className: 'hide-time',
+                    'courseID': courseData.courseID,
+                    'type': sectionData.type,
+                    'crn': sectionData.crn,
+                    'shadow': true
+
+                };
+
+                eventList.push(newEvent);
+            }, this);
+
+
         }
 
         function addEvent(sectionData, courseData) {
@@ -49,12 +81,22 @@
                     'alphaColor': courseData.alphaColor,
                     'courseID': courseData.courseID,
                     'type': sectionData.type,
-                    'crn': sectionData.crn
+                    'crn': sectionData.crn,
+                    'shadow': false
+
                 };
 
                 eventList.push(newEvent);
             }, this);
 
+        }
+
+        function removeShadowEvent(crn) {
+            for (var i of reverseKeys(eventList)) {
+                if (eventList[i].crn === crn && eventList[i].shadow) {
+                    eventList.splice(i, 1);
+                }
+            }
         }
 
         function removeEvent(courseID, type) {

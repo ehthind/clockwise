@@ -31,18 +31,16 @@
             DTColumnDefBuilder.newColumnDef(8).notSortable()
         ];
 
-        vm.isSelected = function(crn) {
+        vm.isSelected = function (crn) {
             for (var i = 0; i < vm.events.length; i++) {
-                if(vm.events[i].crn === crn) {
+                if (vm.events[i].crn === crn) {
                     return true;
-                }  
+                }
             }
             return false;
         }
 
         vm.newEvent = function (sectionData) {
-
-            console.log(vm.activeCourse[0]);
 
             var momentStartTime = moment(sectionData.start_time, ["h:mm A"]);
             var momentEndTime = moment(sectionData.end_time, ["h:mm A"]);
@@ -50,6 +48,19 @@
             sectionData.end_time_24h = momentEndTime.format("HH:mm");
 
             eventService.addEvent(sectionData, vm.activeCourse[0]);
+        }
+
+        vm.newShadowEvent = function (sectionData) {
+            var momentStartTime = moment(sectionData.start_time, ["h:mm A"]);
+            var momentEndTime = moment(sectionData.end_time, ["h:mm A"]);
+            sectionData.start_time_24h = momentStartTime.format("HH:mm");
+            sectionData.end_time_24h = momentEndTime.format("HH:mm");
+
+            eventService.addShadowEvent(sectionData, vm.activeCourse[0]);
+        }
+
+        vm.removeShadowEvent = function (sectionCrn) {
+            eventService.removeShadowEvent(sectionCrn);
         }
         // $resource('assets/data/data.json').query().$promise.then(function (persons) {
         //     vm.persons = persons;

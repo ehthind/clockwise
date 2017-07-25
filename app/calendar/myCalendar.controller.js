@@ -8,15 +8,19 @@
 
     function myCalendarController($scope, eventService) {
 
-        $scope.events = eventService.getEvents();
+        // $scope.events = eventService.getEvents();
         $scope.eventSources = [{
-            events: $scope.events
+            events: eventService.getEvents()
         }];
         
         $scope.timeConflict = function (params) {
             console.log('in timeConflict()');
-            return true;
+            return false;
         };
+
+        $scope.test = function (params) {
+            console.log('in test()');
+        }
 
         $scope.uiConfig = {
             calendar: {

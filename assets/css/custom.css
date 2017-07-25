@@ -22,3 +22,7 @@
 .fc-head-container{
     border: 0 !important;
 }
+
+.hide-time .fc-content  {
+    display: none;
+}

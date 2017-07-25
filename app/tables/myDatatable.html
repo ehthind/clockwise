@@ -16,7 +16,8 @@
             </thead>
             <tbody ng-repeat="listOfSections in ctrl.sectionList">
 
-                <tr ng-repeat="section in listOfSections" ng-class="{'table-row-selected': ctrl.isSelected(section.crn)}" ng-click="ctrl.newEvent(section)">
+                <tr ng-repeat="section in listOfSections" ng-class="{'table-row-selected': ctrl.isSelected(section.crn)}" ng-click="ctrl.newEvent(section)"
+                    ng-mouseenter="ctrl.newShadowEvent(section)" ng-mouseleave="ctrl.removeShadowEvent(section.crn)">
                     <td>{{ section.crn }}</td>
                     <td>{{ section.section }}</td>
                     <td>{{ section.units }}</td>

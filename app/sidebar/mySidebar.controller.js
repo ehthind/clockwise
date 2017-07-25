@@ -71,7 +71,6 @@ function sidebarController($scope, $http, $sce, databaseService, eventService, n
   ];
 
   $scope.getIcon = function (courseName) {
-    console.log('in get icon');
     var subjectAndLevel = courseName.split(" ");
     var subject = subjectAndLevel[0];
     var icon = iconList[subject];
