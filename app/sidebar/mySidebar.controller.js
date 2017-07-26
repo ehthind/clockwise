@@ -55,7 +55,7 @@ function sidebarController($scope, $http, $sce, databaseService, eventService, n
     {
       "courseID": 6,
       "name": "ASTR 101",
-      "title": "Into To Biol"
+      "title": "Introduction to Principles of Microeconomics and Financial Project Evaluation"
     },
     {
       "courseID": 7,

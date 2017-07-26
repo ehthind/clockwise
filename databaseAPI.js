@@ -12,8 +12,8 @@ router.route('/').get(function (req, res, next) {
 	});
 
 	var courseID = req.query.courseID;
-	var section = "section.courseID, section.crn, section.section, section.units, section.status, section.type,";
-	var capacity = "capacity.days, capacity.start_time, capacity.end_time, capacity.capacity, capacity.actual, capacity.remaining, capacity.instructor, capacity.location";
+	var section = "section.courseID, section.crn, section.section, section.units, section.type, section.instructor, section.location, section.days, section.start_time, section.end_time,";
+	var capacity = "capacity.capacity, capacity.actual, capacity.remaining";
 	var sqlQuery = "SELECT " + section + capacity + " FROM section INNER JOIN capacity ON capacity.crn = section.crn where section.courseID=" + courseID;
 
 

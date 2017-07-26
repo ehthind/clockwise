@@ -90,3 +90,5 @@ htmlcov/
 .cache/
 
 .vscode/settings.json
+
+scraper/uvic/uvic/temp.json
