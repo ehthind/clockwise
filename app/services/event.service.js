@@ -37,7 +37,7 @@
                     id: sectionData.crn,
                     start: day + sectionData.start_time_24h,
                     end: day + sectionData.end_time_24h,
-                    color: 'rgba(0, 0, 0, 0.2)',
+                    color: 'rgba(0, 0, 0, 0.14)',
                     className: 'hide-time',
                     'courseID': courseData.courseID,
                     'type': sectionData.type,
