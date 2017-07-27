@@ -1,4 +1,8 @@
 import scrapy
+from uvic.items import Course
+from uvic.items import Section
+from uvic.items import Capacity
+
 
 subject_list = [
     "ADMN", "AGEI", "ANTH", "ART", "AE", "AHVS", "ASTR",
@@ -70,24 +74,44 @@ class UvicSpider(scrapy.Spider):
             text = selector.extract()
             split_text = text.split('-')
 
-            if response.meta['subj'] != 'ED-D':
+            if subject != 'ED-D':
                 course_name = split_text[-2]
             else:
-                ed = split_text[-2]
-                e = split_text[-3]
-                course_name = ''.join((e, ed))
+                temp_1 = split_text[-2]
+                temp_2 = split_text[-3]
+                course_name = ''.join((temp_2, temp_1))
+
+            course_name = course_name[1:]
+            course_name = course_name[:-1]
 
             current_course = course_name
 
-            if(current_course != previous_course):
+            if current_course != previous_course:
                 course_n_l = course_name.split(" ")
-                level = course_n_l[2]
+                level = course_n_l[1]
+
+                if len(split_text) == 4:
+                    course_title = split_text[0]
+                else:
+                    course_title = ''
+                    if subject == 'ED-D':
+                        del split_text[-4:]
+                    else:
+                        del split_text[-3:]
+
+                    for item in split_text:
+                        course_title += item
+
+                course_title = course_title[:-1]
+                course = Course()
+                course['name'] = course_name
+                course['title'] = course_title
 
                 section_url = '/BAN1P/bwckctlg.p_disp_listcrse?term_in=201705&subj_in=' + \
                     subject + '&crse_in=' + level + '&schd_in=%'
 
                 section_response = response.follow(
-                    section_url, self.parse_section)
+                    section_url, self.parse_section, meta={'course': course})
                 section_response_list.append(section_response)
 
             previous_course = current_course
@@ -97,12 +121,12 @@ class UvicSpider(scrapy.Spider):
 
     def parse_section(self, response):
 
-        selector = response.css('th[scope~=colgroup] a::text')
-        text = selector[0].extract()
-        split_text = text.split('-')
+        course = response.meta['course']
 
-        title = split_text[0]
-        name = split_text[2]
+        selector = response.css('th[scope~=colgroup] a::text')
+
+        title = course['title']
+        name = course['name']
 
         yield {'name': name,
                'title': title}
