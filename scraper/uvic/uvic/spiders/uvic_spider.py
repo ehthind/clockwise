@@ -1,4 +1,5 @@
 import scrapy
+import uuid
 from uvic.items import Course
 from uvic.items import Section
 from uvic.items import Capacity
@@ -106,10 +107,19 @@ class UvicSpider(scrapy.Spider):
                         course_title += item
 
                 course_title = course_title[:-1]
+
                 course = Course()
+
+                id_string = TERM + course_name
+                id_string = str(id_string)
+                course_id = uuid.uuid3(uuid.NAMESPACE_DNS, id_string)
+
+                course['courseID'] = str(course_id)
+                course['term'] = TERM
                 course['name'] = course_name
                 course['title'] = course_title
 
+                # yield course
                 section_url = '/BAN1P/bwckctlg.p_disp_listcrse?term_in=' + TERM + '&subj_in=' + \
                     subject + '&crse_in=' + level + '&schd_in=%'
 
@@ -128,7 +138,8 @@ class UvicSpider(scrapy.Spider):
         capacity_response_list = []
         title_list = []
         course = response.meta['course']
-        course['section_list'] = []
+        course_id = course['courseID']
+        # course['section_list'] = []
 
         for selector in section_title:
             text = selector.extract()
@@ -168,8 +179,10 @@ class UvicSpider(scrapy.Spider):
 
             section = Section()
 
+            section['courseID'] = course_id
             section['crn'] = title_list[i]['crn']
             section['section'] = title_list[i]['abrv']
+            section['units'] = ''
             section['start_time'] = start_time
             section['end_time'] = end_time
             section['days'] = row[5]
@@ -184,7 +197,7 @@ class UvicSpider(scrapy.Spider):
             capacity_response_list.append(capacity_response)
 
             i += 1
-
+            # yield section
         for capacity_response in capacity_response_list:
             yield capacity_response
 
@@ -192,6 +205,7 @@ class UvicSpider(scrapy.Spider):
 
         course = response.meta['course']
         section = response.meta['section']
+        crn = section['crn']
 
         capacity = Capacity()
 
@@ -199,6 +213,7 @@ class UvicSpider(scrapy.Spider):
         row = capacity_rows.css('::text').extract()
 
         if len(row) > 0:
+            capacity['crn'] = crn
             capacity['capacity'] = row[12]
             capacity['actual'] = row[14]
             capacity['remaining'] = row[16]
@@ -206,7 +221,7 @@ class UvicSpider(scrapy.Spider):
             capacity['waitlist_actual'] = row[23]
             capacity['waitlist_remaining'] = row[25]
 
-        section['capacity'] = dict(capacity)
-        course['section_list'].append(dict(section))
+        # section['capacity'] = dict(capacity)
+        # course['section_list'].append(dict(section))
 
-        yield course
+        yield capacity

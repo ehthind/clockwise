@@ -9,13 +9,15 @@ import scrapy
 
 
 class Course(scrapy.Item):
+    courseID = scrapy.Field()
+    term = scrapy.Field()
     name = scrapy.Field()
     title = scrapy.Field()
-    section_list = scrapy.Field()
     pass
 
 
 class Section(scrapy.Item):
+    courseID = scrapy.Field()
     crn = scrapy.Field()
     section = scrapy.Field()
     units = scrapy.Field()
@@ -25,11 +27,11 @@ class Section(scrapy.Item):
     end_time = scrapy.Field()
     instructor = scrapy.Field()
     location = scrapy.Field()
-    capacity = scrapy.Field()
     pass
 
 
 class Capacity(scrapy.Item):
+    crn = scrapy.Field()
     capacity = scrapy.Field()
     actual = scrapy.Field()
     remaining = scrapy.Field()
