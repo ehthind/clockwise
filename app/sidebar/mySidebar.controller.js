@@ -27,48 +27,12 @@ function sidebarController($scope, $http, $sce, databaseService, eventService, n
     'ASTR': 'icon-satellite-dish2'
   };
 
-  $scope.courses = [{
-      "courseID": 1,
-      "name": "MATH 100",
-      "title": "Calculus I"
-    },
-    {
-      "courseID": 2,
-      "name": "MATH 200",
-      "title": "Calculus II"
-    },
-    {
-      "courseID": 3,
-      "name": "MATH 300",
-      "title": "Calculus III"
-    },
-    {
-      "courseID": 4,
-      "name": "ENGL 135",
-      "title": "Intro To English"
-    },
-    {
-      "courseID": 5,
-      "name": "BIOL 345",
-      "title": "Into To Biol"
-    },
-    {
-      "courseID": 6,
-      "name": "ASTR 101",
-      "title": "Into To Biol"
-    },
-    {
-      "courseID": 7,
-      "name": "ASTR 201",
-      "title": "Into To Biol"
-    },
-    {
-      "courseID": 8,
-      "name": "ASTR 301",
-      "title": "Into To Biol"
-    },
+  $scope.courses = '';
 
-  ];
+  $http.get('assets/data/201705_courses.json')
+    .then(function(response){
+      $scope.courses = response.data;   
+    });
 
   $scope.getIcon = function (courseName) {
     var subjectAndLevel = courseName.split(" ");
