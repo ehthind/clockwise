@@ -40,7 +40,7 @@
                     color: 'rgba(0, 0, 0, 0.14)',
                     className: 'hide-time',
                     'courseID': courseData.courseID,
-                    'type': sectionData.type,
+                    'schedule_type': sectionData.schedule_type,
                     'crn': sectionData.crn,
                     'shadow': true
 
@@ -61,11 +61,11 @@
             }
             var days_parsed = parseSectionDays(sectionData.days);
 
-            if (checkDuplicate(courseData.courseID, sectionData.type)) {
-                removeEvent(courseData.courseID, sectionData.type);
+            if (checkDuplicate(courseData.courseID, sectionData.schedule_type)) {
+                removeEvent(courseData.courseID, sectionData.schedule_type);
             }
 
-            if (sectionData.type === 'Lecture') {
+            if (sectionData.schedule_type === 'Lecture') {
                 var sectionColor = courseData.color;
             } else {
                 var sectionColor = courseData.altColor;
@@ -80,7 +80,7 @@
                     color: sectionColor,
                     'alphaColor': courseData.alphaColor,
                     'courseID': courseData.courseID,
-                    'type': sectionData.type,
+                    'schedule_type': sectionData.schedule_type,
                     'crn': sectionData.crn,
                     'shadow': false
 
@@ -99,9 +99,9 @@
             }
         }
 
-        function removeEvent(courseID, type) {
+        function removeEvent(courseID, schedule_type) {
             for (var i of reverseKeys(eventList)) {
-                if (eventList[i].courseID === courseID && eventList[i].type === type) {
+                if (eventList[i].courseID === courseID && eventList[i].schedule_type === schedule_type) {
                     eventList.splice(i, 1);
                 }
             }
@@ -132,9 +132,9 @@
             }
         }
 
-        function checkDuplicate(courseID, type) {
+        function checkDuplicate(courseID, schedule_type) {
             if (eventList.some(function (event) {
-                    if (event.courseID === courseID && event.type === type) {
+                    if (event.courseID === courseID && event.schedule_type === schedule_type) {
                         return true;
                     }
                 })) {
@@ -166,7 +166,7 @@
                     case 'W':
                         response.push(wednesday);
                         break;
-                    case 'Th':
+                    case 'R':
                         response.push(thursday);
                         break;
                     case 'F':

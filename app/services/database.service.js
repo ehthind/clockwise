@@ -137,7 +137,7 @@
             };
 
             return $http.get(url, data).then(function (response) {
-                return response.data
+                return response.data;
             });
         }
 
