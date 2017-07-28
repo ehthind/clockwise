@@ -4,7 +4,7 @@ from uvic.items import Section
 from uvic.items import Capacity
 
 
-subject_list = [
+SUBJECT_LIST = [
     "ADMN", "AGEI", "ANTH", "ART", "AE", "AHVS", "ASTR",
     "BIOC", "BCMB", "BIOL", "BME", "BUS",
     "CS", "CHEM", "CYC", "CIVE", "COM", "CD", "CENG", "CSC",
@@ -24,7 +24,7 @@ subject_list = [
     "WRIT"
 ]
 
-term = '201801'
+TERM = '201801'
 
 
 class UvicSpider(scrapy.Spider):
@@ -39,7 +39,7 @@ class UvicSpider(scrapy.Spider):
         return scrapy.FormRequest.from_response(
             response,
             formxpath="/html/body/div[3]/form",
-            formdata={"p_term": term},
+            formdata={"p_term": TERM},
             clickdata={"type": "submit"},
             callback=self.parse_subject
         )
@@ -47,7 +47,7 @@ class UvicSpider(scrapy.Spider):
     # subject():
     #   Selects the subject to query. Clicks submit
     def parse_subject(self, response):
-        for subject in subject_list:
+        for subject in SUBJECT_LIST:
             yield scrapy.FormRequest.from_response(
                 response,
                 meta={"subj": subject},
@@ -109,7 +109,7 @@ class UvicSpider(scrapy.Spider):
                 course['name'] = course_name
                 course['title'] = course_title
 
-                section_url = '/BAN1P/bwckctlg.p_disp_listcrse?term_in=' + term + '&subj_in=' + \
+                section_url = '/BAN1P/bwckctlg.p_disp_listcrse?term_in=' + TERM + '&subj_in=' + \
                     subject + '&crse_in=' + level + '&schd_in=%'
 
                 section_response = response.follow(
