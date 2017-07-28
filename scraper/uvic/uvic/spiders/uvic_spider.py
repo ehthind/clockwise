@@ -6,7 +6,8 @@ from uvic.items import Capacity
 
 SUBJECT_LIST = [
     "ADMN", "AGEI", "ANTH", "ART", "AE", "AHVS", "ASTR",
-    "BIOC", "BCMB", "BIOL", "BME", "BUS",
+    "BIOC", "BCMB",
+    "BIOL", "BME", "BUS",
     "CS", "CHEM", "CYC", "CIVE", "COM", "CD", "CENG", "CSC",
     "DHUM", "DSST", "DR",
     "EDCI", "EOS", "ECON", "ED-D", "ELEC", "ENGR", "ENGL", "ENT", "ER", "ES", "EPHE",
@@ -124,6 +125,7 @@ class UvicSpider(scrapy.Spider):
     def parse_section(self, response):
 
         section_title = response.css('th[scope~=colgroup] a::text')
+        capacity_response_list = []
         title_list = []
         course = response.meta['course']
         course['section_list'] = []
@@ -175,6 +177,36 @@ class UvicSpider(scrapy.Spider):
             section['schedule_type'] = row[11]
             section['instructor'] = row[13]
 
-            course['section_list'].append(dict(section))
+            capacity_url = '/BAN1P/bwckschd.p_disp_detail_sched?term_in=' + \
+                TERM + '&crn_in=' + title_list[i]['crn']
+            capacity_response = response.follow(
+                capacity_url, self.parse_capacity, meta={'course': course, 'section': section})
+            capacity_response_list.append(capacity_response)
+
             i += 1
+
+        for capacity_response in capacity_response_list:
+            yield capacity_response
+
+    def parse_capacity(self, response):
+
+        course = response.meta['course']
+        section = response.meta['section']
+
+        capacity = Capacity()
+
+        capacity_rows = response.css('.datadisplaytable .datadisplaytable tr')
+        row = capacity_rows.css('::text').extract()
+
+        if len(row) > 0:
+            capacity['capacity'] = row[12]
+            capacity['actual'] = row[14]
+            capacity['remaining'] = row[16]
+            capacity['waitlist_capacity'] = row[21]
+            capacity['waitlist_actual'] = row[23]
+            capacity['waitlist_remaining'] = row[25]
+
+        section['capacity'] = dict(capacity)
+        course['section_list'].append(dict(section))
+
         yield course

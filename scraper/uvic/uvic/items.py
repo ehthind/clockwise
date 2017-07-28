@@ -25,11 +25,11 @@ class Section(scrapy.Item):
     end_time = scrapy.Field()
     instructor = scrapy.Field()
     location = scrapy.Field()
-    capacity_list = scrapy.Field()
+    capacity = scrapy.Field()
     pass
 
 
-class Capacity(object):
+class Capacity(scrapy.Item):
     capacity = scrapy.Field()
     actual = scrapy.Field()
     remaining = scrapy.Field()
