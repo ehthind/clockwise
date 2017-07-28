@@ -23,7 +23,7 @@ class Section(scrapy.Item):
     days = scrapy.Field()
     start_time = scrapy.Field()
     end_time = scrapy.Field()
-    instuctor = scrapy.Field()
+    instructor = scrapy.Field()
     location = scrapy.Field()
     capacity_list = scrapy.Field()
     pass

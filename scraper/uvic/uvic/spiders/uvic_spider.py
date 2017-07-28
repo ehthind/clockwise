@@ -24,6 +24,8 @@ subject_list = [
     "WRIT"
 ]
 
+term = '201801'
+
 
 class UvicSpider(scrapy.Spider):
     name = "uvic"
@@ -37,7 +39,7 @@ class UvicSpider(scrapy.Spider):
         return scrapy.FormRequest.from_response(
             response,
             formxpath="/html/body/div[3]/form",
-            formdata={"p_term": "201705"},
+            formdata={"p_term": term},
             clickdata={"type": "submit"},
             callback=self.parse_subject
         )
@@ -107,11 +109,11 @@ class UvicSpider(scrapy.Spider):
                 course['name'] = course_name
                 course['title'] = course_title
 
-                section_url = '/BAN1P/bwckctlg.p_disp_listcrse?term_in=201705&subj_in=' + \
+                section_url = '/BAN1P/bwckctlg.p_disp_listcrse?term_in=' + term + '&subj_in=' + \
                     subject + '&crse_in=' + level + '&schd_in=%'
 
                 section_response = response.follow(
-                    section_url, self.parse_section, meta={'course': course})
+                    section_url, self.parse_section, meta={'course': course, 'subj': subject})
                 section_response_list.append(section_response)
 
             previous_course = current_course
@@ -121,18 +123,58 @@ class UvicSpider(scrapy.Spider):
 
     def parse_section(self, response):
 
+        section_title = response.css('th[scope~=colgroup] a::text')
+        title_list = []
         course = response.meta['course']
+        course['section_list'] = []
 
-        selector = response.css('th[scope~=colgroup] a::text')
+        for selector in section_title:
+            text = selector.extract()
+            split_text = text.split('-')
+            section_crn = ''
 
-        title = course['title']
-        name = course['name']
+            if response.meta['subj'] != 'ED-D':
+                section_crn = split_text[-3]
+            else:
+                section_crn = split_text[-4]
 
-        yield {'name': name,
-               'title': title}
+            section_crn = section_crn[1:]
+            section_crn = section_crn[:-1]
+            section_abrv = split_text[-1]
+            title_list.append({
+                'crn': section_crn,
+                'abrv': section_abrv
+            })
 
-    def parse_capacity(self, response):
-        return 1
+        table_rows = response.css(
+            '.datadisplaytable .datadisplaytable tr:nth-child(3)')
 
-        # from scrapy.shell import inspect_response
-        # inspect_response(response, self)
+        i = 0
+        for row_text in table_rows:
+            row = row_text.css('::text').extract()
+
+            if row[3] != 'TBA':
+                time = row[3].split('-')
+                start_time = time[0][:-1]
+                end_time = time[1][1:]
+            else:
+                start_time = row[3]
+                end_time = row[3]
+
+            row[13] = ''.join(row[13:])
+            row[13] = row[13][:-1]
+
+            section = Section()
+
+            section['crn'] = title_list[i]['crn']
+            section['section'] = title_list[i]['abrv']
+            section['start_time'] = start_time
+            section['end_time'] = end_time
+            section['days'] = row[5]
+            section['location'] = row[7]
+            section['schedule_type'] = row[11]
+            section['instructor'] = row[13]
+
+            course['section_list'].append(dict(section))
+            i += 1
+        yield course
