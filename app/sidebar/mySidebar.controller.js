@@ -24,7 +24,9 @@ function sidebarController($scope, $http, $sce, databaseService, eventService, n
     'MATH': 'icon-calculator3',
     'ENGL': 'icon-typewriter',
     'BIOL': 'icon-paw',
-    'ASTR': 'icon-satellite-dish2'
+    'ASTR': 'icon-satellite-dish2',
+    'SENG': 'icon-embed',
+    'CSC': 'icon-qrcode'
   };
 
   $scope.courses = '';

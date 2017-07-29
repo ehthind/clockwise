@@ -45,7 +45,7 @@
             <div class="category-content">
               <form action="#">
                 <div class="has-feedback has-feedback-left" id="scrollable-dropdown-menu">
-                  <input type="text" ng-model="selectedCourse" placeholder="e.g. ENGL 135" uib-typeahead="course as course.name for course in courses | filter:$viewValue | limitTo:8"
+                  <input type="text" ng-model="selectedCourse" placeholder="e.g. ENGL 135" typeahead-show-hint="true" uib-typeahead="course as course.name for course in courses | filter:{name: $viewValue} | limitTo:8"
                     class="typeahead form-control" typeahead-on-select="addCourse($item); selectedCourse='';">
                   <div class="form-control-feedback">
                     <i class="icon-search4 text-size-base text-muted"></i>
