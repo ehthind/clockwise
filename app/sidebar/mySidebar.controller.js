@@ -32,8 +32,8 @@ function sidebarController($scope, $http, $sce, databaseService, eventService, n
   $scope.courses = '';
 
   $http.get('assets/data/201705_courses.json')
-    .then(function(response){
-      $scope.courses = response.data;   
+    .then(function (response) {
+      $scope.courses = response.data;
     });
 
   $scope.getIcon = function (courseName) {
@@ -50,7 +50,7 @@ function sidebarController($scope, $http, $sce, databaseService, eventService, n
     //   title: 'Time Conflict',
     //   text: 'Between ENGL 135 & Math 200',
     //   addclass: 'alert bg-danger alert-styled-right stack-bottom-right'
-      
+
     // });
 
   };
@@ -67,10 +67,29 @@ function sidebarController($scope, $http, $sce, databaseService, eventService, n
   };
 
   $scope.removeCourse = function (courseID) {
-    databaseService.removeCourse(courseID);
-    eventService.removeAllCourseEvents(courseID);
+    var courseIdList = [courseID];
+
+    databaseService.removeCourse(courseIdList);
+    eventService.removeAllCourseEvents(courseIdList);
+    
     console.log('Removed course with id: ' + courseID);
     console.log('Updated course list: ' + $scope.courseList);
+  };
+
+  $scope.clearAll = function () {
+    var courseIdList = [];
+    var courses = $scope.courseList;
+    courses.forEach(function (course) {
+      courseIdList.push(course.courseID);
+    }, this);
+
+    databaseService.removeCourse(courseIdList);
+    eventService.removeAllCourseEvents(courseIdList);
+
+  };
+
+  $scope.generateSchedule = function () {
+
   };
 
 }

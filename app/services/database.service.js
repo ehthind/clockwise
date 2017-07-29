@@ -54,25 +54,34 @@
                     section
                 });
 
-                if(courses.length === 1) {
+                if (courses.length === 1) {
                     updateActiveCourse(data.courseID);
                 }
             });
         }
 
-        function removeCourse(courseID) {
-            var response = findCourse(courseID);
+        function* reverseKeys(arr) {
+            var key = arr.length - 1;
+            while (key >= 0) {
+                yield key;
+                key -= 1;
+            }
+        }
 
-            if (response != null) {
-                courses.splice(response.index, 1);
-                if (activeCourse[0].courseID === courseID) {
-                    activeCourse.length = 0;
-                    activeSections.length = 0;
+        function removeCourse(courseIdList) {
+
+            for (var index = 0; index <= courseIdList.length; index++) {
+                var courseID = courseIdList[index];
+
+                for (var i of reverseKeys(courses)) {
+                    if (courses[i].courseID === courseID) {
+                        courses.splice(i, 1);
+                        if (activeCourse[0].courseID === courseID) {
+                            activeCourse.length = 0;
+                            activeSections.length = 0;
+                        }
+                    }
                 }
-                return;
-            } else {
-                console.log('In database.service.js, updateActiveCourse() \n Failed to find courseID ' + courseID);
-
             }
         }
 
