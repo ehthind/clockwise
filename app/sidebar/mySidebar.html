@@ -91,21 +91,19 @@
                 </ul>
               </div>
             </div>
-            
-            <div class="sidebar-category">
+
+            <div class="sidebar-category sidebar-bottom">
               <div class="category-content text-center">
-                <div class="mb-10">
-                  <button type="button" class="btn bg-slate-700 btn-block">Generate schedule</button>
-                </div>
-                
-                <div class="row">
-                  <div class="col-xs-6">
-                    <button type="button" class="btn bg-danger btn-block" ng-click="clearAll()">Clear all</button>
-                  </div>
-                  <div class="col-xs-6">
-                    <button type="button" class="btn bg-success btn-block">Save</button>
-                  </div>
-                </div>
+
+                <button type="button" class="btn btn-danger btn-float-xs btn-rounded" uib-popover="Clear all" popover-trigger="'mouseenter'"
+                  popover-placement="top" ng-click="clearAll()"><i class="icon-cross"></i></button>
+
+                <button type="button" class="btn bg-slate btn-float btn-float-lg btn-rounded" uib-popover="Generate schedule" popover-trigger="'mouseenter'"
+                  popover-placement="top"><i class="icon-make-group"></i></button>
+
+                <button type="button" class="btn btn-success btn-float-xs btn-loading btn-rounded" uib-popover="Save" popover-trigger="'mouseenter'"
+                  popover-placement="top" <i class='icon-floppy-disk spinner'></i><i class="icon-folder-download"></i></button>
+
               </div>
             </div>
 
