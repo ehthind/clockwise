@@ -67,25 +67,17 @@ function sidebarController($scope, $http, $sce, databaseService, eventService, n
   };
 
   $scope.removeCourse = function (courseID) {
-    var courseIdList = [courseID];
 
-    databaseService.removeCourse(courseIdList);
-    eventService.removeAllCourseEvents(courseIdList);
-    
+    databaseService.removeCourse(courseID);
+    eventService.removeAllCourseEvents(courseID);
+
     console.log('Removed course with id: ' + courseID);
     console.log('Updated course list: ' + $scope.courseList);
   };
 
   $scope.clearAll = function () {
-    var courseIdList = [];
-    var courses = $scope.courseList;
-    courses.forEach(function (course) {
-      courseIdList.push(course.courseID);
-    }, this);
-
-    databaseService.removeCourse(courseIdList);
-    eventService.removeAllCourseEvents(courseIdList);
-
+    databaseService.clearAll();
+    eventService.clearAll();
   };
 
   $scope.generateSchedule = function () {

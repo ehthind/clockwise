@@ -12,6 +12,7 @@
         this.removeEvent = removeEvent;
         this.removeAllCourseEvents = removeAllCourseEvents;
         this.removeShadowEvent = removeShadowEvent;
+        this.clearAll = clearAll;
 
         var eventList = [];
 
@@ -107,15 +108,16 @@
             }
         }
 
-        function removeAllCourseEvents(courseIdList) {
-            for (var index = 0; index < courseIdList.length; index++) {
-                var courseID = courseIdList[index];
-                for (var i of reverseKeys(eventList)) {
-                    if (eventList[i].courseID === courseID) {
-                        eventList.splice(i, 1);
-                    }
+        function removeAllCourseEvents(courseID) {
+            for (var i of reverseKeys(eventList)) {
+                if (eventList[i].courseID === courseID) {
+                    eventList.splice(i, 1);
                 }
             }
+        }
+
+        function clearAll() {
+            eventList.length = 0;
         }
 
         // Getters //
