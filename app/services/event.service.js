@@ -122,19 +122,51 @@
         }
 
         function generateSchedule(courseList) {
-            eventsToTry = {
-                monday: [],
-                tuesday: [],
-                wednesday: [],
-                thursday: [],
-                friday: []
-            };
-            
+            var sectionPermutations = [];
 
+            // Get permutations of a courses lectures and labs
+            for (let course in courseList) {
+                var lectures = [];
+                var labs = [];
+
+                // Seperate lecture and lab sections
+                for (var section in courseList[course].section) {
+                    if (courseList[course].section[section].schedule_type === 'Lecture') {
+                        lectures.push(courseList[course].section[section]);
+                    } else {
+                        labs.push(courseList[course].section[section]);
+                    }
+                }
+
+                var args = [lectures, labs];
+                sectionPermutations.push(cartesian(args));
+            }
+
+            // Get permutations of all courses
+            var coursePermutations = cartesian(sectionPermutations);
+            console.log(coursePermutations);
+        }
+
+        function cartesian(arg) {
+            var r = [],
+                max = arg.length - 1;
+
+            function helper(arr, i) {
+                for (var j = 0, l = arg[i].length; j < l; j++) {
+                    var a = arr.slice(0); // clone arr
+                    a.push(arg[i][j]);
+                    if (i == max)
+                        r.push(a);
+                    else
+                        helper(a, i + 1);
+                }
+            }
+            helper([], 0);
+            return r;
         }
 
         function checkOverLap() {
-            
+
         }
 
 
