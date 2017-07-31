@@ -125,20 +125,28 @@
             var sectionPermutations = [];
 
             // Get permutations of a courses lectures and labs
-            for (let course in courseList) {
+            for (var course = 0; course < courseList.length; course++) {
                 var lectures = [];
                 var labs = [];
 
                 // Seperate lecture and lab sections
-                for (var section in courseList[course].section) {
-                    if (courseList[course].section[section].schedule_type === 'Lecture') {
-                        lectures.push(courseList[course].section[section]);
+                for (var x = 0; x < courseList[course].section.length; x++) {
+                    var schedule_type = courseList[course].section[x].schedule_type;
+
+                    if (schedule_type === 'Lecture' || schedule_type === 'Lecture Topic') {
+                        lectures.push(courseList[course].section[x]);
                     } else {
-                        labs.push(courseList[course].section[section]);
+                        labs.push(courseList[course].section[x]);
                     }
                 }
+                var args = []
+                
+                if (labs.length > 0) {
+                    args = [lectures, labs];
+                } else {
+                    args = [lectures];
+                }
 
-                var args = [lectures, labs];
                 sectionPermutations.push(cartesian(args));
             }
 
