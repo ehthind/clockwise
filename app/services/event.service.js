@@ -13,6 +13,7 @@
         this.removeAllCourseEvents = removeAllCourseEvents;
         this.removeShadowEvent = removeShadowEvent;
         this.clearAll = clearAll;
+        this.generateSchedule = generateSchedule;
 
         var eventList = [];
 
@@ -119,6 +120,25 @@
         function clearAll() {
             eventList.length = 0;
         }
+
+        function generateSchedule(courseList) {
+            eventsToTry = {
+                monday: [],
+                tuesday: [],
+                wednesday: [],
+                thursday: [],
+                friday: []
+            };
+            
+
+        }
+
+        function checkOverLap() {
+            
+        }
+
+
+
 
         // Getters //
 

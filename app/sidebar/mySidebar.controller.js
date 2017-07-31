@@ -79,9 +79,9 @@ function sidebarController($scope, $http, $sce, databaseService, eventService, n
     databaseService.clearAll();
     eventService.clearAll();
   };
-
-  $scope.generateSchedule = function () {
-
+ 
+  $scope.generateSchedule = function (stuff) {
+    eventService.generateSchedule($scope.courseList);
   };
 
 }
