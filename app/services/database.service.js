@@ -15,6 +15,7 @@
         this.getActiveCourse = getActiveCourse;
         this.getActiveSections = getActiveSections;
         this.getCourseById = getCourseById;
+        this.clearAll = clearAll;
 
 
 
@@ -40,7 +41,7 @@
             };
 
 
-            fetchSections(data.courseID).then(function (section) {
+            return (fetchSections(data.courseID).then(function (section) {
                 sections.push(
                     section
                 );
@@ -54,13 +55,24 @@
                     section
                 });
 
-                if(courses.length === 1) {
+                if (courses.length === 1) {
                     updateActiveCourse(data.courseID);
                 }
-            });
+                return 'temp';
+
+            }));
+        }
+
+        function* reverseKeys(arr) {
+            var key = arr.length - 1;
+            while (key >= 0) {
+                yield key;
+                key -= 1;
+            }
         }
 
         function removeCourse(courseID) {
+
             var response = findCourse(courseID);
 
             if (response != null) {
@@ -72,8 +84,14 @@
                 return;
             } else {
                 console.log('In database.service.js, updateActiveCourse() \n Failed to find courseID ' + courseID);
-
             }
+        }
+
+        function clearAll() {
+            courses.length = 0;
+            sections.length = 0;
+            activeCourse.length = 0;
+            activeSections.length = 0;
         }
 
         function updateActiveCourse(courseID) {

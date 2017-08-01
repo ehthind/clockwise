@@ -29,11 +29,14 @@ function sidebarController($scope, $http, $sce, databaseService, eventService, n
     'CSC': 'icon-qrcode'
   };
 
+  var scheduleCount = 0;
+  var schedule = eventService.getPermutations();
+
   $scope.courses = '';
 
   $http.get('assets/data/201705_courses.json')
-    .then(function(response){
-      $scope.courses = response.data;   
+    .then(function (response) {
+      $scope.courses = response.data;
     });
 
   $scope.getIcon = function (courseName) {
@@ -50,7 +53,7 @@ function sidebarController($scope, $http, $sce, databaseService, eventService, n
     //   title: 'Time Conflict',
     //   text: 'Between ENGL 135 & Math 200',
     //   addclass: 'alert bg-danger alert-styled-right stack-bottom-right'
-      
+
     // });
 
   };
@@ -60,17 +63,47 @@ function sidebarController($scope, $http, $sce, databaseService, eventService, n
     data.altColor = altColorList[colorIndex];
     data.alphaColor = alphaColorList[colorIndex];
     colorIndex = (colorIndex + 1) % 8;
-    databaseService.addCourse(data);
+    databaseService.addCourse(data).then(function (data) {
+      eventService.generateSchedule($scope.courseList);
+      scheduleCount = 0;
+    });
+
+    // eventService.generateSchedule($scope.courseList);
+    // perms = eventService.getPermutations();
+    // console.log(perms);
 
     console.log("courses[]: ");
     console.log($scope.courseList);
   };
 
   $scope.removeCourse = function (courseID) {
+
     databaseService.removeCourse(courseID);
     eventService.removeAllCourseEvents(courseID);
+
     console.log('Removed course with id: ' + courseID);
     console.log('Updated course list: ' + $scope.courseList);
   };
 
+  $scope.clearAll = function () {
+    databaseService.clearAll();
+    eventService.clearAll();
+  };
+
+  $scope.generateSchedule = function () {
+
+    for (var event = 0; event < schedule[scheduleCount].length; event++) {
+      var newEvent = schedule[scheduleCount][event];
+      eventService.addEvent(
+        newEvent, {
+          'name': newEvent.name,
+          'courseID': newEvent.courseID,
+          'altColor': newEvent.altColor,
+          'color': newEvent.color,
+          'alphaColor': newEvent.alphaColor
+        });
+    }
+    scheduleCount = (scheduleCount + 1) % schedule.length;
+
+  };
 }

@@ -28,7 +28,6 @@
             DTColumnDefBuilder.newColumnDef(5).notSortable(),
             DTColumnDefBuilder.newColumnDef(6).notSortable(),
             DTColumnDefBuilder.newColumnDef(7).notSortable(),
-            DTColumnDefBuilder.newColumnDef(8).notSortable()
         ];
 
         vm.isSelected = function (crn) {

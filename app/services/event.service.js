@@ -5,22 +5,22 @@
         .module('app')
         .service('eventService', eventService);
 
-    function eventService() {
+    function eventService($moment) {
         this.getEvents = getEvents;
         this.addEvent = addEvent;
         this.addShadowEvent = addShadowEvent;
         this.removeEvent = removeEvent;
         this.removeAllCourseEvents = removeAllCourseEvents;
         this.removeShadowEvent = removeShadowEvent;
-        
+        this.clearAll = clearAll;
+        this.generateSchedule = generateSchedule;
+        this.getPermutations = getPermutations;
+
         var eventList = [];
+        var permutations = [];
 
 
         ////////////////
-        function getEvents() {
-            console.log('in getEvents');
-            return eventList;
-        }
 
         function addShadowEvent(sectionData, courseData) {
             // Check if the event is selected and on the calendar
@@ -115,10 +115,195 @@
             }
         }
 
+        function clearAll() {
+            eventList.length = 0;
+        }
+
+        function generateSchedule(courseList) {
+
+            permutations.length = 0; //reset permutations
+            var sectionPermutations = [];
+
+            // Get permutations of a courses lectures and labs
+            for (var course = 0; course < courseList.length; course++) {
+                var lectures = [];
+                var labs = [];
+
+                // Seperate lecture and lab sections
+                for (var x = 0; x < courseList[course].section.length; x++) {
+
+                    courseList[course].section[x].name = courseList[course].name;
+                    courseList[course].section[x].altColor = courseList[course].altColor;
+                    courseList[course].section[x].color = courseList[course].color;
+
+                    var schedule_type = courseList[course].section[x].schedule_type;
+
+                    if (schedule_type === 'Lecture' || schedule_type === 'Lecture Topic') {
+                        lectures.push(courseList[course].section[x]);
+                    } else {
+                        labs.push(courseList[course].section[x]);
+                    }
+                }
+
+                var args = [];
+                if (labs.length > 0) {
+                    args = [lectures, labs];
+                } else {
+                    args = [lectures];
+                }
+                sectionPermutations.push(cartesian(args));
+            }
+
+            // Get permutations of all courses
+            var coursePermutations = cartesian(sectionPermutations);
+
+            for (var schedule = 0; schedule < coursePermutations.length; schedule++) {
+                var week = mapToWeek(coursePermutations[schedule]);
+                var overlap = false;
+                for (var event = 0; event < week.length; event++) {
+                    if (checkOverlap(week[event], week)) {
+                        overlap = true;
+                        break;
+                    }
+                }
+                // if no overlaps
+                if (!overlap) {
+                    //if not the current schedule
+                    if (!currentSchedule(week)) {
+                        permutations.push(week);
+                    }
+                }
+            }
+        }
+
+        function currentSchedule(myEventList) {
+            var temp = 0;
+            for (var i = 0; i < eventList.length; i++) {
+                var event = eventList[i];
+                for (var j = 0; j < myEventList.length; j++) {
+                    var otherEvent = myEventList[j];
+                    if (event.crn === otherEvent.crn) {
+                        temp++;
+                        break;
+                    }
+                }
+            }
+
+            if (eventList.length === temp && temp != 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function checkOverlap(event, myEventList) {
+
+            var start = new Date(event.start);
+            var end = new Date(event.end);
+            var overlap;
+
+            for (var index = 0; index < myEventList.length; index++) {
+                if (event.crn === myEventList[index].crn) {
+                    continue;
+                }
+                var estart = new Date(myEventList[index].start);
+                var eend = new Date(myEventList[index].end);
+
+                overlap = (Math.round(estart) / 1000 < Math.round(end) / 1000 && Math.round(eend) > Math.round(start));
+
+                if (overlap) {
+                    console.log('overlap');
+                    //either move this event to available timeslot or remove it
+                    return true;
+                }
+            }
+            console.log('overlap didnt fire');
+            return false;
+        }
+
+        function mapToWeek(schedule) {
+            var monday = 'July 17, 2017 ';
+            var tuesday = 'July 18, 2017 ';
+            var wednesday = 'July 19, 2017 ';
+            var thursday = 'July 20, 2017 ';
+            var friday = 'July 21, 2017 ';
+            var week = [];
+
+            for (var course = 0; course < schedule.length; course++) {
+
+                for (var section = 0; section < schedule[course].length; section++) {
+                    var days = schedule[course][section].days;
+                    var chars = days.split(/(?=[A-Z])/);
+
+                    var momentStartTime = moment(schedule[course][section].start_time, ["h:mm A"]);
+                    var momentEndTime = moment(schedule[course][section].end_time, ["h:mm A"]);
+                    schedule[course][section].start_time_24h = momentStartTime.format("HH:mm");
+                    schedule[course][section].end_time_24h = momentEndTime.format("HH:mm");
+
+                    chars.forEach(function (char) {
+                        var sSection = JSON.parse(JSON.stringify(schedule[course][section]));
+                        switch (char) {
+                            case 'M':
+                                sSection.start = monday + sSection.start_time_24h;
+                                sSection.end = monday + sSection.end_time_24h;
+                                week.push(sSection);
+                                break;
+                            case 'T':
+                                sSection.start = tuesday + sSection.start_time_24h;
+                                sSection.end = tuesday + sSection.end_time_24h;
+                                week.push(sSection);
+                                break;
+                            case 'W':
+                                sSection.start = wednesday + sSection.start_time_24h;
+                                sSection.end = wednesday + sSection.end_time_24h;
+                                week.push(sSection);
+                                break;
+                            case 'R':
+                                sSection.start = thursday + sSection.start_time_24h;
+                                sSection.end = thursday + sSection.end_time_24h;
+                                week.push(sSection);
+                                break;
+                            case 'F':
+                                sSection.start = friday + sSection.start_time_24h;
+                                sSection.end = friday + sSection.end_time_24h;
+                                week.push(sSection);
+                                break;
+
+                            default:
+                                console.log('ERROR in event.Service \n mapToWeek(), day ' + char + ' not recognized');
+                        }
+                    }, this);
+                }
+            }
+            return week;
+        }
+
+        function cartesian(arg) {
+            var r = [],
+                max = arg.length - 1;
+
+            function helper(arr, i) {
+                for (var j = 0, l = arg[i].length; j < l; j++) {
+                    var a = arr.slice(0); // clone arr
+                    a.push(arg[i][j]);
+                    if (i == max)
+                        r.push(a);
+                    else
+                        helper(a, i + 1);
+                }
+            }
+            helper([], 0);
+            return r;
+        }
+
         // Getters //
 
         function getEvents() {
             return eventList;
+        }
+
+        function getPermutations() {
+            return permutations;
         }
 
 

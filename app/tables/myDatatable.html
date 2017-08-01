@@ -5,7 +5,6 @@
                 <tr>
                     <th>CRN</th>
                     <th>Section</th>
-                    <th>Units</th>
                     <th>Days</th>
                     <th>Time</th>
                     <th>Capacity</th>
@@ -21,7 +20,6 @@
                     ng-mouseenter="ctrl.newShadowEvent(section)" ng-mouseleave="ctrl.removeShadowEvent(section.crn)">
                     <td>{{ section.crn }}</td>
                     <td>{{ section.section }}</td>
-                    <td>{{ section.units }}</td>
                     <td>{{ section.days }}</td>
                     <td>{{ section.start_time }} - {{section.end_time}}</td>
                     <td>{{ section.capacity }}</td>

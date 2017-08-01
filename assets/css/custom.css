@@ -26,3 +26,9 @@
 .hide-time .fc-content  {
     display: none;
 }
+
+.sidebar-bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
