@@ -29,6 +29,9 @@ function sidebarController($scope, $http, $sce, databaseService, eventService, n
     'CSC': 'icon-qrcode'
   };
 
+  var scheduleCount = 0;
+  var schedule = eventService.getPermutations();
+
   $scope.courses = '';
 
   $http.get('assets/data/201705_courses.json')
@@ -60,7 +63,14 @@ function sidebarController($scope, $http, $sce, databaseService, eventService, n
     data.altColor = altColorList[colorIndex];
     data.alphaColor = alphaColorList[colorIndex];
     colorIndex = (colorIndex + 1) % 8;
-    databaseService.addCourse(data);
+    databaseService.addCourse(data).then(function (data) {
+      eventService.generateSchedule($scope.courseList);
+      scheduleCount = 0;
+    });
+
+    // eventService.generateSchedule($scope.courseList);
+    // perms = eventService.getPermutations();
+    // console.log(perms);
 
     console.log("courses[]: ");
     console.log($scope.courseList);
@@ -81,7 +91,19 @@ function sidebarController($scope, $http, $sce, databaseService, eventService, n
   };
 
   $scope.generateSchedule = function () {
-    eventService.generateSchedule($scope.courseList);
-  };
 
+    for (var event = 0; event < schedule[scheduleCount].length; event++) {
+      var newEvent = schedule[scheduleCount][event];
+      eventService.addEvent(
+        newEvent, {
+          'name': newEvent.name,
+          'courseID': newEvent.courseID,
+          'altColor': newEvent.altColor,
+          'color': newEvent.color,
+          'alphaColor': newEvent.alphaColor
+        });
+    }
+    scheduleCount = (scheduleCount + 1) % schedule.length;
+
+  };
 }

@@ -41,7 +41,7 @@
             };
 
 
-            fetchSections(data.courseID).then(function (section) {
+            return (fetchSections(data.courseID).then(function (section) {
                 sections.push(
                     section
                 );
@@ -58,7 +58,9 @@
                 if (courses.length === 1) {
                     updateActiveCourse(data.courseID);
                 }
-            });
+                return 'temp';
+
+            }));
         }
 
         function* reverseKeys(arr) {
