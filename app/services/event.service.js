@@ -160,61 +160,44 @@
             for (var schedule = 0; schedule < coursePermutations.length; schedule++) {
                 var week = mapToWeek(coursePermutations[schedule]);
                 var overlap = false;
-                for (var event = 0; event < week.length; event++) {
-                    if (checkOverlap(week[event], week)) {
-                        overlap = true;
-                        break;
-                    }
+                if (checkOverlap(week)) {
+                    overlap = true;
+                    break;
                 }
                 // if no overlaps
                 if (!overlap) {
-                    //if not the current schedule
-                    if (!currentSchedule(week)) {
-                        permutations.push(week);
-                    }
+                    permutations.push(week);
                 }
             }
+            console.timeEnd('addCourse');
         }
 
-        function currentSchedule(myEventList) {
-            var temp = 0;
-            for (var i = 0; i < eventList.length; i++) {
-                var event = eventList[i];
-                for (var j = 0; j < myEventList.length; j++) {
-                    var otherEvent = myEventList[j];
-                    if (event.crn === otherEvent.crn) {
-                        temp++;
-                        break;
+        function checkOverlap(week) {
+
+            for (var day = 0; day < week.length; day++) {
+                var currentDay = week[day];
+
+                for (var event = 0; event < currentDay.length; event++) {
+                    var currentEvent = currentDay[event];
+                    var start = new Date(currentEvent.start);
+                    var end = new Date(currentEvent.end);
+                    var overlap;
+                    
+                    for (var otherEvent = 0; otherEvent < currentDay.length; otherEvent++) {
+                        if (currentEvent.crn === currentDay[otherEvent].crn) {
+                            continue;
+                        }
+                        var estart = new Date(currentDay[otherEvent].start);
+                        var eend = new Date(currentDay[otherEvent].end);
+
+                        overlap = (Math.round(estart) / 1000 < Math.round(end) / 1000 && Math.round(eend) > Math.round(start));
+
+                        if (overlap) {
+                            console.log('overlap');
+                            //either move this event to available timeslot or remove it
+                            return true;
+                        }
                     }
-                }
-            }
-
-            if (eventList.length === temp && temp != 0) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-
-        function checkOverlap(event, myEventList) {
-
-            var start = new Date(event.start);
-            var end = new Date(event.end);
-            var overlap;
-
-            for (var index = 0; index < myEventList.length; index++) {
-                if (event.crn === myEventList[index].crn) {
-                    continue;
-                }
-                var estart = new Date(myEventList[index].start);
-                var eend = new Date(myEventList[index].end);
-
-                overlap = (Math.round(estart) / 1000 < Math.round(end) / 1000 && Math.round(eend) > Math.round(start));
-
-                if (overlap) {
-                    console.log('overlap');
-                    //either move this event to available timeslot or remove it
-                    return true;
                 }
             }
             console.log('overlap didnt fire');
@@ -227,7 +210,13 @@
             var wednesday = 'July 19, 2017 ';
             var thursday = 'July 20, 2017 ';
             var friday = 'July 21, 2017 ';
-            var week = [];
+            var week = {
+                'm': [],
+                't': [],
+                'w': [],
+                'r': [],
+                'f': []
+            };
 
             for (var course = 0; course < schedule.length; course++) {
 
@@ -246,27 +235,27 @@
                             case 'M':
                                 sSection.start = monday + sSection.start_time_24h;
                                 sSection.end = monday + sSection.end_time_24h;
-                                week.push(sSection);
+                                week.m.push(sSection);
                                 break;
                             case 'T':
                                 sSection.start = tuesday + sSection.start_time_24h;
                                 sSection.end = tuesday + sSection.end_time_24h;
-                                week.push(sSection);
+                                week.t.push(sSection);
                                 break;
                             case 'W':
                                 sSection.start = wednesday + sSection.start_time_24h;
                                 sSection.end = wednesday + sSection.end_time_24h;
-                                week.push(sSection);
+                                week.w.push(sSection);
                                 break;
                             case 'R':
                                 sSection.start = thursday + sSection.start_time_24h;
                                 sSection.end = thursday + sSection.end_time_24h;
-                                week.push(sSection);
+                                week.r.push(sSection);
                                 break;
                             case 'F':
                                 sSection.start = friday + sSection.start_time_24h;
                                 sSection.end = friday + sSection.end_time_24h;
-                                week.push(sSection);
+                                week.f.push(sSection);
                                 break;
 
                             default:
