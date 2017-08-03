@@ -17,6 +17,7 @@
             .withScroller()
             .withOption('deferRender', true)
             .withOption('scrollY', 200)
+            .withOption("pageLength", 100)
             .withOption('responsive', true)
             .withDOM('t');
         vm.dtColumnDefs = [

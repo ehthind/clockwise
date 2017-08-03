@@ -195,7 +195,7 @@
                 return false;
             }
         }
-
+        
         function checkOverlap(event, myEventList) {
 
             var start = new Date(event.start);
