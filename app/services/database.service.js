@@ -110,6 +110,7 @@
                 activeCourse.push(newActiveCourse);
                 activeSections.length = 0;
                 activeSections.push(response.course.section);
+
             } else {
                 console.log('In database.service.js, updateActiveCourse() \n Failed to find courseID ' + courseID);
             }

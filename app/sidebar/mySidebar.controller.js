@@ -58,22 +58,21 @@ function sidebarController($scope, $http, $sce, databaseService, eventService, n
 
   };
 
+
   $scope.addCourse = function (data) {
     data.color = colorList[colorIndex];
     data.altColor = altColorList[colorIndex];
     data.alphaColor = alphaColorList[colorIndex];
     colorIndex = (colorIndex + 1) % 8;
     databaseService.addCourse(data).then(function (data) {
+      console.time('addCourse');
       eventService.generateSchedule($scope.courseList);
+      console.log('schedule:');
+      console.log(schedule);
       scheduleCount = 0;
-    });
-
-    // eventService.generateSchedule($scope.courseList);
-    // perms = eventService.getPermutations();
-    // console.log(perms);
-
-    console.log("courses[]: ");
+      console.log("courses[]: ");
     console.log($scope.courseList);
+    });
   };
 
   $scope.removeCourse = function (courseID) {
