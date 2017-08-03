@@ -12,8 +12,11 @@
         this.getSchedule = getSchedule;
         this.getInvalidSchedule = getInvalidSchedule;
         this.removeCourseFromSchedule = removeCourseFromSchedule;
+        this.clearAll = clearAll;
 
         // globals
+        var sPermutations = [];
+        var cPermutations = [];
         var scheduleList = [];
         var invalidScheduleList = [];
 
@@ -49,12 +52,12 @@
 
                 }
 
-                console.log('section schedule');
+                console.log('Section Permutations');
                 console.log(sectionPermutations);
             }, this);
 
             var coursePermutations = cartesian(sectionPermutations);
-            console.log('schedule');
+            console.log('Course Permutations');
             console.log(coursePermutations);
 
             for (var schedule = 0; schedule < coursePermutations.length; schedule++) {
@@ -104,6 +107,11 @@
                 }
             }, this);
 
+        }
+
+        function clearAll() {
+            scheduleList.length = 0;
+            invalidScheduleList.length = 0;
         }
 
         // Helpers //
