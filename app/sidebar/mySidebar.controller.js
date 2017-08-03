@@ -3,8 +3,6 @@ angular
   .controller('sidebarController', sidebarController);
 
 function sidebarController($scope, $http, $sce, $timeout, databaseService, eventService, notificationService) {
-  $scope.selectedCourse = '';
-  $scope.courseList = databaseService.getCourses();
 
   var alphaColorList = [
     'border-left-lg border-left-teal',
@@ -30,7 +28,12 @@ function sidebarController($scope, $http, $sce, $timeout, databaseService, event
   };
 
   var scheduleCount = 0;
-  var schedule = eventService.getPermutations();
+  var invalidScheduleCount = 0;
+  var schedule = eventService.getSchedule();
+  var invalidSchedule = eventService.getInvalidSchedule();
+
+  $scope.selectedCourse = '';
+  $scope.courseList = databaseService.getCourses();
 
   $scope.courses = '';
 
@@ -72,6 +75,7 @@ function sidebarController($scope, $http, $sce, $timeout, databaseService, event
       scheduleCount = 0;
       console.log("courses[]: ");
       console.log($scope.courseList);
+      $scope.generateSchedule();
     });
   };
 
@@ -79,6 +83,7 @@ function sidebarController($scope, $http, $sce, $timeout, databaseService, event
 
     databaseService.removeCourse(courseID);
     eventService.removeAllCourseEvents(courseID);
+    eventService.removeCourseFromSchedule(courseID);
 
     console.log('Removed course with id: ' + courseID);
     console.log('Updated course list: ' + $scope.courseList);
@@ -90,19 +95,41 @@ function sidebarController($scope, $http, $sce, $timeout, databaseService, event
   };
 
   $scope.generateSchedule = function () {
+    if (schedule.length > 0) {
 
-    for (var event = 0; event < schedule[scheduleCount].length; event++) {
+      schedule[scheduleCount].forEach(function (event) {
+        eventService.addEvent(
+          event, {
+            'name': event.name,
+            'courseID': event.courseID,
+            'altColor': event.altColor,
+            'color': event.color,
+            'alphaColor': event.alphaColor
+          });
+        scheduleCount = (scheduleCount + 1) % schedule.length;
+      }, this);
 
-      var newEvent = schedule[scheduleCount][event];
-      eventService.addEvent(
-        newEvent, {
-          'name': newEvent.name,
-          'courseID': newEvent.courseID,
-          'altColor': newEvent.altColor,
-          'color': newEvent.color,
-          'alphaColor': newEvent.alphaColor
-        });
+    } else {
+
+      invalidSchedule[invalidScheduleCount].forEach(function (event) {
+        eventService.addEvent(
+          event, {
+            'name': event.name,
+            'courseID': event.courseID,
+            'altColor': event.altColor,
+            'color': event.color,
+            'alphaColor': event.alphaColor
+          });
+      }, this);
+
+      invalidScheduleCount = (invalidScheduleCount + 1) % invalidSchedule.length;
+
+      // notify no valid schedule found.
+      notificationService.notify({
+        title: 'No Schedules Found',
+        text: 'We\'re unable to find a schedule that is conflict free.',
+        addclass: 'alert bg-danger alert-styled-right stack-bottom-right'
+      });
     }
-    scheduleCount = (scheduleCount + 1) % schedule.length;
   };
 }
