@@ -65,16 +65,18 @@
                 removeEvent(courseData.courseID, sectionData.schedule_type);
             }
 
-            if (sectionData.schedule_type === 'Lecture') {
+            if (sectionData.schedule_type === 'Lecture' || sectionData.schedule_type === 'Lecture Topic') {
                 var sectionColor = courseData.color;
+                var name = courseData.name;
             } else {
                 var sectionColor = courseData.altColor;
+                var name = courseData.name + ' - ' + sectionData.schedule_type;
             }
 
             days_parsed.forEach(function (day) {
                 var newEvent = {
                     id: sectionData.crn,
-                    title: courseData.name,
+                    title: name,
                     start: day + sectionData.start_time_24h,
                     end: day + sectionData.end_time_24h,
                     color: sectionColor,
@@ -235,19 +237,18 @@
                 []
             ];
 
-            for (var course = 0; course < schedule.length; course++) {
-
-                for (var section = 0; section < schedule[course].length; section++) {
-                    var days = schedule[course][section].days;
+            schedule.forEach(function (course) {
+                course.forEach(function (section) {
+                    var days = section.days;
                     var chars = days.split(/(?=[A-Z])/);
 
-                    var momentStartTime = moment(schedule[course][section].start_time, ["h:mm A"]);
-                    var momentEndTime = moment(schedule[course][section].end_time, ["h:mm A"]);
-                    schedule[course][section].start_time_24h = momentStartTime.format("HH:mm");
-                    schedule[course][section].end_time_24h = momentEndTime.format("HH:mm");
+                    var momentStartTime = moment(section.start_time, ["h:mm A"]);
+                    var momentEndTime = moment(section.end_time, ["h:mm A"]);
+                    section.start_time_24h = momentStartTime.format("HH:mm");
+                    section.end_time_24h = momentEndTime.format("HH:mm");
 
                     chars.forEach(function (char) {
-                        var sSection = JSON.parse(JSON.stringify(schedule[course][section]));
+                        var sSection = JSON.parse(JSON.stringify(section));
                         switch (char) {
                             case 'M':
                                 sSection.start = monday + sSection.start_time_24h;
@@ -279,8 +280,9 @@
                                 console.log('ERROR in event.Service \n mapToWeek(), day ' + char + ' not recognized');
                         }
                     }, this);
-                }
-            }
+                }, this);
+            }, this);
+
             return week;
         }
 

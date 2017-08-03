@@ -70,15 +70,9 @@ function sidebarController($scope, $http, $sce, databaseService, eventService, n
       console.log('schedule:');
       console.log(schedule);
       scheduleCount = 0;
-    });
-
-
-    // eventService.generateSchedule($scope.courseList);
-    // perms = eventService.getPermutations();
-    // console.log(perms);
-
-    console.log("courses[]: ");
+      console.log("courses[]: ");
     console.log($scope.courseList);
+    });
   };
 
   $scope.removeCourse = function (courseID) {
