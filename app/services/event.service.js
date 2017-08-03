@@ -14,10 +14,13 @@
         this.removeShadowEvent = removeShadowEvent;
         this.clearAll = clearAll;
         this.generateSchedule = generateSchedule;
-        this.getPermutations = getPermutations;
+        this.getSchedule = getSchedule;
+        this.getInvalidSchedule = getInvalidSchedule;
+        this.removeCourseFromSchedule = removeCourseFromSchedule;
 
         var eventList = [];
-        var permutations = [];
+        var scheduleList = [];
+        var invalidScheduleList = [];
 
 
         ////////////////
@@ -125,7 +128,8 @@
 
         function generateSchedule(courseList) {
 
-            permutations.length = 0; //reset permutations
+            scheduleList.length = 0; //reset scheduleList
+            invalidScheduleList.length = 0; //reset invalidScheduleList
             var sectionPermutations = [];
 
             courseList.forEach(function (course) {
@@ -154,27 +158,28 @@
 
                 }
 
-                console.log('section permutations');
+                console.log('section schedule');
                 console.log(sectionPermutations);
             }, this);
 
             var coursePermutations = cartesian(sectionPermutations);
-            console.log('permutations');
+            console.log('schedule');
             console.log(coursePermutations);
 
             for (var schedule = 0; schedule < coursePermutations.length; schedule++) {
                 var week = mapToWeek(coursePermutations[schedule]);
                 if (!checkOverlap(week)) {
                     // if no overlaps
-                    var newSchedule = mapWeekToSchedule(week);
-                    permutations.push(newSchedule);
+                    scheduleList.push(mapWeekToSchedule(week));
+                } else if (invalidScheduleList.length < 6) {
+                    invalidScheduleList.push(mapWeekToSchedule(week));
                 }
-                if (permutations.length > 6) {
+                if (scheduleList.length > 6) {
                     break;
                 }
             }
 
-            shuffle(permutations);
+            shuffle(scheduleList);
             console.timeEnd('addCourse');
         }
 
@@ -323,14 +328,39 @@
             return array;
         }
 
+        function removeCourseFromSchedule(courseID) {
+
+
+            scheduleList.forEach(function (schedule) {
+                for (var i of reverseKeys(schedule)) {
+                    if (schedule[i].courseID === courseID) {
+                        schedule.splice(i, 1);
+                    }
+                }
+            }, this);
+
+            invalidScheduleList.forEach(function (schedule) {
+                for (var i of reverseKeys(schedule)) {
+                    if (schedule[i].courseID === courseID) {
+                        schedule.splice(i, 1);
+                    }
+                }
+            }, this);
+
+        }
+
         // Getters //
 
         function getEvents() {
             return eventList;
         }
 
-        function getPermutations() {
-            return permutations;
+        function getSchedule() {
+            return scheduleList;
+        }
+
+        function getInvalidSchedule() {
+            return invalidScheduleList;
         }
 
 
