@@ -119,56 +119,61 @@
             eventList.length = 0;
         }
 
+        let f = (a, b) => [].concat(...a.map(a => b.map(b => [].concat(a, b))));
+        let cartesian2 = (a, b, ...c) => b ? cartesian2(f(a, b), ...c) : a;
+
         function generateSchedule(courseList) {
 
             permutations.length = 0; //reset permutations
             var sectionPermutations = [];
 
-            // Get permutations of a courses lectures and labs
-            for (var course = 0; course < courseList.length; course++) {
+            courseList.forEach(function (course) {
                 var lectures = [];
                 var labs = [];
 
-                // Seperate lecture and lab sections
-                for (var x = 0; x < courseList[course].section.length; x++) {
+                course.section.forEach(function (section) {
+                    section.name = course.name;
+                    section.altColor = course.altColor;
+                    section.color = course.color;
 
-                    courseList[course].section[x].name = courseList[course].name;
-                    courseList[course].section[x].altColor = courseList[course].altColor;
-                    courseList[course].section[x].color = courseList[course].color;
-
-                    var schedule_type = courseList[course].section[x].schedule_type;
+                    var schedule_type = section.schedule_type;
 
                     if (schedule_type === 'Lecture' || schedule_type === 'Lecture Topic') {
-                        lectures.push(courseList[course].section[x]);
+                        lectures.push(section);
                     } else {
-                        labs.push(courseList[course].section[x]);
+                        labs.push(section);
                     }
-                }
-
-                var args = [];
+                }, this);
+                console.log(lectures);
+                console.log(labs);
                 if (labs.length > 0) {
-                    args = [lectures, labs];
+                    sectionPermutations.push(cartesian([lectures, labs]));
                 } else {
-                    args = [lectures];
-                }
-                sectionPermutations.push(cartesian(args));
-            }
+                    sectionPermutations.push(cartesian([lectures]));
 
-            // Get permutations of all courses
+                }
+
+                console.log('section permutations');
+                console.log(sectionPermutations);
+            }, this);
+
             var coursePermutations = cartesian(sectionPermutations);
+            console.log('permutations');
+            console.log(coursePermutations);
 
             for (var schedule = 0; schedule < coursePermutations.length; schedule++) {
                 var week = mapToWeek(coursePermutations[schedule]);
-                var overlap = false;
-                if (checkOverlap(week)) {
-                    overlap = true;
+                if (!checkOverlap(week)) {
+                    // if no overlaps
+                    var newSchedule = mapWeekToSchedule(week);
+                    permutations.push(newSchedule);
+                }
+                if (permutations.length > 6) {
                     break;
                 }
-                // if no overlaps
-                if (!overlap) {
-                    permutations.push(week);
-                }
             }
+
+            shuffle(permutations);
             console.timeEnd('addCourse');
         }
 
@@ -176,13 +181,16 @@
 
             for (var day = 0; day < week.length; day++) {
                 var currentDay = week[day];
+                if (currentDay.length === 0) {
+                    continue;
+                }
 
                 for (var event = 0; event < currentDay.length; event++) {
                     var currentEvent = currentDay[event];
                     var start = new Date(currentEvent.start);
                     var end = new Date(currentEvent.end);
                     var overlap;
-                    
+
                     for (var otherEvent = 0; otherEvent < currentDay.length; otherEvent++) {
                         if (currentEvent.crn === currentDay[otherEvent].crn) {
                             continue;
@@ -193,15 +201,24 @@
                         overlap = (Math.round(estart) / 1000 < Math.round(end) / 1000 && Math.round(eend) > Math.round(start));
 
                         if (overlap) {
-                            console.log('overlap');
                             //either move this event to available timeslot or remove it
                             return true;
                         }
                     }
                 }
             }
-            console.log('overlap didnt fire');
             return false;
+        }
+
+        function mapWeekToSchedule(week) {
+            var schedule = [];
+            week.forEach(function (day) {
+                day.forEach(function (event) {
+                    schedule.push(event);
+                }, this);
+            }, this);
+
+            return schedule;
         }
 
         function mapToWeek(schedule) {
@@ -210,13 +227,13 @@
             var wednesday = 'July 19, 2017 ';
             var thursday = 'July 20, 2017 ';
             var friday = 'July 21, 2017 ';
-            var week = {
-                'm': [],
-                't': [],
-                'w': [],
-                'r': [],
-                'f': []
-            };
+            var week = [
+                [],
+                [],
+                [],
+                [],
+                []
+            ];
 
             for (var course = 0; course < schedule.length; course++) {
 
@@ -235,27 +252,27 @@
                             case 'M':
                                 sSection.start = monday + sSection.start_time_24h;
                                 sSection.end = monday + sSection.end_time_24h;
-                                week.m.push(sSection);
+                                week[0].push(sSection);
                                 break;
                             case 'T':
                                 sSection.start = tuesday + sSection.start_time_24h;
                                 sSection.end = tuesday + sSection.end_time_24h;
-                                week.t.push(sSection);
+                                week[1].push(sSection);
                                 break;
                             case 'W':
                                 sSection.start = wednesday + sSection.start_time_24h;
                                 sSection.end = wednesday + sSection.end_time_24h;
-                                week.w.push(sSection);
+                                week[2].push(sSection);
                                 break;
                             case 'R':
                                 sSection.start = thursday + sSection.start_time_24h;
                                 sSection.end = thursday + sSection.end_time_24h;
-                                week.r.push(sSection);
+                                week[3].push(sSection);
                                 break;
                             case 'F':
                                 sSection.start = friday + sSection.start_time_24h;
                                 sSection.end = friday + sSection.end_time_24h;
-                                week.f.push(sSection);
+                                week[4].push(sSection);
                                 break;
 
                             default:
@@ -283,6 +300,26 @@
             }
             helper([], 0);
             return r;
+        }
+
+        function shuffle(array) {
+            var currentIndex = array.length,
+                temporaryValue, randomIndex;
+
+            // While there remain elements to shuffle...
+            while (0 !== currentIndex) {
+
+                // Pick a remaining element...
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
+
+                // And swap it with the current element.
+                temporaryValue = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = temporaryValue;
+            }
+
+            return array;
         }
 
         // Getters //

@@ -34,7 +34,7 @@ function sidebarController($scope, $http, $sce, databaseService, eventService, n
 
   $scope.courses = '';
 
-  $http.get('assets/data/201705_courses.json')
+  $http.get('assets/data/201709_courses.json')
     .then(function (response) {
       $scope.courses = response.data;
     });
@@ -67,6 +67,7 @@ function sidebarController($scope, $http, $sce, databaseService, eventService, n
     databaseService.addCourse(data).then(function (data) {
       console.time('addCourse');
       eventService.generateSchedule($scope.courseList);
+      console.log('schedule:');
       console.log(schedule);
       scheduleCount = 0;
     });
