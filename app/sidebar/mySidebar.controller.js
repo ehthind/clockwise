@@ -2,7 +2,7 @@ angular
   .module('app.mySidebar')
   .controller('sidebarController', sidebarController);
 
-function sidebarController($scope, $http, $sce, $timeout, databaseService, eventService, notificationService) {
+function sidebarController($scope, $http, $sce, $timeout, databaseService, eventService, scheduleService, notificationService) {
 
   var alphaColorList = [
     'border-left-lg border-left-teal',
@@ -29,8 +29,8 @@ function sidebarController($scope, $http, $sce, $timeout, databaseService, event
 
   var scheduleCount = 0;
   var invalidScheduleCount = 0;
-  var schedule = eventService.getSchedule();
-  var invalidSchedule = eventService.getInvalidSchedule();
+  var schedule = scheduleService.getSchedule();
+  var invalidSchedule = scheduleService.getInvalidSchedule();
 
   $scope.selectedCourse = '';
   $scope.courseList = databaseService.getCourses();
@@ -69,7 +69,7 @@ function sidebarController($scope, $http, $sce, $timeout, databaseService, event
     colorIndex = (colorIndex + 1) % 8;
     databaseService.addCourse(data).then(function (data) {
       console.time('addCourse');
-      eventService.generateSchedule($scope.courseList);
+      scheduleService.generateSchedule($scope.courseList);
       console.log('schedule:');
       console.log(schedule);
       scheduleCount = 0;
@@ -83,7 +83,7 @@ function sidebarController($scope, $http, $sce, $timeout, databaseService, event
 
     databaseService.removeCourse(courseID);
     eventService.removeAllCourseEvents(courseID);
-    eventService.removeCourseFromSchedule(courseID);
+    scheduleService.removeCourseFromSchedule(courseID);
 
     console.log('Removed course with id: ' + courseID);
     console.log('Updated course list: ' + $scope.courseList);
