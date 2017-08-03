@@ -2,7 +2,7 @@ angular
   .module('app.mySidebar')
   .controller('sidebarController', sidebarController);
 
-function sidebarController($scope, $http, $sce, databaseService, eventService, notificationService) {
+function sidebarController($scope, $http, $sce, $timeout, databaseService, eventService, notificationService) {
   $scope.selectedCourse = '';
   $scope.courseList = databaseService.getCourses();
 
@@ -71,7 +71,7 @@ function sidebarController($scope, $http, $sce, databaseService, eventService, n
       console.log(schedule);
       scheduleCount = 0;
       console.log("courses[]: ");
-    console.log($scope.courseList);
+      console.log($scope.courseList);
     });
   };
 
@@ -92,6 +92,7 @@ function sidebarController($scope, $http, $sce, databaseService, eventService, n
   $scope.generateSchedule = function () {
 
     for (var event = 0; event < schedule[scheduleCount].length; event++) {
+
       var newEvent = schedule[scheduleCount][event];
       eventService.addEvent(
         newEvent, {
@@ -103,6 +104,5 @@ function sidebarController($scope, $http, $sce, databaseService, eventService, n
         });
     }
     scheduleCount = (scheduleCount + 1) % schedule.length;
-
   };
 }

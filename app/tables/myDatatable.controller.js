@@ -5,9 +5,10 @@
         .module('app.myDatatable')
         .controller('datatableController', datatableController);
 
-    function datatableController(DTOptionsBuilder, DTColumnDefBuilder, $resource, $moment, databaseService, eventService) {
+    function datatableController(DTOptionsBuilder, DTColumnDefBuilder, $resource, $moment, $timeout, databaseService, eventService) {
         // vm.courseList = databaseService.getCourses();
-
+        var timer;
+        var shadowEventRan = false;
         var vm = this;
         vm.sectionList = databaseService.getActiveSections();
         vm.activeCourse = databaseService.getActiveCourse();
@@ -38,32 +39,42 @@
                 }
             }
             return false;
-        }
+        };
 
-        vm.newEvent = function (sectionData) {
+        vm.newEvent = function (section) {
 
-            var momentStartTime = moment(sectionData.start_time, ["h:mm A"]);
-            var momentEndTime = moment(sectionData.end_time, ["h:mm A"]);
-            sectionData.start_time_24h = momentStartTime.format("HH:mm");
-            sectionData.end_time_24h = momentEndTime.format("HH:mm");
+            var momentStartTime = moment(section.start_time, ["h:mm A"]);
+            var momentEndTime = moment(section.end_time, ["h:mm A"]);
+            section.start_time_24h = momentStartTime.format("HH:mm");
+            section.end_time_24h = momentEndTime.format("HH:mm");
 
-            eventService.addEvent(sectionData, vm.activeCourse[0]);
-        }
+            eventService.addEvent(section, vm.activeCourse[0]);
+        };
 
-        vm.newShadowEvent = function (sectionData) {
-            var momentStartTime = moment(sectionData.start_time, ["h:mm A"]);
-            var momentEndTime = moment(sectionData.end_time, ["h:mm A"]);
-            sectionData.start_time_24h = momentStartTime.format("HH:mm");
-            sectionData.end_time_24h = momentEndTime.format("HH:mm");
+        vm.ShadowEvent = function (show, section) {
 
-            eventService.addShadowEvent(sectionData, vm.activeCourse[0]);
-        }
+            if (show) { // mouseEnter event
+                /**
+                 * set timeout so function calls are not wasted
+                 * when user is scrolling over datatable.
+                 */
+                timer = $timeout(function () {
+                    shadowEventRan = true; // timer timed out
+                    var momentStartTime = moment(section.start_time, ["h:mm A"]);
+                    var momentEndTime = moment(section.end_time, ["h:mm A"]);
+                    section.start_time_24h = momentStartTime.format("HH:mm"); // eventService requires 24h start time format
+                    section.end_time_24h = momentEndTime.format("HH:mm"); // eventService requires 24h end time format
 
-        vm.removeShadowEvent = function (sectionCrn) {
-            eventService.removeShadowEvent(sectionCrn);
-        }
-        // $resource('assets/data/data.json').query().$promise.then(function (persons) {
-        //     vm.persons = persons;
-        // });
+                    eventService.addShadowEvent(section, vm.activeCourse[0]);
+                }, 100);
+            } else { // mouseLeave event
+                $timeout.cancel(timer); // cancel so addShadowEvent does not run
+
+                if (shadowEventRan) { // if timer timed out
+                    shadowEventRan = false;
+                    eventService.removeShadowEvent(section.crn);
+                }
+            }
+        };
     }
 })();

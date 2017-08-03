@@ -5,7 +5,7 @@
         .module('app')
         .service('eventService', eventService);
 
-    function eventService($moment) {
+    function eventService() {
         this.getEvents = getEvents;
         this.addEvent = addEvent;
         this.addShadowEvent = addShadowEvent;
@@ -87,7 +87,6 @@
                     'shadow': false
 
                 };
-
                 eventList.push(newEvent);
             }, this);
 
