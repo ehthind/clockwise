@@ -37,7 +37,7 @@
 
                     var schedule_type = section.schedule_type;
 
-                    if (schedule_type === 'Lecture' || schedule_type === 'Lecture Topic') {
+                    if (schedule_type === 'Lecture' || schedule_type === 'Lecture Topic' || schedule_type === 'Gradable Lab') {
                         lectures.push(section);
                     } else {
                         labs.push(section);
