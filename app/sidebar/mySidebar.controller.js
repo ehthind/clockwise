@@ -2,7 +2,7 @@ angular
   .module('app.mySidebar')
   .controller('sidebarController', sidebarController);
 
-function sidebarController($scope, $http, $sce, $timeout, databaseService, eventService, notificationService) {
+function sidebarController($scope, $http, $sce, $timeout, databaseService, eventService, scheduleService, notificationService) {
 
   var alphaColorList = [
     'border-left-lg border-left-teal',
@@ -29,8 +29,9 @@ function sidebarController($scope, $http, $sce, $timeout, databaseService, event
 
   var scheduleCount = 0;
   var invalidScheduleCount = 0;
-  var schedule = eventService.getSchedule();
-  var invalidSchedule = eventService.getInvalidSchedule();
+
+  $scope.schedule = scheduleService.getSchedule();
+  $scope.invalidSchedule = scheduleService.getInvalidSchedule();
 
   $scope.selectedCourse = '';
   $scope.courseList = databaseService.getCourses();
@@ -69,9 +70,9 @@ function sidebarController($scope, $http, $sce, $timeout, databaseService, event
     colorIndex = (colorIndex + 1) % 8;
     databaseService.addCourse(data).then(function (data) {
       console.time('addCourse');
-      eventService.generateSchedule($scope.courseList);
+      scheduleService.generateSchedule($scope.courseList);
       console.log('schedule:');
-      console.log(schedule);
+      console.log($scope.schedule);
       scheduleCount = 0;
       console.log("courses[]: ");
       console.log($scope.courseList);
@@ -83,7 +84,7 @@ function sidebarController($scope, $http, $sce, $timeout, databaseService, event
 
     databaseService.removeCourse(courseID);
     eventService.removeAllCourseEvents(courseID);
-    eventService.removeCourseFromSchedule(courseID);
+    scheduleService.removeCourseFromSchedule(courseID);
 
     console.log('Removed course with id: ' + courseID);
     console.log('Updated course list: ' + $scope.courseList);
@@ -92,12 +93,16 @@ function sidebarController($scope, $http, $sce, $timeout, databaseService, event
   $scope.clearAll = function () {
     databaseService.clearAll();
     eventService.clearAll();
+    scheduleService.clearAll();
+
+    scheduleCount = 0;
+    invalidScheduleCount = 0;
   };
 
   $scope.generateSchedule = function () {
-    if (schedule.length > 0) {
+    if ($scope.schedule.length > 0) {
 
-      schedule[scheduleCount].forEach(function (event) {
+      $scope.schedule[scheduleCount].forEach(function (event) {
         eventService.addEvent(
           event, {
             'name': event.name,
@@ -106,12 +111,12 @@ function sidebarController($scope, $http, $sce, $timeout, databaseService, event
             'color': event.color,
             'alphaColor': event.alphaColor
           });
-        scheduleCount = (scheduleCount + 1) % schedule.length;
+        scheduleCount = (scheduleCount + 1) % $scope.schedule.length;
       }, this);
 
-    } else {
+    } else if ($scope.invalidSchedule.length > 0) {
 
-      invalidSchedule[invalidScheduleCount].forEach(function (event) {
+      $scope.invalidSchedule[invalidScheduleCount].forEach(function (event) {
         eventService.addEvent(
           event, {
             'name': event.name,
@@ -122,7 +127,7 @@ function sidebarController($scope, $http, $sce, $timeout, databaseService, event
           });
       }, this);
 
-      invalidScheduleCount = (invalidScheduleCount + 1) % invalidSchedule.length;
+      invalidScheduleCount = (invalidScheduleCount + 1) % $scope.invalidSchedule.length;
 
       // notify no valid schedule found.
       notificationService.notify({
