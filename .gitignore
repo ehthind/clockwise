@@ -70,8 +70,6 @@ pyvenv.cfg
 .venv
 pip-selfcheck.json
 
-oldscraper
-
 /.vagrant
 /scrapy.iml
 *.pyc
@@ -89,12 +87,6 @@ htmlcov/
 .coverage.*
 .cache/
 
-.vscode/settings.json
+.vscode
 
-scraper/uvic/uvic/temp.json
-
-scraper/uvic/201705.json
-
-scraper/uvic/201709.json
-
-scraper/uvic/201801.json
+scraper/uvic/uvic/data
