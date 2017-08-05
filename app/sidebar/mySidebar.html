@@ -8,28 +8,15 @@
           <li class="active">
             <a href="#components-tab" data-toggle="tab">
           <i class="icon-search4"></i>
-          <span class="visible-xs-inline-block position-right">Components</span>
+          <span class="visible-xs-inline-block position-right">Search</span>
         </a>
           </li>
 
           <li>
             <a href="#forms-tab" data-toggle="tab">
           <i class="icon-menu6"></i>
-          <span class="visible-xs-inline-block position-right">Forms</span>
+          <span class="visible-xs-inline-block position-right">Saved Schedules</span>
         </a>
-          </li>
-
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-          <i class="icon-grid5"></i>
-          <span class="visible-xs-inline-block position-right">Other components</span>
-          <span class="caret"></span>
-        </a>
-
-            <ul class="dropdown-menu dropdown-menu-right">
-              <li><a href="#other-tab" data-toggle="tab"><i class="icon-task pull-right"></i> Other elements</a></li>
-              <li><a href="#custom-tab" data-toggle="tab"><i class="icon-googleplus5 pull-right"></i> Custom content</a></li>
-            </ul>
           </li>
         </ul>
 
@@ -97,14 +84,30 @@
               </div>
               <div class="category-content text-center">
 
-                <button type="button" class="btn btn-danger btn-float-xs btn-rounded" uib-popover="Clear all" popover-trigger="'mouseenter'"
+                <button type="button" class="btn bg-danger btn-float-xs btn-rounded mr-5 mt-20" uib-popover="Clear all" popover-trigger="'mouseenter'"
                   popover-placement="top" ng-click="clearAll()"><i class="icon-cross"></i></button>
 
                 <button type="button" class="btn bg-slate btn-float btn-float-lg btn-rounded" uib-popover="Generate schedule" popover-trigger="'mouseenter'"
-                  popover-placement="top" ng-click="generateSchedule()"> <i class="icon-make-group"></i></button>
+                  popover-placement="top" ng-click="generateSchedule()"><i class="icon-make-group"></i></button>
 
-                <button type="button" class="btn btn-success btn-float-xs btn-loading btn-rounded" uib-popover="Save" popover-trigger="'mouseenter'"
-                  popover-placement="top" <i class='icon-floppy-disk spinner'></i><i class="icon-folder-download"></i></button>
+                <button type="button" class="btn bg-success btn-float-xs btn-rounded ml-5 mt-20" uib-popover="Save" popover-trigger="'mouseenter'"
+                  popover-placement="top" ng-click="done()"><i class='icon-folder-download'></i></button>
+
+                <div class="row mt-5">
+                  <div class="col-xs-4">
+
+                  </div>
+
+                  <div class="col-xs-4">
+                    <button type="button" class="btn bg-primary btn-float-xs btn-rounded" uib-popover="Export" popover-trigger="'mouseenter'"
+                      popover-placement="top" data-toggle="modal" data-target="#modal_small"><i class="icon-printer"></i></button>
+                  </div>
+
+                  <div class="col-xs-4">
+
+
+                  </div>
+                </div>
 
               </div>
             </div>
@@ -121,30 +124,6 @@
             <!-- /title -->
           </div>
           <!-- /2nd tab -->
-
-          <!-- 3rd tab -->
-          <div class="tab-pane no-padding" id="other-tab">
-            <!-- Title -->
-            <div class="category-title h6">
-              <span>Other content</span>
-
-            </div>
-            <!-- /title -->
-          </div>
-          <!-- /3rd tab -->
-
-          <!-- 4th tab -->
-          <div class="tab-pane no-padding" id="custom-tab">
-            <!-- Title -->
-            <div class="category-title h6">
-              <span>Custom content</span>
-
-            </div>
-            <!-- /title -->
-          </div>
-          <!-- /4th tab -->
-
-
         </div>
         <!-- tab content-->
       </div>

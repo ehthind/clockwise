@@ -31,7 +31,7 @@
                 removeEvent(courseData.courseID, sectionData.schedule_type);
             }
 
-            if (sectionData.schedule_type === 'Lecture' || sectionData.schedule_type === 'Lecture Topic') {
+            if (sectionData.schedule_type === 'Lecture' || sectionData.schedule_type === 'Lecture Topic' || sectionData.schedule_type === 'Gradable Lab') {
                 var sectionColor = courseData.color;
                 var name = courseData.name;
             } else {
