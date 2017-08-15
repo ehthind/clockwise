@@ -1,5 +1,8 @@
 (function () {
     'use strict';
+    
+    myCalendarController.$inject = ['$scope','eventService'];
+
 
     angular
         .module('app.myCalendar')
