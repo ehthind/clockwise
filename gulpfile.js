@@ -9,6 +9,7 @@
  *
  * ---------------------------------------------------------------------------- */
 
+'use strict';
 
 // Include gulp
 var gulp = require('gulp');
@@ -24,6 +25,8 @@ var minifyCss = require('gulp-clean-css');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify-es').default;
 var rename = require('gulp-rename');
+var browserSync = require('browser-sync');
+var nodemon = require('gulp-nodemon');
 
 gulp.task('copy', function () {
     gutil.log('=== logging stuff ===')
@@ -42,7 +45,28 @@ gulp.task('app', function() {
         .pipe(gulp.dest('assets/dist'));
 });
 
-// Default task
-gulp.task('default', [ // list of default tasks
+gulp.task('default', ['browser-sync'], function () {
+});
 
-]);
+gulp.task('browser-sync', ['nodemon'], function() {
+	browserSync.init(null, {
+        proxy: "localhost:3000",
+        files: ['app/**/*.js', 'app/**/*.html', 'assets/custom.css'],
+        port: 5000,
+	});
+});
+gulp.task('nodemon', function (cb) {
+	
+	var started = false;
+	
+	return nodemon({
+		script: 'app.js'
+	}).on('start', function () {
+		// to avoid nodemon being started multiple times
+		// thanks @matthisk
+		if (!started) {
+			cb();
+			started = true; 
+		} 
+	});
+});

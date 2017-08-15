@@ -20,6 +20,7 @@
     "serve-favicon": "~2.3.2"
   },
   "devDependencies": {
+    "browser-sync": "latest",
     "gulp": "latest",
     "gulp-clean-css": "latest",
     "gulp-concat": "latest",
@@ -28,6 +29,7 @@
     "gulp-less": "latest",
     "gulp-ng-annotate": "latest",
     "gulp-ngmin": "latest",
+    "gulp-nodemon": "latest",
     "gulp-rename": "latest",
     "gulp-uglify": "latest",
     "gulp-uglify-es": "latest",
