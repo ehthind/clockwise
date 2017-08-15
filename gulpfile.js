@@ -31,15 +31,6 @@ gulp.task('copy', function () {
         .pipe(gulp.dest('assets'))
 });
 
-gulp.task('js', function () {
-    gulp.src(['app/**/*.js'])
-        .pipe(uglify())
-            .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
-        .pipe(concat('script.js'))
-            .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
-        .pipe(gulp.dest('assets'))
-});
-
 gulp.task('app', function() {
     return gulp.src(['app/**/app.module.js', 'app/**/*.module.js', 'app/**/*.js'])
         .pipe(ngAnnotate({add: true}))
