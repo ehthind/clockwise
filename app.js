@@ -1,5 +1,7 @@
 var express = require('express');
 
+require('dotenv').config();
+
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -12,11 +14,6 @@ var databaseAPI = require('./databaseAPI');
 
 var index = require('./routes/index');
 var app = express();
-
-// view engine setup
-app.set('view engine', 'jade');
-app.set('views', path.join(__dirname, 'views'));
-
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
