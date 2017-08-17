@@ -5,7 +5,6 @@ require('dotenv').config();
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
-var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var handlebars = require('handlebars');
 var expressValidator = require('express-validator');
@@ -35,7 +34,6 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 app.use(expressValidator());
-app.use(cookieParser());
 
 var options = {
     host: process.env.DB_HOST,
@@ -46,7 +44,7 @@ var options = {
 var sessionStore = new MySQLStore(options);
 
 app.use(session({
-    secret: 'keyboard cat',
+    secret: 'foobar',
     resave: false,
     store: sessionStore,
     saveUninitialized: false
@@ -75,22 +73,22 @@ passport.use(new LocalStrategy(
             }
             if (results.length === 0) {
                 done(null, false);
-                console.log('login failed');
-                return;
+                console.log('User not found');
+            } else {
+                console.log('User found');
+
+                const hash = results[0].password.toString();
+
+                bcrypt.compare(password, hash, function (err, response) {
+                    if (response) {
+                        console.log('successful login');
+                        return done(null, results[0].id);
+                    } else {
+                        console.log('incorrect password');
+                        return done(null, false);
+                    }
+                });
             }
-            console.log('User found');
-
-            const hash = results[0].password.toString();
-
-            bcrypt.compare(password, hash, function (err, response) {
-                if (response === true) {
-                    console.log('successful login');
-                    return done(null, result[0].id);
-                } else {
-                    console.log('incorrect password');
-                    return done(null, false);
-                }
-            });
         });
     }
 ));

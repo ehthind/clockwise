@@ -19,7 +19,7 @@ function authenticationMiddleware() {
 
 /* GET home page. */
 router.get('/', authenticationMiddleware(), function (req, res, next) {
-    console.log('In get("'/'")');
+    console.log('In get("' / '")');
     console.log(req.user);
     console.log(req.isAuthenticated());
     res.render('index');
@@ -31,15 +31,22 @@ router.get('/auth', function (req, res, next) {
 });
 
 router.get('/login', function (req, res, next) {
-    res.render('auth');
+    res.redirect('auth');
 });
 
 router.post('/login',
     passport.authenticate('local', {
         successRedirect: '/',
-        failureRedirect: '/auth'
+        failureRedirect: '/auth',
+        failureFlash: true
     })
 );
+
+router.get('/logout', function (req, res, next) {
+    req.logout();
+    req.session.destroy();
+    res.redirect('auth');
+});
 
 
 // register a user
@@ -84,10 +91,10 @@ router.post('/register', function (req, res, next) {
                     } else {
                         db.query('SELECT LAST_INSERT_ID() as user_id', function (error, results, fields) {
                             if (error) throw error;
-                            
+
                             const user_id = results[0];
                             console.log(user_id);
-                            
+
                             req.login(user_id, function (err) {
                                 res.redirect('/');
                             });
