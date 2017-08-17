@@ -3,9 +3,25 @@ var express = require('express');
 var router = express.Router();
 var path = require('path');
 var expressValidator = require('express-validator');
+var passport = require('passport');
+var bcrypt = require('bcrypt');
+const saltRounds = 10;
+
+function authenticationMiddleware() {
+    return (req, res, next) => {
+        console.log('in Auth middleware');
+        console.log(`req.session.passport.user: ${JSON.stringify(req.session.passport)}`);
+
+        if (req.isAuthenticated()) return next();
+        res.redirect('auth')
+    };
+}
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
+router.get('/', authenticationMiddleware(), function (req, res, next) {
+    console.log('In get("'/'")');
+    console.log(req.user);
+    console.log(req.isAuthenticated());
     res.render('index');
 });
 
@@ -13,6 +29,18 @@ router.get('/', function (req, res, next) {
 router.get('/auth', function (req, res, next) {
     res.render('auth');
 });
+
+router.get('/login', function (req, res, next) {
+    res.render('auth');
+});
+
+router.post('/login',
+    passport.authenticate('local', {
+        successRedirect: '/',
+        failureRedirect: '/auth'
+    })
+);
+
 
 // register a user
 router.post('/register', function (req, res, next) {
@@ -35,26 +63,47 @@ router.post('/register', function (req, res, next) {
                 regErr: "Account was unable to be created"
             });
             return;
-        } else { // else insert into database
+        } else { // start insert into db
             const username = req.body.username;
             const password = req.body.password;
-            const repeat_password = req.body.passwordMatch;
             const email = req.body.email;
 
             const db = require('../db.js');
-
             var query = 'INSERT INTO users (username, password, email) VALUES (?,?,?)';
-            db.query(query, [username, password, email], function (error, results, fields) {
-                if (error) {
-                    console.error(error);
-                    return;
-                }
 
-                res.render('auth', {
-                    regSuc: 'Account created! Now login'
+            //hash our password
+            bcrypt.hash(password, saltRounds, function (err, hash) {
+                // run query on db. 
+                db.query(query, [username, hash, email], function (error, results, fields) {
+                    if (error) {
+                        console.error(error);
+                        res.render('auth', {
+                            regErr: "Account was unable to be created"
+                        });
+                        return;
+                    } else {
+                        db.query('SELECT LAST_INSERT_ID() as user_id', function (error, results, fields) {
+                            if (error) throw error;
+                            
+                            const user_id = results[0];
+                            console.log(user_id);
+                            
+                            req.login(user_id, function (err) {
+                                res.redirect('/');
+                            });
+                        });
+                    }
                 });
             });
         }
+    });
+
+    passport.serializeUser(function (user_id, done) {
+        done(null, user_id);
+    });
+
+    passport.deserializeUser(function (user_id, done) {
+        done(null, user_id);
     });
 
 });
