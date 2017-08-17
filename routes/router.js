@@ -4,7 +4,12 @@ var path = require('path');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.sendFile(path.join(__dirname, '../', 'index.html'));
+    res.render('index');
+});
+
+/* GET auth page. */
+router.get('/auth', function(req, res, next) {
+    res.render('auth');
 });
 
 module.exports = router;

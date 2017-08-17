@@ -7,13 +7,15 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var handlebars = require('handlebars');
 
 var databaseAPI = require('./databaseAPI');
+var router = require('./routes/router');
 
-
-var index = require('./routes/index');
 var app = express();
+
+app.set('view engine', 'hbs');
+app.set('views', path.join(__dirname, 'views'));
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -29,13 +31,7 @@ app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use('/app', express.static(path.join(__dirname, 'app')));
 app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
 
-
-app.use('/', index);
-
-app.use('/api/databaseAPI', databaseAPI);
-
-
-
+app.use(router);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

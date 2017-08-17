@@ -32,3 +32,17 @@
     bottom: 0;
     width: 100%;
 }
+
+.bg-slategrey {
+    background-color: slategrey;
+}
+
+.key-color {
+    color: #FDD835;
+    border-color: rgba(120, 144, 156, 0.4); 
+}
+
+.plus-color {
+    color: #66bb6a;
+    border-color: rgba(120, 144, 156, 0.4);
+}
