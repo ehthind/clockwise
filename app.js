@@ -8,6 +8,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var handlebars = require('handlebars');
+var expressValidator = require('express-validator');
 
 var databaseAPI = require('./databaseAPI');
 var router = require('./routes/router');
@@ -24,6 +25,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: false
 }));
+app.use(expressValidator());
+
 app.use(cookieParser());
 
 app.use(require('less-middleware')(path.join(__dirname, 'assets')));

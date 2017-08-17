@@ -6,7 +6,7 @@ router.route('/').get(function (req, res, next) {
 
 	var connection = mysql.createConnection({
 		host: process.env.DB_HOST,
-		users: process.env.DB_USER,
+		user: process.env.DB_USER,
 		password: process.env.DB_PASS,
 		database: process.env.DB_NAME
 	});

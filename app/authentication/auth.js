@@ -15,7 +15,7 @@ exports.register = function (req, res) {
 		database: process.env.DB_NAME
     });
 
-    var username = req.query.username;
+    var user = req.query.username;
     var password = req.query.password;
     var hash_password = bcrypt.hashSync(password, 10);
     var name = req.query.name;
