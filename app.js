@@ -6,7 +6,7 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
-var handlebars = require('handlebars');
+const hbs = require('express-handlebars');
 var expressValidator = require('express-validator');
 
 // Authentication packages
@@ -23,6 +23,14 @@ var router = require('./routes/router');
 
 var app = express();
 
+
+app.engine('hbs', hbs({
+    extname: 'hbs',
+    partialsDir: [
+        //  path to your partials
+        __dirname + '/views',
+    ]
+}));
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -93,6 +101,14 @@ passport.use(new LocalStrategy(
     }
 ));
 
+passport.serializeUser(function (user_id, done) {
+    done(null, user_id);
+});
+
+passport.deserializeUser(function (user_id, done) {
+    done(null, user_id);
+});
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     var err = new Error('Not Found');
@@ -107,6 +123,7 @@ app.use(function (err, req, res, next) {
     res.locals.error = req.app.get('env') === 'development' ? err : {};
 
     // render the error page
+    console.log(err.message);
     res.status(err.status || 500);
     res.render('error');
 });

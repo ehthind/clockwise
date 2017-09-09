@@ -105,14 +105,13 @@ router.post('/register', function (req, res, next) {
         }
     });
 
-    passport.serializeUser(function (user_id, done) {
-        done(null, user_id);
+    passport.serializeUser(function (user, done) {
+        done(null, user);
     });
 
-    passport.deserializeUser(function (user_id, done) {
-        done(null, user_id);
+    passport.deserializeUser(function (user, done) {
+        done(null, user);
     });
-
 });
 
 module.exports = router;
