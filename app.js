@@ -8,7 +8,6 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 const hbs = require('express-handlebars');
 var expressValidator = require('express-validator');
-var cookieParser = require('cookie-parser');
 
 // Authentication packages
 var session = require('express-session');
@@ -42,7 +41,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: false
 }));
-app.use(cookieParser());
 app.use(expressValidator());
 
 var options = {
@@ -51,15 +49,14 @@ var options = {
     password: process.env.DB_PASS,
     database: process.env.DB_NAME
 };
-
 var sessionStore = new MySQLStore(options);
 
 app.use(session({
     secret: 'foobar',
     resave: false,
     store: sessionStore,
-    saveUninitialized: false,
-    cookie: {secure: true}
+    saveUninitialized: false
+    //cookie: {secure: true}
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -70,8 +67,7 @@ app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use('/app', express.static(path.join(__dirname, 'app')));
 app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
 
-// use database api
-app.use('/api/databaseAPI', databaseAPI)
+app.use('/api/databaseAPI', databaseAPI);
 app.use(router);
 
 passport.use(new LocalStrategy(
@@ -81,7 +77,7 @@ passport.use(new LocalStrategy(
         const db = require('./db');
         db.query('SELECT id, password FROM users WHERE username = ?', [username], function (err, results, fields) {
             if (err) {
-                done(err);
+                done(err)
             }
             if (results.length === 0) {
                 done(null, false);
