@@ -10,18 +10,15 @@ const saltRounds = 10;
 function authenticationMiddleware() {
     return (req, res, next) => {
         console.log('in Auth middleware');
-        console.log(`req.session.passport.user: ${JSON.stringify(req.session.passport)}`);
+        console.log(`req.session.passport.user:, ${JSON.stringify(req.session.passport.user)} \n`);
 
-        if (req.isAuthenticated()) return next();
-        res.redirect('auth')
+        req.isAuthenticated() ? next() : res.redirect('auth');
     };
 }
 
 /* GET home page. */
-router.get('/', authenticationMiddleware(), function (req, res, next) {
-    console.log('In get("' / '")');
-    console.log(req.user);
-    console.log(req.isAuthenticated());
+router.get('/', function (req, res, next) {
+    console.log('In get()');
     res.render('index');
 });
 
@@ -104,15 +101,16 @@ router.post('/register', function (req, res, next) {
             });
         }
     });
+});
 
-    passport.serializeUser(function (user_id, done) {
-        done(null, user_id);
-    });
+passport.serializeUser(function (user_id, done) {
+    console.log('In Serializer');
+    done(null, user_id);
+});
 
-    passport.deserializeUser(function (user_id, done) {
-        done(null, user_id);
-    });
-
+passport.deserializeUser(function (user_id, done) {
+    console.log('In deserializer');
+    done(null, user_id);
 });
 
 module.exports = router;
