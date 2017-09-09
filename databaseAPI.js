@@ -5,10 +5,10 @@ var mysql = require('mysql');
 router.route('/').get(function (req, res, next) {
 
 	var connection = mysql.createConnection({
-		host: 'localhost',
-		user: 'root',
-		password: 'Idontno1',
-		database: 'clockwise'
+		host: process.env.DB_HOST,
+		user: process.env.DB_USER,
+		password: process.env.DB_PASS,
+		database: process.env.DB_NAME
 	});
 
 	var courseID = req.query.courseID;
@@ -19,7 +19,8 @@ router.route('/').get(function (req, res, next) {
 
 	connection.connect(function (error) {
 		if (error) {
-			console.log('Error');
+			console.log(connection);
+			console.error(error);
 		} else {
 			connection.query(sqlQuery, function (error, result, fields) {
 				return res.json(result);

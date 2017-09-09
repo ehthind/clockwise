@@ -52,7 +52,7 @@
                     'color': data.color,
                     'altColor': data.altColor,
                     'alphaColor': data.alphaColor,
-                    section
+                    'section': section
                 });
 
                 if (courses.length === 1) {

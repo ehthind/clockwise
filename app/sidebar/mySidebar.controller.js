@@ -38,7 +38,7 @@ function sidebarController($scope, $http, $sce, $timeout, databaseService, event
 
   $scope.courses = '';
 
-  $http.get('assets/data/201709_courses.json')
+  $http.get('assets/data/201705_courses.json')
     .then(function (response) {
       $scope.courses = response.data;
     });
