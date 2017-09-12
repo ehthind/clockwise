@@ -48,6 +48,10 @@ router.get('/logout', function (req, res, next) {
     res.redirect('auth');
 });
 
+router.get('/start', function (req, res, next) {
+    res.render('start');
+});
+
 
 // register a user
 router.post('/register', function (req, res, next) {

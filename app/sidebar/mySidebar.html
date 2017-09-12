@@ -26,16 +26,17 @@
           <div class="tab-pane active no-padding" id="components-tab">
 
             <div class="category-title">
-              <span> Search classes</span>
+              <span class="text-cap"> Search Classes</span>
             </div>
             <!-- Search -->
             <div class="category-content">
+
               <form action="#">
                 <div class="has-feedback has-feedback-left" id="scrollable-dropdown-menu">
                   <input type="text" ng-model="selectedCourse" placeholder="e.g. ENGL 135" typeahead-show-hint="true" uib-typeahead="course as course.name for course in courses | filter:{name: $viewValue} | limitTo:8"
                     class="typeahead form-control" typeahead-on-select="addCourse($item); selectedCourse='';" my-autofocus>
                   <div class="form-control-feedback">
-                    <i class="icon-search4 text-size-base text-muted"></i>
+                    <i class="icon-search4 text-size-base"></i>
                   </div>
                 </div>
               </form>
@@ -43,7 +44,7 @@
 
             <div class="sidebar-category">
               <div class="category-title">
-                <span>Selected Courses</span>
+                <span class="text-cap text-light">Selected Courses</span>
               </div>
 
               <div class="category-content">
@@ -91,7 +92,7 @@
                   popover-placement="top" ng-click="generateSchedule()"><i class="icon-make-group"></i></button>
 
                 <button type="button" class="btn bg-success btn-float-xs btn-rounded ml-5 mt-20" uib-popover="Save" popover-trigger="'mouseenter'"
-                  popover-placement="top" ng-click="done()"><i class='icon-folder-download'></i></button>
+                  popover-placement="top" ng-click="setTerm()"><i class='icon-folder-download'></i></button>
 
                 <div class="row mt-5">
                   <div class="col-xs-4">
@@ -100,7 +101,7 @@
 
                   <div class="col-xs-4">
                     <button type="button" class="btn bg-primary btn-float-xs btn-rounded" uib-popover="Export" popover-trigger="'mouseenter'"
-                      popover-placement="top" data-toggle="modal" data-target="#modal_small"><i class="icon-printer"></i></button>
+                      popover-placement="top" data-toggle="modal" data-target="#modal_export"><i class="icon-printer"></i></button>
                   </div>
 
                   <div class="col-xs-4">

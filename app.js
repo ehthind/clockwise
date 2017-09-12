@@ -28,7 +28,7 @@ app.engine('hbs', hbs({
     extname: 'hbs',
     partialsDir: [
         //  path to your partials
-        __dirname + '/views',
+        __dirname + '/views/partials',
     ]
 }));
 app.set('view engine', 'hbs');

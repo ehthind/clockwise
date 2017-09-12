@@ -46,3 +46,9 @@
     color: #66bb6a;
     border-color: rgba(120, 144, 156, 0.4);
 }
+
+.text-cap {
+    text-transform: capitalize !important;
+    font-size: 13px !important;
+    font-weight: 300 !important;
+}
