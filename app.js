@@ -28,7 +28,8 @@ app.engine('hbs', hbs({
     extname: 'hbs',
     partialsDir: [
         //  path to your partials
-        __dirname + '/views/partials',
+        __dirname + '/views',
+        __dirname + '/views/partials'
     ]
 }));
 app.set('view engine', 'hbs');
@@ -66,6 +67,7 @@ app.use(require('less-middleware')(path.join(__dirname, 'assets')));
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use('/app', express.static(path.join(__dirname, 'app')));
 app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
+app.use('/views', express.static(path.join(__dirname, 'views')));
 
 app.use('/api/databaseAPI', databaseAPI);
 app.use(router);

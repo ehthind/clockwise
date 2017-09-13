@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="app">
+<html lang="en">
 
-{{!-- head --}} {{> head}}
+{{> head}}
 
-<body class="navbar-top">
+<body ng-app="app" class="navbar-top">
 
 	<!-- Main navbar -->
 	<div class="navbar navbar-inverse navbar-fixed-top">
@@ -30,8 +30,8 @@
 					</a>
 
 					<ul class="dropdown-menu dropdown-menu-right">
-						<li><a href="#"><i class="icon-user-plus"></i> My profile</a></li>
-						<li><a href="#"><i class="icon-coins"></i> My balance</a></li>
+						<li><a ui-sref="term" ui-sref-active="active"><i class="icon-user-plus"></i> Start</a></li>
+						<li><a ui-sref="main" ui-sref-active="active"><i class="icon-coins"></i> Main</a></li>
 						<li><a href="#"><span class="badge badge-warning pull-right">58</span> <i class="icon-comment-discussion"></i> Messages</a></li>
 						<li class="divider"></li>
 						<li><a href="#"><i class="icon-cog5"></i> Account settings</a></li>
@@ -43,47 +43,8 @@
 	</div>
 	<!-- /main navbar -->
 
+	<ui-view>{{> start}} </ui-view>
 
-	<!-- Page container -->
-	<div class="page-container">
-
-		<!-- Page content -->
-		<div class="page-content">
-
-			<!-- Main sidebar -->
-			<div class="sidebar sidebar-main sidebar-fixed sidebar-default">
-				<my-sidebar> </my-sidebar>
-			</div>
-			<!-- /main sidebar -->
-
-
-			<!-- Main content -->
-			<div class="content-wrapper">
-
-				<!-- Content area -->
-				<div class="content">
-					<my-calendar> </my-calendar>
-					<my-datatable> </my-datatable>
-
-					<!-- Footer -->
-					<div class="footer text-muted">
-						&copy; 2017. <a href="auth" class="text-primary">Clockwise</a> by <a href="" class="text-primary" target="_blank">Amrit Thind</a>
-					</div>
-					<!-- /footer -->
-
-				</div>
-				<!-- /content area -->
-
-			</div>
-			<!-- /main content -->
-
-			<export-modal> </export-modal>
-
-		</div>
-		<!-- /page content -->
-
-	</div>
-	<!-- /page container -->
 
 </body>
 

@@ -1,8 +1,8 @@
 angular
-    .module('app.mySidebar')
-    .controller('sidebarController', sidebarController);
+    .module('app.myTerm')
+    .controller('termController', termController);
 
-function sidebarController($scope, $rootScope, databaseService) {
+function termController($scope, $rootScope, databaseService) {
 
     $scope.changeRsTerm = (newTerm) => {
         let termToSeasonAndRange = {
