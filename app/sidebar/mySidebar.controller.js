@@ -2,7 +2,7 @@ angular
   .module('app.mySidebar')
   .controller('sidebarController', sidebarController);
 
-function sidebarController($scope, $http, $sce, $timeout, databaseService, eventService, scheduleService, notificationService) {
+function sidebarController($scope, $rootScope, $http, $sce, $timeout, databaseService, eventService, scheduleService, notificationService) {
 
   var alphaColorList = [
     'border-left-lg border-left-teal',
