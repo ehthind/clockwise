@@ -19,7 +19,7 @@
 
 
 
-        var url = "/api/databaseAPI";
+        const url = "/api/databaseAPI/courses";
         var courses = [];
         var sections = [];
         var activeCourse = [];
