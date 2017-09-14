@@ -2,9 +2,10 @@ var app = angular.module('app', ['ui.router', 'app.mySidebar', 'app.myDatatable'
 
 app.run(function ($rootScope, $location, $window) {
   $rootScope.term = {
-    val: 'inital val',
+    val: '',
     season: '',
-    range: ''
+    range: '',
+    year: ''
   };
 });
 

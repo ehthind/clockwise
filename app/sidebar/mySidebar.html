@@ -1,7 +1,7 @@
 <div ng-controller="sidebarController">
 
   <!-- Sidebar tabs -->
-  <div class="sidebar-content">
+  <div class="sidebar-content animated fadeIn">
     <div class="sidebar-category">
       <div class="tabbable sortable">
         <ul class="nav nav-lg nav-tabs nav-justified">
@@ -26,7 +26,7 @@
           <div class="tab-pane active no-padding" id="components-tab">
 
             <div class="category-title">
-              <span class="text-cap"> Search Classes</span>
+              <span class="text-cap"> Search Classes <mark>{{term.season}} {{term.year}}</mark></span>
             </div>
             <!-- Search -->
             <div class="category-content">

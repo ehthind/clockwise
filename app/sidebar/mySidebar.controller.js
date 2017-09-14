@@ -38,7 +38,8 @@ function sidebarController($scope, $rootScope, $http, $sce, $timeout, databaseSe
 
   $scope.courses = '';
 
-  $http.get('assets/data/201705_courses.json')
+  var url1 = 'assets/data/' + $rootScope.term.val + '_courses.json';
+  $http.get(url1)
     .then(function (response) {
       $scope.courses = response.data;
     });
