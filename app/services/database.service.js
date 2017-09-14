@@ -58,7 +58,7 @@
                 if (courses.length === 1) {
                     updateActiveCourse(data.courseID);
                 }
-                return 'temp';
+                return section;
 
             }));
         }

@@ -1,24 +1,53 @@
-    termController.$inject = ['$scope', '$rootScope', '$state', '$resource', 'saveService'];
+    termController.$inject = ['$scope', '$rootScope', '$state', '$resource', '$moment', 'saveService', 'databaseService', 'eventService', 'scheduleService'];
 
     angular
         .module('app.myTerm')
         .controller('termController', termController);
 
-    function termController($scope, $rootScope, $state, $resource, saveService) {
+    function termController($scope, $rootScope, $state, $resource, $moment, saveService, databaseService, eventService, scheduleService) {
+
+        const alphaColorList = [
+            'border-left-lg border-left-teal',
+            'border-left-lg border-left-indigo',
+            'border-left-lg border-left-blue',
+            'border-left-lg border-left-danger',
+            'border-left-lg border-left-slate',
+            'border-left-lg border-left-success',
+            'border-left-lg border-left-warning',
+            'border-left-lg border-left-grey'
+        ];
+        const colorList = ['#009688', '#3F51B5', '#03A9F4', '#F44336', '#607D8B', '#4CAF50', '#FF5722', '#777777'];
+        const altColorList = ['#26A69A', '#5C6BC0', '#29B6F6', '#EF5350', '#78909C', '#66BB6A', '#FF7043', '#888888'];
+        var colorIndex = 0;
+
 
         $scope.selectedTerm = false;
         $scope.selectedSchedule = false;
 
-        $scope.termOptions = [
-            {"term":"201705","season":"Summer","range":"May - Aug","year":"2017"},
-            {"term":"201709","season":"Fall","range":"Sep - Dec","year":"2017"},
-            {"term":"201801","season":"Spring","range":"Jan - Apr","year":"2018"}
+        $scope.termOptions = [{
+                "term": "201705",
+                "season": "Summer",
+                "range": "May - Aug",
+                "year": "2017"
+            },
+            {
+                "term": "201709",
+                "season": "Fall",
+                "range": "Sep - Dec",
+                "year": "2017"
+            },
+            {
+                "term": "201801",
+                "season": "Spring",
+                "range": "Jan - Apr",
+                "year": "2018"
+            }
         ]
-        
-        saveService.loadSavedSchedules();                        
+
+        saveService.loadSavedSchedules();
         $scope.scheduleOptions = saveService.getSavedSchedules();
         $scope.savedCourses = saveService.getSavedCourses();
-        
+
 
         $scope.setRsTerm = (newTerm) => {
             let termToSeasonAndRange = {
@@ -61,7 +90,38 @@
         }
 
         $scope.stage = () => {
-            saveService.loadSavedCourses($scope.selectedSchedule.schedule_id)
+            databaseService.clearAll();
+            eventService.clearAll();
+            scheduleService.clearAll();
+        
+            scheduleCount = 0;
+            invalidScheduleCount = 0;
+
+            saveService.loadSavedCourses($scope.selectedSchedule.schedule_id).then((savedCourses) => {
+
+                savedCourses.forEach((course) => {
+                    course.courseID = course.course_id
+                    course.color = colorList[colorIndex];
+                    course.altColor = altColorList[colorIndex];
+                    course.alphaColor = alphaColorList[colorIndex];
+                    colorIndex = (colorIndex + 1) % 8;
+                    databaseService.addCourse(course).then((sections) => {
+
+                        sections.forEach((section) => {                            
+
+                            if(course.lec_crn === section.crn || course.lab_crn === section.crn) {
+                                let momentStartTime = moment(section.start_time, ["h:mm A"]);
+                                let momentEndTime = moment(section.end_time, ["h:mm A"]);
+                                section.start_time_24h = momentStartTime.format("HH:mm");
+                                section.end_time_24h = momentEndTime.format("HH:mm");
+    
+                                eventService.addEvent(section, course);
+                            }
+                        }, this);                        
+                    });
+                }, this);
+
+            });
         }
 
         $scope.changeView = (view) => {

@@ -11,7 +11,7 @@
         this.loadSavedCourses = loadSavedCourses;
         this.getSavedSchedules = getSavedSchedules;
         this.getSavedCourses = getSavedCourses;
-        
+
         var saved_schedules = [];
         var saved_courses = [];
 
@@ -35,7 +35,7 @@
 
         function loadSavedCourses(courseId) {
 
-            fetchSavedCourses(courseId).then((courses) => {
+            return (fetchSavedCourses(courseId).then((courses) => {
 
                 // empty the array.
                 saved_courses.length = 0
@@ -43,8 +43,9 @@
                 courses.forEach((course) => {
                     saved_courses.push(course)
                 }, this);
+                return (courses)
 
-            });
+            }));
 
         }
 

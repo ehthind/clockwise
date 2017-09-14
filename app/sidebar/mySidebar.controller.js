@@ -136,6 +136,9 @@ function sidebarController($scope, $rootScope, $http, $sce, $timeout, databaseSe
         text: 'We\'re unable to find a schedule that is conflict free.',
         addclass: 'alert bg-danger alert-styled-right stack-bottom-right'
       });
+    } else {
+      scheduleService.generateSchedule($scope.courseList);      
     }
+
   };
 }
