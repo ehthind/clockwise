@@ -18,7 +18,7 @@ router.route('/courses').get(function (req, res, next) {
 
 });
 
-router.route('/schedules').get(function (req, res, next) {
+router.route('/savedSchedules').get(function (req, res, next) {
 
 	var userId = req.query.userId;
 	var schedule = "schedule_id, name, term";
@@ -29,6 +29,18 @@ router.route('/schedules').get(function (req, res, next) {
 	});
 
 });
+
+router.route('/savedClasses').get(function (req, res, next) {
+	
+		var scheduleId = req.query.scheduleId;
+		var courses = "course_id, name, title, lec_crn, lab_crn";
+		var sqlQuery = "SELECT " + courses + " FROM saved_courses WHERE schedule_id=" + "'" + scheduleId + "'";
+	
+		connection.query(sqlQuery, function (error, result, fields) {
+			return res.json(result);
+		});
+	
+	});
 
 
 

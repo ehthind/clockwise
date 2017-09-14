@@ -17,6 +17,7 @@
         
         saveService.loadSavedSchedules();                        
         $scope.scheduleOptions = saveService.getSavedSchedules();
+        $scope.savedCourses = saveService.getSavedCourses();
         
 
         $scope.setRsTerm = (newTerm) => {
@@ -57,6 +58,10 @@
             $rootScope.term.range = range;
             $rootScope.term.year = year;
             selected = true;
+        }
+
+        $scope.stage = () => {
+            saveService.loadSavedCourses($scope.selectedSchedule.schedule_id)
         }
 
         $scope.changeView = (view) => {

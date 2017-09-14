@@ -8,10 +8,15 @@
     function saveService($http) {
 
         this.loadSavedSchedules = loadSavedSchedules;
+        this.loadSavedCourses = loadSavedCourses;
         this.getSavedSchedules = getSavedSchedules;
-
+        this.getSavedCourses = getSavedCourses;
+        
         var saved_schedules = [];
-        const url = "/api/databaseAPI/schedules";
+        var saved_courses = [];
+
+        const schedulesUrl = "/api/databaseAPI/savedSchedules";
+        const classesUrl = "/api/databaseAPI/savedClasses";
 
         ////////////////
         function loadSavedSchedules() {
@@ -26,6 +31,20 @@
                 }, this);
 
             });
+        }
+
+        function loadSavedCourses(courseId) {
+
+            fetchSavedCourses(courseId).then((courses) => {
+
+                // empty the array.
+                saved_courses.length = 0
+
+                courses.forEach((course) => {
+                    saved_courses.push(course)
+                }, this);
+
+            });
 
         }
 
@@ -34,7 +53,22 @@
             return saved_schedules;
         }
 
+        function getSavedCourses() {
+            return saved_courses;
+        }
         // Helper functions //
+
+        var fetchSavedCourses = (scheduleId) => {
+            var data = {
+                params: {
+                    'scheduleId': scheduleId
+                }
+            };
+
+            return $http.get(classesUrl, data).then((response) => {
+                return response.data;
+            });
+        }
 
         var fetchSavedSchedules = () => {
             var data = {
@@ -43,7 +77,7 @@
                 }
             };
 
-            return $http.get(url, data).then((response) => {
+            return $http.get(schedulesUrl, data).then((response) => {
                 return response.data;
             });
         }
