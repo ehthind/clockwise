@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    
+
     angular
         .module('app')
         .service('saveService', saveService);
@@ -9,15 +9,24 @@
 
         this.loadSavedSchedules = loadSavedSchedules;
         this.getSavedSchedules = getSavedSchedules;
-        
-        var saved_schedules;
+
+        var saved_schedules = [];
         const url = "/api/databaseAPI/schedules";
 
         ////////////////
         function loadSavedSchedules() {
-            fetchSavedSchedules().then( function(schedules) {
-                saved_schedules = schedules;
+
+            fetchSavedSchedules().then((schedules) => {
+
+                // empty the array.
+                saved_schedules.length = 0
+
+                schedules.forEach((schedule) => {
+                    saved_schedules.push(schedule)
+                }, this);
+
             });
+
         }
 
         // Getters //
@@ -27,14 +36,14 @@
 
         // Helper functions //
 
-        function fetchSavedSchedules () {
+        var fetchSavedSchedules = () => {
             var data = {
                 params: {
                     'userId': 79
                 }
             };
 
-            return $http.get(url, data).then(function (response) {
+            return $http.get(url, data).then((response) => {
                 return response.data;
             });
         }
