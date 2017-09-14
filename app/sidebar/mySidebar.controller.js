@@ -2,7 +2,7 @@ angular
   .module('app.mySidebar')
   .controller('sidebarController', sidebarController);
 
-function sidebarController($scope, $rootScope, $http, $sce, $timeout, databaseService, eventService, scheduleService, notificationService) {
+function sidebarController($scope, $rootScope, $http, $sce, $timeout, databaseService, eventService, scheduleService, notificationService, saveService) {
 
   var alphaColorList = [
     'border-left-lg border-left-teal',
@@ -62,6 +62,10 @@ function sidebarController($scope, $rootScope, $http, $sce, $timeout, databaseSe
     // });
 
   };
+
+  $scope.save = (name) => {
+    saveService.saveSchedule(name);
+  }
 
 
   $scope.addCourse = function (data) {

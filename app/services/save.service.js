@@ -5,10 +5,12 @@
         .module('app')
         .service('saveService', saveService);
 
-    function saveService($http) {
+    function saveService($http, $rootScope) {
 
         this.loadSavedSchedules = loadSavedSchedules;
         this.loadSavedCourses = loadSavedCourses;
+        this.saveSchedule = saveSchedule;
+
         this.getSavedSchedules = getSavedSchedules;
         this.getSavedCourses = getSavedCourses;
 
@@ -16,7 +18,7 @@
         var saved_courses = [];
 
         const schedulesUrl = "/api/databaseAPI/savedSchedules";
-        const classesUrl = "/api/databaseAPI/savedClasses";
+        const classesUrl = "/api/databaseAPI/savedCourses";
 
         ////////////////
         function loadSavedSchedules() {
@@ -46,8 +48,16 @@
                 return (courses)
 
             }));
-
         }
+
+        function saveSchedule(name) {
+            var str = 'MY NAME'
+            insertSchedule(name).then((insertId) => {
+                console.log(insertId);
+            });
+        }
+
+
 
         // Getters //
         function getSavedSchedules() {
@@ -58,6 +68,18 @@
             return saved_courses;
         }
         // Helper functions //
+
+        var insertSchedule = (name) => {
+            var data = {
+                'name': name,
+                'term': $rootScope.term.val
+            };
+
+            return $http.post(schedulesUrl, data).then((response) => {
+                return response.data;
+            });
+
+        }
 
         var fetchSavedCourses = (scheduleId) => {
             var data = {

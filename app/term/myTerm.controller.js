@@ -89,6 +89,15 @@
             selected = true;
         }
 
+        $scope.stageNew = () => {
+            databaseService.clearAll();
+            eventService.clearAll();
+            scheduleService.clearAll();
+        
+            scheduleCount = 0;
+            invalidScheduleCount = 0;
+        }
+
         $scope.stage = () => {
             databaseService.clearAll();
             eventService.clearAll();
