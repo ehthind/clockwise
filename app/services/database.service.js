@@ -39,7 +39,7 @@
             var i;
             for (i = 0; i < courses.length; i++) {
                 if (courses[i].courseID === data.courseID) {
-                    return;
+                    return null;
                 }
             }
 

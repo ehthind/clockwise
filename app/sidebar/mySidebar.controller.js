@@ -73,6 +73,7 @@ function sidebarController($scope, $rootScope, $http, $sce, $timeout, databaseSe
     data.altColor = altColorList[colorIndex];
     data.alphaColor = alphaColorList[colorIndex];
     colorIndex = (colorIndex + 1) % 8;
+
     databaseService.addCourse(data).then(function (data) {
       console.time('addCourse');
       scheduleService.generateSchedule($scope.courseList);
@@ -83,6 +84,7 @@ function sidebarController($scope, $rootScope, $http, $sce, $timeout, databaseSe
       console.log($scope.courseList);
       $scope.generateSchedule();
     });
+    
   };
 
   $scope.removeCourse = function (courseID) {
