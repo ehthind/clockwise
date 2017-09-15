@@ -5,7 +5,7 @@
         .module('app')
         .service('saveService', saveService);
 
-    function saveService($http, $rootScope) {
+    function saveService($http, $rootScope, eventService) {
 
         this.loadSavedSchedules = loadSavedSchedules;
         this.loadSavedCourses = loadSavedCourses;
@@ -51,8 +51,32 @@
         }
 
         function saveSchedule(name) {
-            var str = 'MY NAME'
             insertSchedule(name).then((insertId) => {
+                let eventList = eventService.getUniqueCrns();
+
+                eventList.forEach(function (course) {
+                    if (course.schedule_type === 'Lecture' || course.schedule_type === 'Lecture Topic' || course.schedule_type === 'Gradable Lab') {
+
+                        let insertData = {
+                            'scheduleId': insertId,
+                            'courseId': course.courseID,
+                            'lec_crn': course.crn,
+                            'lab_crn': null
+                        }
+
+                        for (var index = 0; index < eventList.length; index++) {
+                            var lab = eventList[index];
+                            if (course.courseID === lab.courseID && course.crn !== lab.crn) {
+                                insertData.lab_crn = lab.crn;
+                            }
+                        }
+                        
+                        insertCourse(insertData).then((response) => {
+                            console.log(response);
+                        });
+                    }
+                }, this);
+                console.log(eventList);
                 console.log(insertId);
             });
         }
@@ -68,6 +92,14 @@
             return saved_courses;
         }
         // Helper functions //
+
+        var insertCourse = (course) => {
+
+            return $http.post(classesUrl, course).then((response) => {
+                return response.data;
+            });
+
+        }
 
         var insertSchedule = (name) => {
             var data = {

@@ -7,6 +7,7 @@
 
     function databaseService($http) {
         this.addCourse = addCourse;
+        this.getCourseInfo = getCourseInfo;
         this.removeCourse = removeCourse;
         this.updateActiveCourse = updateActiveCourse;
 
@@ -19,12 +20,20 @@
 
 
 
-        const url = "/api/databaseAPI/courses";
+        const sectionsUrl = "/api/databaseAPI/sections";
+        const coursesUrl = "/api/databaseAPI/courses";
+        
         var courses = [];
         var sections = [];
         var activeCourse = [];
         var activeSections = [];
         ////////////////
+
+        function getCourseInfo(courseID) {
+            return( fetchCourse(courseID).then((response) => {
+                return(response);
+            }));
+        }
 
         function addCourse(data) {
             var i;
@@ -148,6 +157,18 @@
 
         // Helper functions //
 
+        function fetchCourse(courseID) {
+            var data = {
+                params: {
+                    'courseID': courseID
+                }
+            };
+
+            return $http.get(coursesUrl, data).then(function (response) {
+                return response.data;
+            });
+        }
+
         function fetchSections(courseID) {
             var data = {
                 params: {
@@ -155,7 +176,7 @@
                 }
             };
 
-            return $http.get(url, data).then(function (response) {
+            return $http.get(sectionsUrl, data).then(function (response) {
                 return response.data;
             });
         }

@@ -15,6 +15,7 @@
         this.removeEvent = removeEvent;
         this.removeAllCourseEvents = removeAllCourseEvents;
         this.clearAll = clearAll;
+        this.getUniqueCrns = getUniqueCrns;
 
         // globals
         var eventList = [];
@@ -22,6 +23,9 @@
 
         ////////////////
         function addEvent(sectionData, courseData) {
+            // console.log('courseData in EventService:', courseData);
+            // console.log('sectionData in EventService:', sectionData);
+            
             if (sectionData.courseID != courseData.courseID) {
                 console.error('courseID did not match \n Section courseID: ' + sectionData.courseID + '\nCourse courseID: ' + courseData.courseID);
             }
@@ -90,6 +94,27 @@
 
         function getEvents() {
             return eventList;
+        }
+
+        function getUniqueCrns() {
+            var crnList = [];
+            for (var index = 0; index < eventList.length; index++) {
+                let event = eventList[index];
+                if(crnAlready(event.crn, crnList)) {
+                    continue;
+                }
+                crnList.push(event);
+            }
+            return crnList;
+        };
+
+        function crnAlready(crn, crnList) {
+            for (var index = 0; index < crnList.length; index++) {
+                if(crn === crnList[index].crn) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         // Setters //

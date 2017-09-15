@@ -109,25 +109,34 @@
             saveService.loadSavedCourses($scope.selectedSchedule.schedule_id).then((savedCourses) => {
 
                 savedCourses.forEach((course) => {
-                    course.courseID = course.course_id
-                    course.color = colorList[colorIndex];
-                    course.altColor = altColorList[colorIndex];
-                    course.alphaColor = alphaColorList[colorIndex];
-                    colorIndex = (colorIndex + 1) % 8;
-                    databaseService.addCourse(course).then((sections) => {
+                    
+                    databaseService.getCourseInfo(course.course_id).then((response) => {
+                        course.courseID = course.course_id
+                        course.color = colorList[colorIndex];
+                        course.altColor = altColorList[colorIndex];
+                        course.alphaColor = alphaColorList[colorIndex];
+                        course.name = response[0].name;
+                        course.title = response[0].title;
+                        colorIndex = (colorIndex + 1) % 8;
 
-                        sections.forEach((section) => {                            
 
-                            if(course.lec_crn === section.crn || course.lab_crn === section.crn) {
-                                let momentStartTime = moment(section.start_time, ["h:mm A"]);
-                                let momentEndTime = moment(section.end_time, ["h:mm A"]);
-                                section.start_time_24h = momentStartTime.format("HH:mm");
-                                section.end_time_24h = momentEndTime.format("HH:mm");
-    
-                                eventService.addEvent(section, course);
-                            }
-                        }, this);                        
+                        databaseService.addCourse(course).then((sections) => {
+
+                            sections.forEach((section) => {                            
+
+                                if(course.lec_crn === section.crn || course.lab_crn === section.crn) {
+                                    let momentStartTime = moment(section.start_time, ["h:mm A"]);
+                                    let momentEndTime = moment(section.end_time, ["h:mm A"]);
+                                    section.start_time_24h = momentStartTime.format("HH:mm");
+                                    section.end_time_24h = momentEndTime.format("HH:mm");
+        
+                                    eventService.addEvent(section, course);
+                                }
+                            }, this);                        
+                        });    
                     });
+
+                    
                 }, this);
 
             });
