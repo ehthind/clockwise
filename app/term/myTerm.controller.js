@@ -5,25 +5,9 @@
         .controller('termController', termController);
 
     function termController($scope, $rootScope, $state, $resource, $moment, saveService, databaseService, eventService, scheduleService) {
-
-        const alphaColorList = [
-            'border-left-lg border-left-teal',
-            'border-left-lg border-left-indigo',
-            'border-left-lg border-left-blue',
-            'border-left-lg border-left-danger',
-            'border-left-lg border-left-slate',
-            'border-left-lg border-left-success',
-            'border-left-lg border-left-warning',
-            'border-left-lg border-left-grey'
-        ];
-        const colorList = ['#009688', '#3F51B5', '#03A9F4', '#F44336', '#607D8B', '#4CAF50', '#FF5722', '#777777'];
-        const altColorList = ['#26A69A', '#5C6BC0', '#29B6F6', '#EF5350', '#78909C', '#66BB6A', '#FF7043', '#888888'];
-        var colorIndex = 0;
-
-
+        
         $scope.selectedTerm = false;
         $scope.selectedSchedule = false;
-
         $scope.termOptions = [{
                 "term": "201705",
                 "season": "Summer",
@@ -111,13 +95,15 @@
                 savedCourses.forEach((course) => {
                     
                     databaseService.getCourseInfo(course.course_id).then((response) => {
+
                         course.courseID = course.course_id
-                        course.color = colorList[colorIndex];
-                        course.altColor = altColorList[colorIndex];
-                        course.alphaColor = alphaColorList[colorIndex];
+                        course.color = $rootScope.colorList[$rootScope.colorIndex];
+                        course.altColor = $rootScope.altColorList[$rootScope.colorIndex];
+                        course.alphaColor = $rootScope.alphaColorList[$rootScope.colorIndex];
                         course.name = response[0].name;
                         course.title = response[0].title;
-                        colorIndex = (colorIndex + 1) % 8;
+                       
+                        $rootScope.colorIndex = ($rootScope.colorIndex + 1) % 8;
 
 
                         databaseService.addCourse(course).then((sections) => {

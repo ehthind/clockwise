@@ -9,18 +9,20 @@
 
         this.loadSavedSchedules = loadSavedSchedules;
         this.loadSavedCourses = loadSavedCourses;
-        this.saveSchedule = saveSchedule;
+        this.saveSchedule = saveSchedule;        
 
         this.getSavedSchedules = getSavedSchedules;
         this.getSavedCourses = getSavedCourses;
 
         var saved_schedules = [];
         var saved_courses = [];
+        var colorIndex = 0;
 
         const schedulesUrl = "/api/databaseAPI/savedSchedules";
         const classesUrl = "/api/databaseAPI/savedCourses";
 
         ////////////////
+
         function loadSavedSchedules() {
 
             fetchSavedSchedules().then((schedules) => {
@@ -91,6 +93,7 @@
         function getSavedCourses() {
             return saved_courses;
         }
+        
         // Helper functions //
 
         var insertCourse = (course) => {

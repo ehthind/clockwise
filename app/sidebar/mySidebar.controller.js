@@ -3,39 +3,14 @@ angular
   .controller('sidebarController', sidebarController);
 
 function sidebarController($scope, $rootScope, $http, $sce, $timeout, databaseService, eventService, scheduleService, notificationService, saveService) {
-
-  var alphaColorList = [
-    'border-left-lg border-left-teal',
-    'border-left-lg border-left-indigo',
-    'border-left-lg border-left-blue',
-    'border-left-lg border-left-danger',
-    'border-left-lg border-left-slate',
-    'border-left-lg border-left-success',
-    'border-left-lg border-left-warning',
-    'border-left-lg border-left-grey'
-  ];
-  var colorList = ['#009688', '#3F51B5', '#03A9F4', '#F44336', '#607D8B', '#4CAF50', '#FF5722', '#777777'];
-  var altColorList = ['#26A69A', '#5C6BC0', '#29B6F6', '#EF5350', '#78909C', '#66BB6A', '#FF7043', '#888888'];
-  var colorIndex = 0;
-
-  var iconList = {
-    'MATH': 'icon-calculator3',
-    'ENGL': 'icon-typewriter',
-    'BIOL': 'icon-paw',
-    'ASTR': 'icon-satellite-dish2',
-    'SENG': 'icon-embed',
-    'CSC': 'icon-qrcode'
-  };
-
+  
   var scheduleCount = 0;
   var invalidScheduleCount = 0;
 
   $scope.schedule = scheduleService.getSchedule();
   $scope.invalidSchedule = scheduleService.getInvalidSchedule();
-
   $scope.selectedCourse = '';
   $scope.courseList = databaseService.getCourses();
-
   $scope.courses = '';
 
   var url1 = 'assets/data/' + $rootScope.term.val + '_courses.json';
@@ -47,7 +22,7 @@ function sidebarController($scope, $rootScope, $http, $sce, $timeout, databaseSe
   $scope.getIcon = function (courseName) {
     var subjectAndLevel = courseName.split(" ");
     var subject = subjectAndLevel[0];
-    var icon = iconList[subject];
+    var icon = $rootScope.iconList[subject];
 
     return icon;
   }
@@ -69,11 +44,13 @@ function sidebarController($scope, $rootScope, $http, $sce, $timeout, databaseSe
 
 
   $scope.addCourse = function (data) {
-    data.color = colorList[colorIndex];
-    data.altColor = altColorList[colorIndex];
-    data.alphaColor = alphaColorList[colorIndex];
-    colorIndex = (colorIndex + 1) % 8;
 
+    data.color = $rootScope.colorList[$rootScope.colorIndex];
+    data.altColor = $rootScope.altColorList[$rootScope.colorIndex];
+    data.alphaColor = $rootScope.alphaColorList[$rootScope.colorIndex];
+
+    $rootScope.colorIndex = ($rootScope.colorIndex + 1) % 8;
+    
     databaseService.addCourse(data).then(function (data) {
       console.time('addCourse');
       scheduleService.generateSchedule($scope.courseList);
@@ -84,7 +61,7 @@ function sidebarController($scope, $rootScope, $http, $sce, $timeout, databaseSe
       console.log($scope.courseList);
       $scope.generateSchedule();
     });
-    
+
   };
 
   $scope.removeCourse = function (courseID) {
