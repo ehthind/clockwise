@@ -6,6 +6,7 @@ angular
 
 function termController($scope, $rootScope, $state, $resource, $moment, saveService, databaseService, eventService, scheduleService) {
 
+    $scope.selectSavedOption = 'Choose a saved schedule'
     $scope.selectedTerm = false;
     $scope.selectedSchedule = false;
     $scope.termOptions = [{
@@ -31,6 +32,13 @@ function termController($scope, $rootScope, $state, $resource, $moment, saveServ
     saveService.loadSavedSchedules();
     $scope.scheduleOptions = saveService.getSavedSchedules();
     $scope.savedCourses = saveService.getSavedCourses();
+    
+    if ($scope.scheduleOptions.length > 0) {
+        $scope.selectSavedOption = 'Select a saved timetable'
+        
+    } else {
+        $scope.selectSavedOption = "No saved timetables found" 
+    }
 
 
     $scope.setRsTerm = (newTerm) => {

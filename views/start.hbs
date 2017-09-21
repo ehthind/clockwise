@@ -24,7 +24,7 @@
                                 <div class="panel-body">
 
                                     <div class="form-group">
-                                        <label>Select a term you want to create a new timetable for.</label>
+                                        <label>Select a term you would like to create a timetable for.</label>
 
                                         <div class="input-group">
                                             <div class="input-group-addon">
@@ -58,15 +58,14 @@
                                 <div class="panel-body">
 
                                     <div class="form-group">
-                                        <label>Continue working on a previously saved timetable.</label>
-
+                                        <label>Select a previously saved timetable.</label>
                                         <div class="input-group">
                                             <div class="input-group-addon">
                                                 <i class="icon-calendar2"></i>
                                             </div>
                                             <select name="continue" class="form-control" ng-model="selectedSchedule" ng-options="schedule.name for schedule in scheduleOptions"
                                                 ng-change="setRsTerm(selectedSchedule)">
-                                            <option value="" hidden>Select a saved schedule</option>
+                                            <option value="" hidden>{{selectSavedOption}}</option>
                                             </select>
                                         </div>
                                     </div>
