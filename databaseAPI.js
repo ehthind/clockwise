@@ -44,8 +44,17 @@ router.post('/savedSchedules', (req, res, next) => {
 
 	let name = req.body.name;
 	let term = req.body.term;
-	let userId = req.session.passport.user;
+	let userId;
 
+	if(Number.isInteger(req.session.passport.user.user_id)) {
+		userId = req.session.passport.user.user_id;
+		
+	} else if(Number.isInteger(req.session.passport.user)) {
+		userId = req.session.passport.user;		
+	} else {
+		console.error('User ID not found');
+	}
+	
 	const post = {
 		name: name,
 		user_id: userId,
