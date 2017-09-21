@@ -13,7 +13,7 @@ function authenticationMiddleware() {
         console.log(`req.session.passport.user: ${JSON.stringify(req.session.passport)}`);
 
         if (req.isAuthenticated()) return next();
-        res.redirect('auth')
+        res.render('auth')
     };
 }
 
@@ -26,8 +26,8 @@ router.get('/', authenticationMiddleware(), function (req, res, next) {
 });
 
 /* GET auth page. */
-router.get('/auth', function (req, res, next) {
-    res.render('auth');
+router.get('/auth', authenticationMiddleware(), function (req, res, next) {
+    res.render('index');
 });
 
 router.get('/login', function (req, res, next) {
@@ -46,6 +46,11 @@ router.get('/logout', function (req, res, next) {
     req.logout();
     req.session.destroy();
     res.redirect('auth');
+});
+
+router.get('/start', function (req, res, next) {
+    console.log('in get /start');
+    res.render('start');
 });
 
 

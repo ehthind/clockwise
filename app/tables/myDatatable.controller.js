@@ -13,27 +13,6 @@
         vm.sectionList = databaseService.getActiveSections();
         vm.activeCourse = databaseService.getActiveCourse();
         vm.events = eventService.getEvents();
-        vm.term = 'Sept - Dec 2017';
-        vm.getUniqueEvents = function() {
-            var crnList = [];
-            for (var index = 0; index < vm.events.length; index++) {
-                var event = vm.events[index];
-                if(crnAlready(event.crn, crnList)) {
-                    continue;
-                }
-                crnList.push(event);
-            }
-            return crnList;
-        };
-
-        function crnAlready(crn, crnList) {
-            for (var index = 0; index < crnList.length; index++) {
-                if(crn === crnList[index].crn) {
-                    return true;
-                }
-            }
-            return false;
-        }
 
         vm.dtOptions = DTOptionsBuilder.newOptions()
             .withScroller()

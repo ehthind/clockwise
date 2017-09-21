@@ -1,0 +1,97 @@
+<div ng-controller="termController">
+    <div class="page-container">
+
+        <!-- Page content -->
+        <div class="page-content">
+
+            <!-- Main content -->
+            <div class="content-wrapper valign-middle">
+
+                <!-- Content area -->
+                <div class="content animated fadeIn">
+                    <div class="container">
+
+                        <div class="col-md-2"></div>
+
+                        <div class="col-md-4 mr-15 animated fadeIn">
+                            <!-- Horizontal form -->
+                            <div class="panel panel-flat">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">New Timetable</h5>
+
+                                </div>
+
+                                <div class="panel-body">
+
+                                    <div class="form-group">
+                                        <label>Select a term you would like to create a timetable for.</label>
+
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="icon-calendar2"></i>
+                                            </div>
+                                            <select name="createNew" class="form-control" ng-model="selectedTerm" ng-options="term.season + ' ' + term.year + ' (' + term.range + ')' for term in termOptions"
+                                                ng-change="setRsTerm(selectedTerm)">
+                                                <option value="" hidden>Select a term</option>
+				                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div style="text-align: right;">
+                                        <button type="button" class="btn btn-primary" ng-click="setRsTerm(selectedTerm); stageNew(); changeView('main')" ng-disabled="!selectedTerm">Create</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- /horizotal form -->
+                        </div>
+
+
+                        <div class="col-md-4 ml-15 animated fadeIn">
+
+                            <!-- Horizontal form -->
+                            <div class="panel panel-flat">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">Saved Timetable</h5>
+                                </div>
+
+                                <div class="panel-body">
+
+                                    <div class="form-group">
+                                        <label>Select a previously saved timetable.</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="icon-calendar2"></i>
+                                            </div>
+                                            <select name="continue" class="form-control" ng-model="selectedSchedule" ng-options="schedule.name for schedule in scheduleOptions"
+                                                ng-change="setRsTerm(selectedSchedule)">
+                                            <option value="" hidden>{{selectSavedOption}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div style="text-align: right;">
+                                        <button type="button" class="btn btn-primary" ng-click="setRsTerm(selectedSchedule); stage(selectedSchedule); changeView('main')" ng-disabled="!selectedSchedule">Continue</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /horizotal form -->
+
+                        </div>
+
+                        <div class="col-md-2"></div>
+
+                    </div>
+
+                </div>
+                <!-- /content area -->
+
+            </div>
+            <!-- /main content -->
+
+        </div>
+        <!-- /page content -->
+
+    </div>
+    <!-- /page container -->
+</div>

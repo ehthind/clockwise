@@ -7,6 +7,7 @@
 
     function databaseService($http) {
         this.addCourse = addCourse;
+        this.getCourseInfo = getCourseInfo;
         this.removeCourse = removeCourse;
         this.updateActiveCourse = updateActiveCourse;
 
@@ -19,18 +20,26 @@
 
 
 
-        var url = "/api/databaseAPI";
+        const sectionsUrl = "/api/databaseAPI/sections";
+        const coursesUrl = "/api/databaseAPI/courses";
+        
         var courses = [];
         var sections = [];
         var activeCourse = [];
         var activeSections = [];
         ////////////////
 
+        function getCourseInfo(courseID) {
+            return( fetchCourse(courseID).then((response) => {
+                return(response);
+            }));
+        }
+
         function addCourse(data) {
             var i;
             for (i = 0; i < courses.length; i++) {
                 if (courses[i].courseID === data.courseID) {
-                    return;
+                    return null;
                 }
             }
 
@@ -58,7 +67,7 @@
                 if (courses.length === 1) {
                     updateActiveCourse(data.courseID);
                 }
-                return 'temp';
+                return section;
 
             }));
         }
@@ -148,6 +157,18 @@
 
         // Helper functions //
 
+        function fetchCourse(courseID) {
+            var data = {
+                params: {
+                    'courseID': courseID
+                }
+            };
+
+            return $http.get(coursesUrl, data).then(function (response) {
+                return response.data;
+            });
+        }
+
         function fetchSections(courseID) {
             var data = {
                 params: {
@@ -155,7 +176,7 @@
                 }
             };
 
-            return $http.get(url, data).then(function (response) {
+            return $http.get(sectionsUrl, data).then(function (response) {
                 return response.data;
             });
         }

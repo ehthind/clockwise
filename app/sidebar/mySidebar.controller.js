@@ -2,43 +2,24 @@ angular
   .module('app.mySidebar')
   .controller('sidebarController', sidebarController);
 
-function sidebarController($scope, $http, $sce, $timeout, databaseService, eventService, scheduleService, notificationService) {
-
-  var alphaColorList = [
-    'border-left-lg border-left-teal',
-    'border-left-lg border-left-indigo',
-    'border-left-lg border-left-blue',
-    'border-left-lg border-left-danger',
-    'border-left-lg border-left-slate',
-    'border-left-lg border-left-success',
-    'border-left-lg border-left-warning',
-    'border-left-lg border-left-grey'
-  ];
-  var colorList = ['#009688', '#3F51B5', '#03A9F4', '#F44336', '#607D8B', '#4CAF50', '#FF5722', '#777777'];
-  var altColorList = ['#26A69A', '#5C6BC0', '#29B6F6', '#EF5350', '#78909C', '#66BB6A', '#FF7043', '#888888'];
-  var colorIndex = 0;
-
-  var iconList = {
-    'MATH': 'icon-calculator3',
-    'ENGL': 'icon-typewriter',
-    'BIOL': 'icon-paw',
-    'ASTR': 'icon-satellite-dish2',
-    'SENG': 'icon-embed',
-    'CSC': 'icon-qrcode'
-  };
+function sidebarController($scope, $rootScope, $state, $http, $sce, $timeout, $uibModal, $log, databaseService, eventService, scheduleService, notificationService, saveService) {
 
   var scheduleCount = 0;
   var invalidScheduleCount = 0;
 
   $scope.schedule = scheduleService.getSchedule();
   $scope.invalidSchedule = scheduleService.getInvalidSchedule();
-
   $scope.selectedCourse = '';
   $scope.courseList = databaseService.getCourses();
-
   $scope.courses = '';
 
-  $http.get('assets/data/201705_courses.json')
+  var url1 = 'assets/data/' + $rootScope.term.val + '_courses.json';
+
+  if(!$rootScope.termSet) {
+    $state.go('term')    
+  }
+
+  $http.get(url1)
     .then(function (response) {
       $scope.courses = response.data;
     });
@@ -46,7 +27,7 @@ function sidebarController($scope, $http, $sce, $timeout, databaseService, event
   $scope.getIcon = function (courseName) {
     var subjectAndLevel = courseName.split(" ");
     var subject = subjectAndLevel[0];
-    var icon = iconList[subject];
+    var icon = $rootScope.iconList[subject];
 
     return icon;
   }
@@ -62,12 +43,14 @@ function sidebarController($scope, $http, $sce, $timeout, databaseService, event
 
   };
 
-
   $scope.addCourse = function (data) {
-    data.color = colorList[colorIndex];
-    data.altColor = altColorList[colorIndex];
-    data.alphaColor = alphaColorList[colorIndex];
-    colorIndex = (colorIndex + 1) % 8;
+
+    data.color = $rootScope.colorList[$rootScope.colorIndex];
+    data.altColor = $rootScope.altColorList[$rootScope.colorIndex];
+    data.alphaColor = $rootScope.alphaColorList[$rootScope.colorIndex];
+
+    $rootScope.colorIndex = ($rootScope.colorIndex + 1) % 8;
+
     databaseService.addCourse(data).then(function (data) {
       console.time('addCourse');
       scheduleService.generateSchedule($scope.courseList);
@@ -78,6 +61,7 @@ function sidebarController($scope, $http, $sce, $timeout, databaseService, event
       console.log($scope.courseList);
       $scope.generateSchedule();
     });
+
   };
 
   $scope.removeCourse = function (courseID) {
@@ -135,6 +119,73 @@ function sidebarController($scope, $http, $sce, $timeout, databaseService, event
         text: 'We\'re unable to find a schedule that is conflict free.',
         addclass: 'alert bg-danger alert-styled-right stack-bottom-right'
       });
+    } else {
+      scheduleService.generateSchedule($scope.courseList);
     }
+
   };
+
+  $scope.openSaveModal = function (size, parentSelector) {
+
+    var modalInstance = $uibModal.open({
+      animation: true,
+      ariaLabelledBy: 'modal-title',
+      ariaDescribedBy: 'modal-body',
+      templateUrl: 'saveModal.html',
+      controller: 'ModalInstanceCtrl',
+      size: size,
+      windowClass: 'width-modal',
+
+    });
+
+    modalInstance.result.then(function () {
+    });
+  };
+
+  $scope.openFinishedModal = function (size, parentSelector) {
+    
+        var modalInstance = $uibModal.open({
+          animation: true,
+          ariaLabelledBy: 'modal-title',
+          ariaDescribedBy: 'modal-body',
+          templateUrl: 'finishedModal.html',
+          controller: 'ModalInstanceCtrl',
+          size: size,
+          windowClass: 'width-modal',
+    
+        });
+    
+        modalInstance.result.then(function () {
+          return;
+        });
+      };
 }
+
+
+
+angular.module('app.mySidebar').controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, saveService, eventService) {
+  $scope.scheduleName = '';
+  $scope.scheduleNameWarning = '';  
+
+  $scope.save = () => {
+    if ($scope.scheduleName.length < 3) {
+      $scope.scheduleNameWarning = 'Please enter 3 or more characters.';
+    } else if ($scope.scheduleName.length > 20) {
+      $scope.scheduleNameWarning = 'Schedule names cannot be more than 20 characters.';
+    } else {
+      $scope.scheduleNameWarning = '';
+      saveService.saveSchedule($scope.scheduleName);
+      $scope.ok();
+    }
+  }
+
+  $scope.getCrns = () => eventService.getUniqueCrns();
+
+  $scope.ok = function () {
+    $uibModalInstance.close('close');
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+});
