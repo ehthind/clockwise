@@ -70,6 +70,7 @@ function termController($scope, $rootScope, $state, $resource, $moment, saveServ
         $rootScope.term.season = season;
         $rootScope.term.range = range;
         $rootScope.term.year = year;
+        $rootScope.termSet = true;
         selected = true;
     }
 

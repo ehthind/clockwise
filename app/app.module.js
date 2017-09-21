@@ -1,6 +1,8 @@
 var app = angular.module('app', ['ui.router', 'app.mySidebar', 'app.myDatatable', 'app.myCalendar', 'app.myTerm', 'jlareau.pnotify', 'utils.autofocus']);
 
 app.run(function ($rootScope, $location, $window) {
+  $rootScope.termSet = false;
+  
   $rootScope.term = {
     val: '',
     season: '',

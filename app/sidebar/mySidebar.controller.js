@@ -2,7 +2,7 @@ angular
   .module('app.mySidebar')
   .controller('sidebarController', sidebarController);
 
-function sidebarController($scope, $rootScope, $http, $sce, $timeout, $uibModal, $log, databaseService, eventService, scheduleService, notificationService, saveService) {
+function sidebarController($scope, $rootScope, $state, $http, $sce, $timeout, $uibModal, $log, databaseService, eventService, scheduleService, notificationService, saveService) {
 
   var scheduleCount = 0;
   var invalidScheduleCount = 0;
@@ -14,6 +14,10 @@ function sidebarController($scope, $rootScope, $http, $sce, $timeout, $uibModal,
   $scope.courses = '';
 
   var url1 = 'assets/data/' + $rootScope.term.val + '_courses.json';
+
+  if(!$rootScope.termSet) {
+    $state.go('term')    
+  }
 
   $http.get(url1)
     .then(function (response) {
