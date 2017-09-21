@@ -2,8 +2,8 @@ angular
   .module('app.mySidebar')
   .controller('sidebarController', sidebarController);
 
-function sidebarController($scope, $rootScope, $http, $sce, $timeout, databaseService, eventService, scheduleService, notificationService, saveService) {
-  
+function sidebarController($scope, $rootScope, $http, $sce, $timeout, $uibModal, $log, databaseService, eventService, scheduleService, notificationService, saveService) {
+
   var scheduleCount = 0;
   var invalidScheduleCount = 0;
 
@@ -14,6 +14,7 @@ function sidebarController($scope, $rootScope, $http, $sce, $timeout, databaseSe
   $scope.courses = '';
 
   var url1 = 'assets/data/' + $rootScope.term.val + '_courses.json';
+
   $http.get(url1)
     .then(function (response) {
       $scope.courses = response.data;
@@ -38,11 +39,6 @@ function sidebarController($scope, $rootScope, $http, $sce, $timeout, databaseSe
 
   };
 
-  $scope.save = (name) => {
-    saveService.saveSchedule(name);
-  }
-
-
   $scope.addCourse = function (data) {
 
     data.color = $rootScope.colorList[$rootScope.colorIndex];
@@ -50,7 +46,7 @@ function sidebarController($scope, $rootScope, $http, $sce, $timeout, databaseSe
     data.alphaColor = $rootScope.alphaColorList[$rootScope.colorIndex];
 
     $rootScope.colorIndex = ($rootScope.colorIndex + 1) % 8;
-    
+
     databaseService.addCourse(data).then(function (data) {
       console.time('addCourse');
       scheduleService.generateSchedule($scope.courseList);
@@ -120,8 +116,72 @@ function sidebarController($scope, $rootScope, $http, $sce, $timeout, databaseSe
         addclass: 'alert bg-danger alert-styled-right stack-bottom-right'
       });
     } else {
-      scheduleService.generateSchedule($scope.courseList);      
+      scheduleService.generateSchedule($scope.courseList);
     }
 
   };
+
+  $scope.openSaveModal = function (size, parentSelector) {
+
+    var modalInstance = $uibModal.open({
+      animation: true,
+      ariaLabelledBy: 'modal-title',
+      ariaDescribedBy: 'modal-body',
+      templateUrl: 'saveModal.html',
+      controller: 'ModalInstanceCtrl',
+      size: size,
+      windowClass: 'width-modal',
+
+    });
+
+    modalInstance.result.then(function () {
+    });
+  };
+
+  $scope.openFinishedModal = function (size, parentSelector) {
+    
+        var modalInstance = $uibModal.open({
+          animation: true,
+          ariaLabelledBy: 'modal-title',
+          ariaDescribedBy: 'modal-body',
+          templateUrl: 'finishedModal.html',
+          controller: 'ModalInstanceCtrl',
+          size: size,
+          windowClass: 'width-modal',
+    
+        });
+    
+        modalInstance.result.then(function () {
+          return;
+        });
+      };
 }
+
+
+
+angular.module('app.mySidebar').controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, saveService, eventService) {
+  $scope.scheduleName = '';
+  $scope.scheduleNameWarning = '';  
+
+  $scope.save = () => {
+    if ($scope.scheduleName.length < 3) {
+      $scope.scheduleNameWarning = 'Please enter 3 or more characters.';
+    } else if ($scope.scheduleName.length > 20) {
+      $scope.scheduleNameWarning = 'Schedule names cannot be more than 20 characters.';
+    } else {
+      $scope.scheduleNameWarning = '';
+      saveService.saveSchedule($scope.scheduleName);
+      $scope.ok();
+    }
+  }
+
+  $scope.getCrns = () => eventService.getUniqueCrns();
+
+  $scope.ok = function () {
+    $uibModalInstance.close('close');
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+});

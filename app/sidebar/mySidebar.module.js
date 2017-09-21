@@ -1,1 +1,1 @@
-angular.module('app.mySidebar', ['ui.bootstrap', 'siyfion.sfTypeahead']);
+angular.module('app.mySidebar', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'siyfion.sfTypeahead']);

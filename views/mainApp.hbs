@@ -1,40 +1,89 @@
 <!-- Page container -->
-	<div class="page-container animated fadeIn">
+<div class="page-container animated fadeIn">
 
-		<!-- Page content -->
-		<div class="page-content animated fadeIn">
+	<!-- Page content -->
+	<div class="page-content animated fadeIn">
 
-			<!-- Main sidebar -->
-			<div class="sidebar sidebar-main sidebar-fixed sidebar-default animated fadeIn">
-				<my-sidebar> </my-sidebar>
-			</div>
-			<!-- /main sidebar -->
+		<!-- Main sidebar -->
+		<div class="sidebar sidebar-main sidebar-fixed sidebar-default animated fadeIn">
+			<my-sidebar> </my-sidebar>
+		</div>
+		<!-- /main sidebar -->
 
 
-			<!-- Main content -->
-			<div class="content-wrapper animated fadeIn">
+		<!-- Main content -->
+		<div class="content-wrapper animated fadeIn">
 
-				<!-- Content area -->
-				<div class="content animated fadeIn">
-					<my-calendar> </my-calendar>
-					<my-datatable> </my-datatable>
+			<!-- Content area -->
+			<div class="content animated fadeIn">
+				<my-calendar> </my-calendar>
+				<my-datatable> </my-datatable>
 
-					<!-- Footer -->
-					<div class="footer text-muted">
-						&copy; 2017. Clockwise by <a class="text-primary" target="_blank">Amrit Thind</a>
-					</div>
-					<!-- /footer -->
+				<!-- Footer -->
 
+				<div class="footer text-muted">
+					&copy; 2017. Clockwise by <a class="text-primary" target="_blank">Amrit Thind</a>
 				</div>
-				<!-- /content area -->
+				<!-- /footer -->
 
 			</div>
-			<!-- /main content -->
-
-			<export-modal> </export-modal>
+			<!-- /content area -->
 
 		</div>
-		<!-- /page content -->
+		<!-- /main content -->
+		<div ng-controller="sidebarController" class="modal">
+			<script type="text/ng-template" id="saveModal.html">
+				<div class="modal-header bg-success">
+					<h3 class="modal-title" id="modal-title">Save Schedule</h3>
+				</div>
+				<div class="modal-body" id="modal-body">
+					<div class="form-group">
+						<lable>Enter a name for this schedule</lable>
+						<label class="text-warning">{{scheduleNameWarning}}</label>
+						<div class="col-lg-10">
+							<input type="text" ng-model="scheduleName" class="form-control" placeholder="Schedule name">
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" ng-click="cancel()">Close</button>
+					<button type="button" class="btn bg-success" ng-click="save()">Save</button>
+				</div>
+			</script>
+		</div>
+
+		<div ng-controller="sidebarController" class="modal">
+			<script type="text/ng-template" id="finishedModal.html">
+				<div class="modal-header bg-primary">
+					<h3 class="modal-title" id="modal-title">You're all done!</h3>
+				</div>
+				<div class="modal-body" id="modal-body">
+					<h6 class="text-semibold">So now what?</h6>
+					<p>Register your courses with UVic</p>
+					<ol>
+						<li>Login to UVic's <a href="https://www.uvic.ca/mypage/render.userLayoutRootNode.uP?uP_fname=student-services#twbkwbis.P_GenMenu?name=bmenu.P_RegMnu"
+							    target="_blank">Student services</a></li>
+						<li>Navigate to <b>Add or drop classes</b>.</li>
+						<li>Select the <b>{{term.season}} {{term.year}} ({{term.range}})</b></li>
+						<li>Copy one by one the CRN's below.</li>
+						<li>Paste the CRN's into the bottom boxes.</li>
+						<li>Click <b>Add classes</b>.</li>
+						<li>Repeat steps 4 - 6 for remaining CRN's.</li>
+					</ol>
+
+					<hr>
+
+					<h6 class="text-semibold">Course registration numbers</h6>
+					<p ng-repeat="event in getCrns()">{{event.title}}: <b>{{event.crn}}</b></p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn bg-primary" ng-click="ok()">Got it!</button>
+				</div>
+			</script>
+		</div>
 
 	</div>
-	<!-- /page container -->
+	<!-- /page content -->
+
+</div>
+<!-- /page container -->

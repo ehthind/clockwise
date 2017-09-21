@@ -13,39 +13,6 @@
         vm.sectionList = databaseService.getActiveSections();
         vm.activeCourse = databaseService.getActiveCourse();
         vm.events = eventService.getEvents();
-        
-        vm.getUniqueEvents = function() {
-            var crnList = [];
-            for (var index = 0; index < vm.events.length; index++) {
-                var event = vm.events[index];
-                if(crnAlready(event.crn, crnList)) {
-                    continue;
-                }
-                crnList.push(event);
-            }
-            crnList.sort(compare);
-            return crnList;
-        };
-
-        function crnAlready(crn, crnList) {
-            for (var index = 0; index < crnList.length; index++) {
-                if(crn === crnList[index].crn) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        function compare(a, b) {
-            if (a.crn < b.crn) {
-              return -1;
-            }
-            if (a.crn > b.crn) {
-              return 1;
-            }
-            // a must be equal to b
-            return 0;
-          }
 
         vm.dtOptions = DTOptionsBuilder.newOptions()
             .withScroller()

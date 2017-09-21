@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ui.router', 'app.mySidebar', 'app.myDatatable', 'app.myCalendar', 'app.exportModal', 'app.myTerm', 'jlareau.pnotify', 'utils.autofocus']);
+var app = angular.module('app', ['ui.router', 'app.mySidebar', 'app.myDatatable', 'app.myCalendar', 'app.myTerm', 'jlareau.pnotify', 'utils.autofocus']);
 
 app.run(function ($rootScope, $location, $window) {
   $rootScope.term = {

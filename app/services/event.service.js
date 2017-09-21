@@ -105,6 +105,7 @@
                 }
                 crnList.push(event);
             }
+            crnList.sort(compare);
             return crnList;
         };
 
@@ -115,6 +116,17 @@
                 }
             }
             return false;
+        }
+
+        function compare(a, b) {
+            if (a.crn < b.crn) {
+                return -1;
+            }
+            if (a.crn > b.crn) {
+                return 1;
+            }
+            // a must be equal to b
+            return 0;
         }
 
         // Setters //
