@@ -11,6 +11,7 @@ connection.connect((error) => {
 	if (error) {
 		console.log(connection);
 		console.error(error);
+		console.log('Error connecting to db');
 	} else {
 		connection.query('SELECT 1 + 1 AS solution', (error, results, fields) => {
 			if (error) throw error;
