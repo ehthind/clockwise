@@ -18,11 +18,13 @@ function authenticationMiddleware() {
 }
 
 /* GET home page. */
-router.get('/', authenticationMiddleware(), function (req, res, next) {
-    console.log('In get("' / '")');
-    console.log(req.user);
-    console.log(req.isAuthenticated());
+router.get('/main', authenticationMiddleware(), function (req, res, next) {
     res.render('index');
+});
+
+/* GET auth page. */
+router.get('/', function (req, res, next) {
+    res.render('../assets/landing/views/index.hbs');
 });
 
 /* GET auth page. */
@@ -49,7 +51,6 @@ router.get('/logout', function (req, res, next) {
 });
 
 router.get('/start', function (req, res, next) {
-    console.log('in get /start');
     res.render('start');
 });
 
